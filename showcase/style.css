@@ -1,0 +1,16 @@
+/* Main */
+.main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url("static/background.png");
+    width: 1920px;
+    height: 1080px;
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
