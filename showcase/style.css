@@ -1,3 +1,12 @@
+:root {
+    --mod-id-current-round-x: 222px;
+}
+
+@font-face {
+    font-family: "Ageta Chubby Demo";
+    src: url("../fonts/Ageta\ Chubby\ Demo.otf")
+}
+
 /* Main */
 .main {
     position: absolute;
@@ -14,3 +23,33 @@
     top: 0;
     left: 0;
 }
+
+/* Current Mod ID */
+.current-mod-id {
+    --mod-color: white;
+
+    position: absolute;
+    left: var(--mod-id-current-round-x);
+    top: 29px;
+    font-size: 27px;
+    font-family: "Ageta Chubby Demo", sans-serif;
+    color: var(--mod-color);
+    text-shadow: 0 0 32px var(--mod-color);
+}
+.current-mod-nm { --mod-color: white; }
+.current-mod-hd { --mod-color: #ffb070; }
+.current-mod-hr { --mod-color: #ff7081; }
+.current-mod-dt { --mod-color: #70c4ff; }
+
+/* Current Round */
+.current-round {
+    position: absolute;
+    left: var(--mod-id-current-round-x);
+    top: 66px;
+    font-size: 17px;
+    color: white;
+    font-weight: 600;
+    font-family: "Alan Sans", sans-serif;
+}
+
+/* Now Playing Section */
