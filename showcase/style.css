@@ -13,6 +13,7 @@
 /* Helper CSS Class */
 .font-weight-600 { font-weight: 600; }
 .font-weight-700 { font-weight: 700; }
+.font-variant-numeric-tabular-nums { font-variant-numeric: tabular-nums; }
 .color-949494 { color: #949494; }
 
 .padding-y-2px { 
