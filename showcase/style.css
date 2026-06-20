@@ -121,6 +121,10 @@
     color: black;
     padding: 2px 5px;
     font-weight: 800;
+    max-width: 215px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .now-playing-bpm-number {
