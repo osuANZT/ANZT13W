@@ -52,12 +52,22 @@
                 <div class="now-playing-text" id="now-playing-od">8.0</div>
             </div>
 
+            <!-- Strain Graph -->
+            <div id="strain-graph">
+                <canvas class="strain-graph-detail" id="strain" width="275" height="106"></canvas>
+                <div id="progress">
+                    <canvas class="strain-graph-detail" id="strain-progress" width="275" height="106"></canvas>
+                </div>
+            </div>
+
             <!-- Map and replay data-->
             <div class="now-playing-bottom-metadata now-playing-mapped-by">mapped by <span class="font-weight-700" id="now-playing-mapper">aishiteiru-</span></div>
             <div class="now-playing-bottom-metadata now-playing-replayed-by">replayed by <span class="font-weight-700" id="now-playing-replayer">player-name</span></div>
         </div>
     </div>
 
+    <script src="../_shared/deps/Chart.min.js"></script>
+    <script src="../_shared/deps/smooth.js"></script>
     <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
     <script type="module" src="index.js"></script>
 </body>
