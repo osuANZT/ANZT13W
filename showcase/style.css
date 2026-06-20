@@ -12,6 +12,7 @@
 
 /* Helper CSS Class */
 .font-weight-600 { font-weight: 600; }
+.font-weight-700 { font-weight: 700; }
 .color-949494 { color: #949494; }
 
 .padding-y-2px { 
@@ -160,3 +161,14 @@
     line-height: 19px;
     font-size: 20px;
 }
+
+/* Now Playing Bottom Metadata */
+.now-playing-bottom-metadata {
+    position: absolute;
+    left: var(--now-playing-left-align-x);
+    color: white;
+    font-family: "Alan Sans";
+    font-size: 17px;
+}
+.now-playing-mapped-by { top: 245px; }
+.now-playing-replayed-by { top: 269px; }
