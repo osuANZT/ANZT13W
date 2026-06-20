@@ -1,7 +1,7 @@
 :root {
     --mod-id-current-round-x: 222px;
     --now-playing-section-y: 32px;
-    --now-playing-sedction-x: 98px;
+    --now-playing-section-x: 98px;
     --now-playing-left-align-x: 12px;
 }
 
@@ -67,7 +67,7 @@
 .now-playing-section {
     position: absolute;
     right: var(--now-playing-section-y);
-    top: var(--now-playing-sedction-x);
+    top: var(--now-playing-section-x);
     width: 395px;
     height: 810px;
     /* background-color: rgb(0 0 0 / 50%); */
@@ -77,7 +77,7 @@
 .now-playing-mask {
     position: absolute;
     right: calc(-1 * var(--now-playing-section-y));
-    top: calc(-1 * var(--now-playing-sedction-x));
+    top: calc(-1 * var(--now-playing-section-x));
     width: 603px;
     height: 574px;
     mask-image: url("static/mask.png");
@@ -125,4 +125,38 @@
 .now-playing-bpm-number {
     color: white;
     font-weight: 900;
+}
+
+/* Now Playing Boxes */
+.now-playing-stat-line {
+    position: absolute;
+    left: var(--now-playing-left-align-x);
+    color: white;
+    font-family: "Alan Sans", sans-serif;
+    font-size: 17px;
+    display: flex;
+    gap: 8px;
+}
+.now-playing-stat-line-sr { top: 115px; }
+.now-playing-stat-line-cs { top: 157px; }
+.now-playing-stat-line-ar { top: 182px; }
+.now-playing-stat-line-od { top: 207px; }
+
+.now-playing-box {
+    --height: 19px;
+
+    width: 26px;
+    height: var(--height);
+    font-weight: 800;
+    text-align: center;
+    line-height: var(--height);
+}
+.now-playing-box-sr { background-color: #d3a03c; }
+.now-playing-box-ar { background-color: #228852; }
+.now-playing-box-od { background-color: #3c40e9; }
+
+.now-playing-text {
+    font-weight: 400;
+    line-height: 19px;
+    font-size: 20px;
 }
