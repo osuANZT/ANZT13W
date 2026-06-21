@@ -205,3 +205,24 @@
 	-webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 49.95%, transparent 50%);
 	mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 49.95%, transparent 50%);
 }
+
+/* Chat Display */
+.chat-display {
+    position: absolute;
+    left: var(--now-playing-left-align-x);
+    bottom: var(--now-playing-left-align-x);
+    width: calc(100% - var(--now-playing-left-align-x) * 2);
+    height: 490px;
+    font-family: "Alan Sans", sans-serif;
+    color: white;
+    font-weight: 500;
+    font-size: 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.message-name {
+    font-weight: 700;
+}
