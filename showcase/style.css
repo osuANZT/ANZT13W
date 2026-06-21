@@ -4,6 +4,9 @@
     --now-playing-section-x: 98px;
     --now-playing-left-align-x: 12px;
     --strain-graph-width: 275px;
+    --right-section-width: 395px;
+    --bottom-section-y: 75px;
+    --bottom-section-height: 89px;
 }
 
 @font-face {
@@ -71,9 +74,9 @@
     position: absolute;
     right: var(--now-playing-section-y);
     top: var(--now-playing-section-x);
-    width: 395px;
+    width: var(--right-section-width);
     height: 810px;
-    /* background-color: rgb(0 0 0 / 50%); */
+    background-color: rgb(0 0 0 / 50%);
     overflow: hidden;
 }
 
@@ -114,7 +117,6 @@
     display: flex;
     color: white;
     font-family: "Alan Sans", sans-serif;
-    /* line-height: 29px; */
     gap: 10px;
 }
 
@@ -226,4 +228,14 @@
 .message-name {
     font-weight: 700;
     margin-right: 5px;
+}
+
+/* Caster Box */
+.caster-box {
+    position: absolute;
+    bottom: var(--bottom-section-y);
+    right: var(--now-playing-section-y);
+    width: var(--right-section-width);
+    height: var(--bottom-section-height);
+    background-color: #00000080;
 }
