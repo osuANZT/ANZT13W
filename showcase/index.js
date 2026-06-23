@@ -7,6 +7,9 @@ loadShowcaseBeatmaps()
 // Current Mod ID
 const currentModIdEl = document.getElementById("current-mod-id")
 
+// Previous Maps Wrapper
+const previousMapsWrapperEl = document.getElementById("previous-maps-wrapper")
+
 // Metadata
 const nowPlayingBackgroundEl = document.getElementById("now-playing-background")
 const nowPlayingArtistEl = document.getElementById("now-playing-artist")
@@ -26,8 +29,6 @@ const nowPlayingOdEl = document.getElementById("now-playing-od")
 // Strains
 const progressChart = document.getElementById("progress")
 let tempStrains, seek, fullTime
-let changeStats = false
-let statsCheck = false
 let onepart
 let last_strain_update = 0
 
@@ -45,6 +46,32 @@ socket.onmessage = async event => {
     console.log(data)
 
     if ((currentMapId !== data.beatmap.id || currentMapChecksum !== data.beatmap.checksum) && currentMapId !== 0) {
+		// Set previous map details
+		if (currentMap) {
+			// Create previous map container
+			const previousMapContainer = document.createElement("div")
+			previousMapContainer.classList.add("previous-map-container")
+			previousMapContainer.style.backgroundImage = `url("${nowPlayingBackgroundEl.getAttribute("src")}")`
+
+			const previousMapOverlay = document.createElement("div")
+			previousMapOverlay.classList.add("previous-map-overlay")
+			
+			const previousMapModId = document.createElement("div")
+			previousMapModId.classList.add("previous-map-mod-id")
+			previousMapModId.textContent = currentModIdEl.textContent
+
+			const previousMapArtist = document.createElement("div")
+			previousMapArtist.classList.add("previous-map-metadata", "previous-map-artist", "color-949494")
+			previousMapArtist.textContent = nowPlayingArtistEl.textContent
+
+			const previousMapTitle = document.createElement("div")
+			previousMapTitle.classList.add("previous-map-metadata", "previous-map-title")
+			previousMapTitle.textContent = nowPlayingTitleEl.textContent
+
+			previousMapContainer.append(previousMapOverlay, previousMapModId, previousMapArtist, previousMapTitle)
+			previousMapsWrapperEl.append(previousMapContainer)
+		}
+
 		// Set variable details
         currentMapId = data.beatmap.id
         currentMapChecksum = data.beatmap.checksum
