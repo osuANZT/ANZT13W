@@ -83,7 +83,10 @@ socket.onmessage = async event => {
         currentMapChecksum = data.beatmap.checksum
 
         // Metadata
-        const bg = data.directPath.beatmapBackground.replace(/\\/g, "/").replace(/[^\x00-\x7F]/g, "")
+        const bg = Array.from(data.directPath.beatmapBackground, (ch) => {
+			const code = ch.charCodeAt(0)
+			return code >= 0x20 && code <= 0x7e ? ch : " "
+		}).join("").replace(/\\/g, "/")
         nowPlayingBackgroundEl.setAttribute("src", `http://127.0.0.1:24050/Songs/${bg}`)
         nowPlayingArtistEl.textContent = data.beatmap.artist
         nowPlayingTitleEl.textContent = data.beatmap.title
