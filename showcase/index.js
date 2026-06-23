@@ -2,7 +2,13 @@ import { findShowcaseBeatmap, loadShowcaseBeatmaps } from "../_shared/core/beatm
 import { delay, setLengthDisplay } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
-loadShowcaseBeatmaps()
+// Set round name
+let allBeatmaps
+const roundNameEl = document.getElementById("round-name")
+loadShowcaseBeatmaps().then((beatmaps) => {
+	allBeatmaps = beatmaps
+	roundNameEl.textContent = allBeatmaps.roundName
+})
 
 // Current Mod ID
 const currentModIdEl = document.getElementById("current-mod-id")
