@@ -1,5 +1,8 @@
+import { findShowcaseBeatmap, loadShowcaseBeatmaps } from "../_shared/core/beatmaps.js"
 import { delay, setLengthDisplay } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
+
+loadShowcaseBeatmaps()
 
 // Current Mod ID
 const currentModIdEl = document.getElementById("current-mod-id")
@@ -11,7 +14,7 @@ const nowPlayingTitleEl = document.getElementById("now-playing-title")
 const nowPlayingDifficultyEl = document.getElementById("now-playing-difficulty")
 const nowPlayingMapperEl = document.getElementById("now-playing-mapper")
 const nowPlayingReplayerEl = document.getElementById("now-playing-replayer")
-let currentMapId, currentMapChecksum, updateStats = false, currentReplayer
+let currentMapId, currentMapChecksum, updateStats = false, currentReplayer, currentMap
 // Stats
 const nowPlayingSongLengthEl = document.getElementById("now-playing-song-length")
 const nowPlayingBpmNumberEl = document.getElementById("now-playing-bpm-number")
@@ -41,7 +44,8 @@ socket.onmessage = async event => {
     const data = JSON.parse(event.data)
     console.log(data)
 
-    if (currentMapId !== data.beatmap.id || currentMapChecksum !== data.beatmap.checksum) {
+    if ((currentMapId !== data.beatmap.id || currentMapChecksum !== data.beatmap.checksum) && currentMapId !== 0) {
+		// Set variable details
         currentMapId = data.beatmap.id
         currentMapChecksum = data.beatmap.checksum
 
@@ -52,6 +56,17 @@ socket.onmessage = async event => {
         nowPlayingTitleEl.textContent = data.beatmap.title
         nowPlayingDifficultyEl.textContent = data.beatmap.version
         nowPlayingMapperEl.textContent = data.beatmap.mapper
+
+		// Set current mod id
+		currentMap = findShowcaseBeatmap(`${data.beatmap.artist} - ${data.beatmap.title} [${data.beatmap.version}]`)
+		if (currentMap) {
+			currentModIdEl.style.display = "block"
+			currentModIdEl.classList.remove("current-mod-nm", "current-mod-hd", "current-mod-hr", "current-mod-dt", "current-mod-tb")
+			currentModIdEl.textContent = `${currentMap.mod}${currentMap.order}`
+			currentModIdEl.classList.add(`current-mod-${currentMap.mod.toLowerCase()}`)
+		} else {
+			currentModIdEl.style.display = "none"
+		}
 
         // Setting update stats
         await delay(250)
