@@ -31,7 +31,9 @@ module.exports = [
                 axios: "readonly",
                 CountUp: "readonly",
                 ComfyJS: "readonly",
-                MouseEvent: "readonly"
+                MouseEvent: "readonly",
+                Chart: "readonly",
+                smooth: "readonly"
             },
         },
         rules: {

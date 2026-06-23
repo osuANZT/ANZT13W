@@ -1,0 +1,327 @@
+:root {
+    --nm-color: white;
+    --hd-color: #ffb070;
+    --hr-color: #ff7081;
+    --dt-color: #70c4ff;
+    --tb-color: #ffe270;
+    --mod-id-current-round-x: 222px;
+    --now-playing-section-y: 32px;
+    --now-playing-section-x: 98px;
+    --now-playing-left-align-x: 12px;
+    --strain-graph-width: 275px;
+    --right-section-width: 395px;
+    --bottom-section-y: 75px;
+    --bottom-section-height: 89px;
+    --previous-map-left: 5px;
+}
+
+@font-face {
+    font-family: "Ageta Chubby Demo";
+    src: url("../fonts/Ageta\ Chubby\ Demo.otf")
+}
+
+/* Helper CSS Class */
+.font-weight-600 { font-weight: 600; }
+.font-weight-700 { font-weight: 700; }
+.font-variant-numeric-tabular-nums { font-variant-numeric: tabular-nums; }
+.color-949494 { color: #949494; }
+
+.padding-y-2px { 
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+/* Main */
+.main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url("static/background.png");
+    width: 1920px;
+    height: 1080px;
+    font-family: "Alan Sans", sans-serif;
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Current Mod ID */
+.current-mod-id {
+    --mod-color: white;
+
+    position: absolute;
+    left: var(--mod-id-current-round-x);
+    top: 29px;
+    font-size: 27px;
+    font-family: "Ageta Chubby Demo", sans-serif;
+    color: var(--mod-color);
+    text-shadow: 0 0 32px var(--mod-color);
+}
+.current-mod-nm { --mod-color: var(--nm-color); }
+.current-mod-hd { --mod-color: var(--hd-color); }
+.current-mod-hr { --mod-color: var(--hr-color); }
+.current-mod-dt { --mod-color: var(--dt-color); }
+.current-mod-tb { --moc-color: var(--tb-color); }
+
+/* Current Round */
+.current-round {
+    position: absolute;
+    left: var(--mod-id-current-round-x);
+    top: 66px;
+    font-size: 17px;
+    color: white;
+}
+
+/* Now Playing Section */
+.now-playing-section {
+    position: absolute;
+    right: var(--now-playing-section-y);
+    top: var(--now-playing-section-x);
+    width: var(--right-section-width);
+    height: 810px;
+    background-color: rgb(0 0 0 / 50%);
+    overflow: hidden;
+}
+
+.now-playing-mask {
+    position: absolute;
+    right: calc(-1 * var(--now-playing-section-y));
+    top: calc(-1 * var(--now-playing-section-x));
+    width: 603px;
+    height: 574px;
+    mask-image: url("static/mask.png");
+    object-fit: cover;
+}
+
+/* Now Playing Metadata */
+.now-playing-metadata {
+    position: absolute;
+    left: var(--now-playing-left-align-x);
+    width: calc(100% - var(--now-playing-left-align-x) * 2);
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.now-playing-artist {
+    top: 6px;
+    font-size: 17px;
+}
+
+.now-playing-title {
+    top: 28px;
+    font-size: 22px;
+}
+
+/* Now Playing Line 3 */
+.now-playing-line-three {
+    position: absolute;
+    top: 64px;
+    left: var(--now-playing-left-align-x);
+    display: flex;
+    color: white;
+    gap: 10px;
+}
+
+.now-playing-difficulty {
+    background-color: white;
+    color: black;
+    padding: 2px 5px;
+    font-weight: 800;
+    max-width: 215px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.now-playing-bpm-number {
+    color: white;
+    font-weight: 900;
+}
+
+/* Now Playing Boxes */
+.now-playing-stat-line {
+    position: absolute;
+    left: var(--now-playing-left-align-x);
+    color: white;
+    font-size: 17px;
+    display: flex;
+    gap: 8px;
+}
+.now-playing-stat-line-sr { top: 115px; }
+.now-playing-stat-line-cs { top: 157px; }
+.now-playing-stat-line-ar { top: 182px; }
+.now-playing-stat-line-od { top: 207px; }
+
+.now-playing-box {
+    --height: 19px;
+
+    width: 26px;
+    height: var(--height);
+    font-weight: 800;
+    text-align: center;
+    line-height: var(--height);
+}
+.now-playing-box-sr { background-color: #d3a03c; }
+.now-playing-box-ar { background-color: #228852; }
+.now-playing-box-od { background-color: #3c40e9; }
+
+.now-playing-text {
+    font-weight: 400;
+    line-height: 19px;
+    font-size: 20px;
+}
+
+/* Now Playing Bottom Metadata */
+.now-playing-bottom-metadata {
+    position: absolute;
+    left: var(--now-playing-left-align-x);
+    color: white;
+    font-size: 17px;
+}
+.now-playing-mapped-by { top: 245px; }
+.now-playing-replayed-by { top: 269px; }
+
+/* --- Strain Graph --- */
+#strain-graph {
+    position: absolute;
+    top: 98px;
+    left: 105px;
+    width: 275px;
+    height: 126px;
+}
+
+.strain-graph-detail {
+    position: absolute;
+    top: 20px;
+}
+
+#progress {
+    --linear-gradient: linear-gradient(90deg, black 0%, black 49.95%, transparent 50%);
+
+	position: absolute;
+    bottom: 0;
+    left: 0;
+	width: calc(var(--strain-graph-width) * 2);
+    height: 126px;
+	padding: 0;
+	overflow: hidden;
+	transition: 100ms linear;
+	mask-image: var(--linear-gradient);
+}
+
+/* Chat Display */
+.chat-display {
+    position: absolute;
+    left: var(--now-playing-left-align-x);
+    bottom: var(--now-playing-left-align-x);
+    width: calc(100% - var(--now-playing-left-align-x) * 2);
+    height: 490px;
+    color: white;
+    font-weight: 500;
+    font-size: 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.message-name {
+    font-weight: 700;
+    margin-right: 5px;
+}
+
+/* Previous Maps */
+.previous-maps {
+    position: absolute;
+    bottom: var(--bottom-section-y);
+    right: 446px;
+    width: 1440px;
+    height: var(--bottom-section-height);
+    overflow: hidden;
+}
+
+.previous-maps-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: max-content;
+    height: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 12px;
+}
+
+.previous-map-container {
+    position: relative;
+    width: 230px;
+    height: 100%;
+    background: center / cover;
+    background-image: url("https://assets.ppy.sh/beatmaps/292301/covers/cover.jpg");
+}
+
+.previous-map-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #00000080;
+}
+
+.previous-map-mod-id {
+    --mod-color: white;
+    --height: 19px;
+
+    position: absolute;
+    top: 7px;
+    left: var(--previous-map-left);
+    font-weight: 600;
+    font-size: 16px;
+    background-color: var(--mod-color);
+    padding: 0 2px;
+    height: var(--height);
+    line-height: var(--height);
+    text-align: center;
+}
+.previous-map-mod-nm { --mod-color: var(--nm-color); }
+.previous-map-mod-hd { --mod-color: var(--hd-color); }
+.previous-map-mod-hr { --mod-color: var(--hr-color); }
+.previous-map-mod-dt { --mod-color: var(--dt-color); }
+.previous-map-mod-tb { --moc-color: var(--tb-color); }
+
+.previous-map-metadata {
+    position: absolute;
+    left: var(--previous-map-left);
+    width: calc(100% - var(--previous-map-left) * 2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.previous-map-artist {
+    top: 36px;
+    font-size: 12px;
+}
+
+.previous-map-title {
+    top: 51px;
+    font-size: 15px;
+    color: white;
+    font-weight: 700;
+}
+
+/* Caster Box */
+.caster-box {
+    position: absolute;
+    bottom: var(--bottom-section-y);
+    right: var(--now-playing-section-y);
+    width: var(--right-section-width);
+    height: var(--bottom-section-height);
+    background-color: #00000080;
+}
