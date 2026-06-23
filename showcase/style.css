@@ -251,6 +251,7 @@
     top: 0;
     right: 0;
     width: max-content;
+    height: 100%;
     display: flex;
     justify-content: end;
     gap: 12px;
@@ -260,7 +261,7 @@
     position: relative;
     width: 230px;
     height: 100%;
-    background-color: center / cover;
+    background: center / cover;
     background-image: url("https://assets.ppy.sh/beatmaps/292301/covers/cover.jpg");
 }
 
