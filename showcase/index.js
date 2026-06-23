@@ -83,7 +83,7 @@ socket.onmessage = async event => {
         currentMapChecksum = data.beatmap.checksum
 
         // Metadata
-        const bg = data.directPath.beatmapBackground.replace(/\\/g, "/").replace(/[\u0000-\u001F\u007F]/g, "")
+        const bg = data.directPath.beatmapBackground.replace(/\\/g, "/").replace(/[^\x00-\x7F]/g, "")
         nowPlayingBackgroundEl.setAttribute("src", `http://127.0.0.1:24050/Songs/${bg}`)
         nowPlayingArtistEl.textContent = data.beatmap.artist
         nowPlayingTitleEl.textContent = data.beatmap.title
@@ -144,7 +144,6 @@ socket.onmessage = async event => {
 			for (let i = 0; i < 60; i++) {
 				new_strains.push(temp_strains[Math.floor(i * (temp_strains.length / 60))])
 			}
-            const offset = 3
 			new_strains = [0, ...new_strains, 0]
 
 			config.data.datasets[0].data = new_strains

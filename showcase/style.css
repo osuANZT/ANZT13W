@@ -94,7 +94,6 @@
     width: 603px;
     height: 574px;
     mask-image: url("static/mask.png");
-    -webkit-mask-image: url("static/mask.png");
     object-fit: cover;
 }
 
@@ -106,7 +105,7 @@
     color: white;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipse;
+    text-overflow: ellipsis;
 }
 
 .now-playing-artist {
@@ -203,6 +202,8 @@
 }
 
 #progress {
+    --linear-gradient: linear-gradient(90deg, black 0%, black 49.95%, transparent 50%);
+
 	position: absolute;
     bottom: 0;
     left: 0;
@@ -211,8 +212,7 @@
 	padding: 0;
 	overflow: hidden;
 	transition: 100ms linear;
-	-webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 49.95%, transparent 50%);
-	mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 49.95%, transparent 50%);
+	mask-image: var(--linear-gradient);
 }
 
 /* Chat Display */
