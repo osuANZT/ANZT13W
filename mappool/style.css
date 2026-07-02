@@ -1,5 +1,6 @@
 :root {
     --team-name-x: 1395px;
+    --team-pfp-x: 546px;
 
     --sidebar-column-width: 300px;
     --screen-height: 1440px;
@@ -70,6 +71,19 @@
     width: 275px;
     line-height: 26px;
 }
+
+/* Team */
+.team-pfp {
+    --dimension: 88px;
+
+    position: absolute;
+    top: 150px;
+    width: var(--dimension);
+    height: var(--dimension);
+}
+.team-red-pfp { left: var(--team-pfp-x); }
+.team-blue-pfp { right: var(--team-pfp-x); }
+
 /* Team Ban Container */
 .team-ban-container {
     position: absolute;
@@ -80,11 +94,13 @@
 }
 .team-red-ban-container { right: var(--team-ban-container-x); }
 .team-blue-ban-container { left: var(--team-ban-container-x); }
+
 .bans-text {
     font-family: "Ageta Chubby";
     font-size: 29px;
     line-height: 30px;
 }
+
 .team-ban-container img { height: 35px; }
 
 /* Current Map Background Image */
