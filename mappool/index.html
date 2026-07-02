@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mappool</title>
+
+    <link rel="stylesheet" href="../_shared/css/common.css">
+    <link rel="stylesheet" href="../_shared/css/gameplay-mappool.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=SUSE:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
+</head>
+<body>
+    <div class="page-size main">
+        <!-- Pick Videos -->
+        <video autoplay loop muted class="not-yet-picked-video" id="not-yet-picked-video-red">
+            <source src="static/pick-vids/redpick.webm">
+        </video>
+        <video autoplay loop muted class="not-yet-picked-video" id="not-yet-picked-video-blue">
+            <source src="static/pick-vids/bluepick.webm">
+        </video>
+
+        <img class="logo" src="../_shared/assets/logo.png">
+        <div class="stream-title round-name" id="round-name"></div>
+
+        <!-- Team Red -->
+        <div class="team-background team-red-background"></div>
+        <div class="team-name team-red-name" id="team-red-name">team RRRRRRRRRRRR</div>
+        <div class="team-point-container team-red-point-container" id="red-team-star-container"></div>
+        <div class="team-ban-container team-red-ban-container" id="team-red-ban-container">
+            <div class="bans-text">BANS:</div>
+        </div>
+
+        <!-- Team Blue -->
+        <div class="team-background team-blue-background"></div>
+        <div class="team-name team-blue-name" id="team-blue-name">team B</div>
+        <div class="team-point-container team-blue-point-container" id="blue-team-star-container"></div>
+        <div class="team-ban-container team-blue-ban-container" id="team-blue-ban-container">
+            <div class="bans-text">BANS:</div>
+        </div>
+
+        <!-- Current Map -->
+        <div class="current-map-background-image absolute-center-x">
+            <img id="current-map-background-image">
+        </div>
+        <!-- Pick Map Videos -->
+        <video autoplay loop muted class="pick-video" id="pick-video-red">
+            <source src="static/pick-vids/redpickMap.webm">
+        </video>
+        <video autoplay loop muted class="pick-video" id="pick-video-blue">
+            <source src="static/pick-vids/bluepickMap.webm">
+        </video>
+        <img class="current-map-category-image absolute-center-x" id="current-map-category-image">
+        <div class="current-map-artist-title absolute-center-x current-map-metadata-wrapper" id="current-map-artist-title">
+            <span id="current-map-artist" id="current-map-artist"></span> - 
+            <span class="current-map-metadata-bold" id="current-map-title"></span>
+        </div>
+        <div class="current-map-mapper absolute-center-x current-map-metadata-wrapper" id="current-map-mapped-by">Mapped by 
+            <span class="current-map-metadata-bold" id="current-map-mapper-name"></span>
+        </div>        
+        <img class="current-map-picker absolute-center-x" id="current-map-picker">
+        <img class="current-map-win-result absolute-center-x" src="static/win-result/blue-win-result.png" id="current-map-win-result">
+        <div class="current-mpa-win-scores absolute-center-x" id="current-map-win-scores"><span class="current-map-win-scores-medium"></span> - <span class=""></span></div>
+
+        <!-- Chat Box -->
+        <img class="chat-box" src="../_shared/assets/chat-box.png">
+        <div class="chat-display-container">
+            <div class="chat-display-wrapper" id="chat-display-wrapper"></div>
+        </div>
+
+        <!-- Mappool Tiles -->
+        <div class="pick-container absolute-center-x" id="pick-container"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="column column-1">
+            <!-- Star Control -->
+            <div class="sidebar-section">
+                <h1>Star Control</h1>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button" id="set-star-red-plus">Red ++</button>
+                    <button class="sidebar-button" id="set-star-red-minus">Red --</button>
+                    <button class="sidebar-button" id="set-star-blue-plus">Blue ++</button>
+                    <button class="sidebar-button" id="set-star-blue-minus">Blue --</button>
+                    <button class="sidebar-button full-size-button toggle-on" id="toggle-stars-button">Stars: <span id="toggle-stars-on-off">ON</span></button>
+                </div>
+            </div>
+            <!-- Next Autopick -->
+            <div class="sidebar-section">
+                <h1>Next Autopick</h1>
+                <div class="sidebar-text font-family-orlando-caps-cg" id="next-autopick-text">RED</div>
+                <br>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button" id="next-autopick-red">Red</button>
+                    <button class="sidebar-button" id="next-autopick-blue">Blue</button>
+                    <button class="sidebar-button full-size-button toggle-off" id="toggle-autopick-button">Autopick: <span id="toggle-autopick-on-off">OFF</span></button>
+                </div>
+            </div>
+            <!-- Choose Maps -->
+            <div class="sidebar-section" id="mappool-management">
+                <h1>Mappool Management</h1>
+                <div class="sidebar-text">
+                    Left Click (LC) = Red Pick<br>
+                    Right Click (RC) = Blue Pick<br>
+                    CTRL + LC = Red Ban<br>
+                    CTRL + RC = Blue Ban<br>
+                    Shift + Click = TB Pick
+                </div><br>
+                <div class="sidebar-button-container" id="mappool-management-maps"></div>
+            </div>
+        </div>
+        <div class="divider divider-1"></div>
+        <div class="column column-2">
+            <div class="sidebar-section">
+                <h1>Current<br>Picker</h1>
+                <div class="sidebar-text font-family-orlando-caps-cg" id="current-picker-text">RED</div>
+                <br>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button" id="current-picker-red">Red</button>
+                    <button class="sidebar-button" id="current-picker-blue">Blue</button>
+                    <button class="sidebar-button full-size-button" id="current-picker-none">None</button>
+                </div>
+            </div>
+            <!-- Ban / Pick Management -->
+            <div class="sidebar-section" id="ban-pick-management">
+                <h1>Ban / Pick Management</h1>
+                <h2>Which Action?</h2>
+                <select class="ban-pick-management-select" id="ban-pick-management-select-action" size="6">
+                    <option value="setBan">Set Ban</option>
+                    <option value="removeBan">Remove Ban</option>
+                    <option value="setPick">Set Pick</option>
+                    <option value="removePick">Remove Pick</option>
+                    <option value="setWinner">Set Winner</option>
+                    <option value="removeWinner">Remove Winner</option>
+                </select>
+                <div class="sidebar-button-container"></div>
+            </div>
+        </div>
+        <div class="divider divider-2"></div>
+        <div class="column column-3">
+            <div class="sidebar-section">
+                <h1>Match Selection</h1>
+                <select size="8" class="match-select" id="match-select"></select>
+                <button class="sidebar-button full-size-button" id="apply-match">Apply Match</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="index.js"></script>
+</body>
+</html>
