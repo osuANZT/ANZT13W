@@ -107,8 +107,6 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
         matchSelectEl.append(option)
     }
     matchSelectEl.setAttribute("size", matchSelectEl.childElementCount)
-
-    allTeams = teams
 })
 
 function createBanProtectElement(team) {
@@ -203,10 +201,10 @@ function mapClickEvent(event) {
     if (action === "ban") {
         const currentElement = team === "red" ? teamRedBanContainerEl : teamBlueBanContainerEl
 
-        for (let i = 1; i < currentElement.childElementCount; i++) {
-            const imageElement = currentElement.children[i]
-            if (imageElement.hasAttribute("data-id")) continue
-            setBanDetails(imageElement, currentMap)
+        for (let i = 0; i < currentElement.childElementCount; i++) {
+            const element = currentElement.children[i]
+            if (element.hasAttribute("data-id")) continue
+            setBanDetails(element, currentMap)
             break
         }
     }
@@ -252,8 +250,10 @@ function mapClickEvent(event) {
 
 // Set Ban Details
 function setBanDetails(element, currentMap) {
-    element.parentElement.style.display = "flex"
-    element.setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
+    element.style.display = "block"
+    element.children[0].children[0].style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
+    element.children[0].children[2].innerText = `BANNED`
+    element.children[1].setAttribute("src", `static/mods/${currentMap.mod.toLowerCase()}${currentMap.order}.png`)
     element.dataset.id = currentMap.beatmap_id
 }
 
@@ -681,8 +681,8 @@ let currentBanContainer, currentBanTeam
 function setBanContainer(element) {
     const currentBanElements = element.value.split("|")
     currentBanTeam = currentBanElements[0]
-    if (currentBanTeam === "red") currentBanContainer = teamRedBanContainerEl.querySelectorAll("img")[currentBanElements[1] - 1]
-    else currentBanContainer = teamBlueBanContainerEl.querySelectorAll("img")[currentBanElements[1] - 1]
+    if (currentBanTeam === "red") currentBanContainer = teamRedBanContainerEl.children[currentBanElements[1] - 1]
+    else currentBanContainer = teamBlueBanContainerEl.children[currentBanElements[1] - 1]
 }
 
 // Set Piock Container
@@ -741,17 +741,8 @@ function sidebarRemoveBanAction() {
     if (!currentBanContainer) return
 
     // Remove details
-    currentBanContainer.removeAttribute("src")
     currentBanContainer.removeAttribute("data-id")
-
-    // Potentially remove display
-    const banContainerParent = currentBanContainer.parentElement
-    const allBanImages = banContainerParent.getElementsByTagName("img")
-    let banCount = 0
-    for (let i = 0; i < allBanImages.length; i++) {
-        if (allBanImages[i].hasAttribute("src")) banCount++
-    }
-    if (banCount === 0) banContainerParent.style.display = "none"
+    currentBanContainer.style.display = "none"
 }
 
 function sidebarSetPickAction() {
