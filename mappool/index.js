@@ -48,9 +48,11 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
     currentWinnerArray = new Array(bestOf)
 
     // Create ban images
+    teamRedProtectContainerEl.append(createBanProtectElement("red"))
+    teamBlueProtectContainerEl.append(createBanProtectElement("blue"))
     for (let i = 0; i < banCount; i++) {
-        teamRedBanContainerEl.append(createBanImage())
-        teamBlueBanContainerEl.append(createBanImage())
+        teamRedBanContainerEl.append(createBanProtectElement("red"))
+        teamBlueBanContainerEl.append(createBanProtectElement("blue"))
     }
 
     // Set default star count
@@ -109,15 +111,50 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
     allTeams = teams
 })
 
-// Create Ban Image
-function createBanImage() {
-    const image = document.createElement("img")
-    return image
+function createBanProtectElement(team) {
+    // Create the main wrapper div
+    const teamBanProtectWrapper = document.createElement('div')
+    teamBanProtectWrapper.classList.add("team-ban-protect-wrapper", `team-${team}-ban-protect-wrapper`)
+
+    // Create the inner div for the ban protect image
+    const teamBanProtectImage = document.createElement('div')
+    teamBanProtectImage.classList.add("team-ban-protect-image")
+
+    // Create the background div
+    const teamBanProtectBackground = document.createElement('div')
+    teamBanProtectBackground.classList.add("team-ban-protect-background")
+
+    // Create the glass image element
+    const teamBanProtectGlass = document.createElement('img')
+    teamBanProtectGlass.classList.add("team-ban-protect-glass")
+    teamBanProtectGlass.src = 'static/protect-banned-GLASS.png'
+
+    // Create the text div
+    const teamBanProtectText = document.createElement('div')
+    teamBanProtectText.classList.add("team-ban-protect-text",`team-${team}-ban-protect-text`)
+
+    // Append elements to their parent containers
+    teamBanProtectImage.appendChild(teamBanProtectBackground)
+    teamBanProtectImage.appendChild(teamBanProtectGlass)
+    teamBanProtectImage.appendChild(teamBanProtectText)
+
+    // Create the mod image element
+    const teamBanProtectMod = document.createElement('img')
+    teamBanProtectMod.classList.add("team-ban-protect-mod")
+
+    // Append elements to the main wrapper
+    teamBanProtectWrapper.appendChild(teamBanProtectImage)
+    teamBanProtectWrapper.appendChild(teamBanProtectMod)
+
+    return teamBanProtectWrapper
 }
 
 // Shorten string
 const shortenString = str => str.length > 10 ? str.slice(0, 8) + "..." : str
 
+// Protect Containers
+const teamRedProtectContainerEl = document.getElementById("team-red-protect-container")
+const teamBlueProtectContainerEl = document.getElementById("team-blue-protect-container")
 // Ban Containers
 const teamRedBanContainerEl = document.getElementById("team-red-ban-container")
 const teamBlueBanContainerEl = document.getElementById("team-blue-ban-container")

@@ -86,17 +86,24 @@
 .team-red-pfp { left: var(--team-pfp-x); }
 .team-blue-pfp { right: var(--team-pfp-x); }
 
-/* Team Ban Container */
-.team-ban-container {
+/* Team Ban Protect Container */
+.team-ban-protect-container {
     position: absolute;
     top: 254px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.team-red-ban-protect-container { right: var(--team-ban-container-x); }
+.team-blue-ban-protect-container { left: var(--team-ban-container-x); }
+
+/* Team Ban Container */
+.team-ban-container {
     color: white;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.team-red-ban-container { right: var(--team-ban-container-x); }
-.team-blue-ban-container { left: var(--team-ban-container-x); }
 
 /* Wrapper */
 .team-ban-protect-wrapper {
