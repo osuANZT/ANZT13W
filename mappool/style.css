@@ -1,6 +1,8 @@
 :root {
     --team-name-x: 1395px;
     --team-pfp-x: 546px;
+    --team-ban-container-x: 1282px;
+    --team-protect-ban-text-x: 4px;
 
     --sidebar-column-width: 300px;
     --screen-height: 1440px;
@@ -87,21 +89,83 @@
 /* Team Ban Container */
 .team-ban-container {
     position: absolute;
-    top: 247px;
-    display: none;
+    top: 254px;
     color: white;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 .team-red-ban-container { right: var(--team-ban-container-x); }
 .team-blue-ban-container { left: var(--team-ban-container-x); }
 
-.bans-text {
-    font-family: "Ageta Chubby";
-    font-size: 29px;
-    line-height: 30px;
+/* Wrapper */
+.team-ban-protect-wrapper {
+    display: flex;
+    gap: 10px;
+}
+.team-blue-ban-protect-wrapper { flex-direction: row-reverse; }
+
+/* Image (including background and glass) */
+.team-ban-protect-image {
+    position: relative;
+    width: 232px;
+    height: 60px;
 }
 
-.team-ban-container img { height: 35px; }
+.team-ban-protect-background {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    width: 228px;
+    height: 50px;
+    border-radius: 10px;
+    background: center / cover;
+    background-image: url(https://assets.ppy.sh/beatmaps/2164402/covers/cover.jpg);
+}
+
+.team-ban-protect-glass {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 239px;
+    height: 63px;
+}
+
+/* Team ban mod */
+.team-ban-protect-mod {
+    --dimension: 60px;
+
+    width: var(--dimension);
+    height: var(--dimension);
+    position: relative;
+    top: -3px;
+}
+
+/* Team Ban Protect Text */
+.team-ban-protect-text {
+    position: absolute;
+    top: 20px;
+    font-size: 11px;
+    color: white;
+    font-weight: 800;
+    font-family: "Alan Sans";
+    padding: 0 7px;
+}
+
+.team-red-ban-protect-text {
+    background-image: linear-gradient( 90deg, hsl(0, 40%, 69%) 0%, hsl(332, 71%, 46%) 100%);
+    right: var(--team-protect-ban-text-x);
+    text-shadow: 2px 3.5px 3.5px #aa3131;
+    box-shadow: 0 0 6px #ff0000;
+}
+
+.team-blue-ban-protect-text {
+    background-image: linear-gradient( 90deg, hsl(227, 71%, 46%) 0%, hsl(227, 40%, 69%) 100%);
+    left: var(--team-protect-ban-text-x);
+    text-shadow: 2px 3.5px 3.5px hsl(227, 55%, 43%);
+    box-shadow: 0 0 6px hsl(227, 100%, 50%);
+}
+
 
 /* Current Map Background Image */
 .current-map-background-image {
