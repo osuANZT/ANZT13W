@@ -1,4 +1,3 @@
-import { getLogsApi, sendLog, initialiseLogsApi } from "../_shared/core/apis.js"
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { updateChat } from "../_shared/core/chat.js"
 import { loadMatches, findMatch } from "../_shared/core/matches.js"
@@ -31,7 +30,7 @@ let allTeams = []
 let currentPickArray, previousPickArray
 let currentWinnerArray, previousWinnerArray
 
-Promise.all([loadBeatmaps(), loadTeams(), loadMatches(), initialiseLogsApi()]).then(([beatmaps, teams, matches]) => {
+Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams, matches]) => {
     // Load beatmaps
     allBeatmaps = beatmaps.beatmaps
     roundNameEl.textContent = `// ${beatmaps.roundName} mappool`
@@ -315,7 +314,7 @@ socket.onmessage = event => {
 
     // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
     if (chatLen !== data.tourney.chat.length) {
-        chatLen = updateChat(data.tourney, chatLen, chatDisplayWrapperEl, true, getLogsApi(), currentTeamRed, currentTeamBlue, currentTeamRedName, currentTeamBlueName)
+        chatLen = updateChat(data.tourney, chatLen, chatDisplayWrapperEl, true, currentTeamRed, currentTeamBlue, currentTeamRedName, currentTeamBlueName)
     }
 
     // Save pick string
@@ -388,8 +387,6 @@ socket.onmessage = event => {
         logData.scoreInfo.team.left = scoresLeft
         logData.scoreInfo.team.right = scoresRight
     }
-
-    sendLog(logData, "log", getLogsApi())
 }
 
 // Update Star Count Buttons
