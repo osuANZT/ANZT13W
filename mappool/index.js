@@ -140,15 +140,6 @@ const currentMapPickerEl = document.getElementById("current-map-picker")
 const currentMapWinResultEl = document.getElementById("current-map-win-result")
 const currentMapWinScoresEl = document.getElementById("current-map-win-scores")
 
-// Not Yet Picked Video
-const notYetPickedVideoRedEl = document.getElementById("not-yet-picked-video-red")
-const notYetPickedVideoBlueEl = document.getElementById("not-yet-picked-video-blue")
-let currentNotYetPicked, notYetPicked = true
-
-// Pick Videos
-const pickVideoRedEl = document.getElementById("pick-video-red")
-const pickVideoBlueEl = document.getElementById("pick-video-blue")
-
 // Map Click Event
 function mapClickEvent(event) {
     // Find map
@@ -201,19 +192,6 @@ function mapClickEvent(event) {
             currentTile.children[4].textContent = `${currentMap.mod === "TB" ? "TB" : team.toUpperCase()} PICK`
             currentPickTile = currentTile
             mapsFound = 1
-            notYetPicked = false
-
-
-            if (team === "red" && currentMap.mod !== "TB") {
-                pickVideoRedEl.style.opacity = 1
-                pickVideoBlueEl.style.opacity = 0
-            } else if (team === "blue" && currentMap.mod !== "TB") {
-                pickVideoRedEl.style.opacity = 0
-                pickVideoBlueEl.style.opacity = 1
-            } else {
-                pickVideoRedEl.style.opacity = 0
-                pickVideoBlueEl.style.opacity = 0
-            }
             break
         }
 
@@ -266,26 +244,6 @@ const socket = createTosuWsSocket()
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
 
-    // Current not yet picked
-    if (currentNotYetPicked !== currentPicker) {
-        currentNotYetPicked = currentPicker
-    }
-    if (currentNotYetPicked && isStarOn() && notYetPicked) {
-        if (currentNotYetPicked === "red") {
-            notYetPickedVideoRedEl.style.opacity = 1
-            notYetPickedVideoBlueEl.style.opacity = 0
-        } else if (currentNotYetPicked === "blue") {
-            notYetPickedVideoRedEl.style.opacity = 0
-            notYetPickedVideoBlueEl.style.opacity = 1
-        } else if (currentNotYetPicked === "none") {
-            notYetPickedVideoRedEl.style.opacity = 0
-            notYetPickedVideoBlueEl.style.opacity = 0
-        }
-    } else {
-        notYetPickedVideoRedEl.style.opacity = 0
-        notYetPickedVideoBlueEl.style.opacity = 0
-    }
-
     if (noOfClients !== data.tourney.clients.length) {
         noOfClients = data.tourney.clients.length
     }
@@ -317,8 +275,6 @@ socket.onmessage = event => {
                     // Add stars
                     updateStarCount(winner, "plus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName)
                 }
-
-                notYetPicked = false
             }
             currentState = 4 
         }
