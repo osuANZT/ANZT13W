@@ -1,5 +1,5 @@
 :root {
-    --team-name-x: 1731px;
+    --team-name-x: 1395px;
 
     --sidebar-column-width: 300px;
     --screen-height: 1440px;
@@ -11,6 +11,7 @@
     src: url("../fonts/Ageta\ Chubby\ Demo.otf")
 }
 
+/* Whole Page */
 .main {
     position: absolute;
     top: 0;
@@ -18,9 +19,10 @@
     width: 1920px;
     height: 1080px;
     font-family: "Alan Sans";
-    background-image: url("static/background.png")
+    background-image: url("static/background.png");
 }
 
+/* Title Area */
 .logo {
     position: absolute;
     top: 0;
@@ -40,18 +42,21 @@
     background-color: white;
     line-height: 20px;
     padding: 0 4px;
+    color: black;
 }
 
 /* Team Background */
 .team-background {
-    top: 122px;
-    height: 49px;
+    top: 150px;
+    height: 26px;
 }
+
 .team-red-background {
     background-image: linear-gradient( 90deg, rgb(208,146,146) 0%, rgb(200,34,112) 100%);
     left: var(--team-background-x);
     box-shadow: 0 0 10px 4px rgba(200, 34, 112, 0.5);
 }
+
 .team-blue-background {
     background-image: linear-gradient( 90deg, rgb(1,50,233) 0%, rgb(0,219,222) 100%);
     right: var(--team-background-x);
@@ -60,11 +65,11 @@
 
 /* Team Name */
 .team-name {
-    top: 118px;
-    font-size: 42px;
-    width: 355px;
+    top: 150px;
+    font-size: 24px;
+    width: 275px;
+    line-height: 26px;
 }
-
 /* Team Ban Container */
 .team-ban-container {
     position: absolute;
