@@ -3,7 +3,6 @@ import { updateChat } from "../_shared/core/chat.js"
 import { loadMatches, findMatch } from "../_shared/core/matches.js"
 import { toggleStars, setDefaultStarCount, updateStarCount, isStarOn } from "../_shared/core/stars.js"
 import { loadTeams, findTeam } from "../_shared/core/teams.js"
-import { getCookie } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 // Star Containers
@@ -24,7 +23,6 @@ let bestOf = 0
 let banCount = 2
 const roundNameEl = document.getElementById("round-name")
 let allBeatmaps = []
-let allTeams = []
 
 // Pick array
 let currentPickArray, previousPickArray
@@ -35,14 +33,14 @@ Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams
     allBeatmaps = beatmaps.beatmaps
     roundNameEl.textContent = `// ${beatmaps.roundName} mappool`
 
-    switch (beatmaps.roundName) {
-        case "RO24": case "RO16":
+    switch (beatmaps.roundName.toUpperCase()) {
+        case "ROUND OF 64": case "ROUND OF 32": case "ROUND OF 16":
             bestOf = 9
             break
-        case "QF": case "SF":
+        case "QUARTERFINALS": case "SEMIFINALS":
             bestOf = 11
             break
-        case "F": case "GF":
+        case "FINALS": case "GRAND FINALS":
             bestOf = 13
             break
     }

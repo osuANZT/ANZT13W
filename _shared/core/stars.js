@@ -1,4 +1,4 @@
-import { getCookie, delay } from "../core/utils.js"
+import { getCookie } from "../core/utils.js"
 
 let redStarCount = 0
 let blueStarCount = 0
@@ -96,7 +96,12 @@ function iterateStarImages(starCount, starContainer, firstTo) {
 }
 
 function createStarImage(status) {
+    const imageDiv = document.createElement("div")
+    imageDiv.classList.add("team-star-container")
+
     const image = document.createElement("img")
     image.setAttribute("src", `../_shared/assets/points/point-${status}.png`)
-    return image
+
+    imageDiv.append(image)
+    return imageDiv
 }

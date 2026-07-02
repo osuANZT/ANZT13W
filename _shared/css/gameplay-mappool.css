@@ -1,6 +1,6 @@
 :root {
     --team-background-x: 250px;
-    --team-point-container-x: 1725px;
+    --team-point-container-x: 1381px;
     --team-ban-container-x: 1721px;
 }
 
@@ -28,23 +28,37 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .team-red-name { 
     right: var(--team-name-x);
     text-align: right;
 }
+
 .team-blue-name { left: var(--team-name-x); }
+
 /* Team Point Container */
 .team-point-container {
     position: absolute;
-    top: 180px;
+    top: 177px;
     display: flex;
-    gap: 11px;
 }
+
 .team-red-point-container {
     right: var(--team-point-container-x);
     flex-direction: row-reverse;
 }
+
 .team-blue-point-container { left: var(--team-point-container-x); }
+
+.team-star-container {
+    position: relative;
+    width: 47px;
+    height: 49px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 -3px;
+}
 
 /* Chat Box */
 .chat-box {
