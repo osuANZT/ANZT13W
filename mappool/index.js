@@ -161,6 +161,7 @@ const teamBlueBanContainerEl = document.getElementById("team-blue-ban-container"
 let currentPickTile
 
 // Current map
+const currentMapBackgroundImageMaskEl = document.getElementById("current-map-background-image-mask")
 const currentMapBackgroundImageEl = document.getElementById("current-map-background-image")
 const currentMapCategoryImageEl = document.getElementById("current-map-category-image")
 const currentMapArtistTitleEl= document.getElementById("current-map-artist-title")
@@ -230,7 +231,8 @@ function mapClickEvent(event) {
         // Set top information
         if (mapsFound !== 0) {
             // Set content
-            currentMapBackgroundImageEl.setAttribute("src", `https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg`)
+            currentMapBackgroundImageMaskEl.setAttribute("src", `https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg`)
+            currentMapBackgroundImageEl.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
             currentMapCategoryImageEl.setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
             currentMapArtistEl.textContent = currentMap.artist
             currentMapTitleEl.textContent = currentMap.title

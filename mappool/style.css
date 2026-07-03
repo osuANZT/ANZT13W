@@ -173,23 +173,41 @@
     box-shadow: 0 0 6px hsl(227, 100%, 50%);
 }
 
-
-/* Current Map Background Image */
-.current-map-background-image {
-    position: absolute;
-    top: -30px;
-    width: 1142px;
-    height: 777px;
-    mask-image: url("static/layer-mask.png");
+/* Current Map Background Image Mask */
+.current-map-background-image-mask {
+    top: 0;
+    width: 1212px;
+    height: 741px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    mask-image: url("static/map-bg/map-bg-blur-mask.png");
     mask-mode: alpha;
     mask-repeat: no-repeat;
     mask-size: contain;
     mask-position: center;
+}
+.current-map-background-image-mask img { height: inherit; }
+
+
+/* Current Map Background Image */
+.current-map-background-image {
+    top: 148px;
+    width: 614px;
+    height: 287px;
+    /* mask-image: url("static/layer-mask.png");
+    mask-mode: alpha;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center; */
     display: flex;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
+    background: center / cover;
+    /* background-image: url(https://assets.ppy.sh/beatmaps/2164402/covers/cover.jpg); */
+    border-radius: 18px;
 }
-.current-map-background-image img { height: 777px; }
+.current-map-background-image img { height: inherit; }
 
 /* Current Map Category Image*/
 .current-map-category-image {
