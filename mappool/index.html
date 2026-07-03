@@ -20,6 +20,27 @@
 </head>
 <body>
     <div class="page-size main">
+        <!-- Current Map Background -->
+        <div class="current-map-background-image-mask absolute-center-x">
+            <img id="current-map-background-image-mask">
+        </div>
+        <!-- Current Map -->
+        <div class="current-map-background-image absolute-center-x" id="current-map-background-image" >
+            <img src="static/map-bg/map-bg-GLASS.png">
+        </div>
+        <img class="current-map-category-image absolute-center-x" id="current-map-category-image">
+        <div class="current-map-artist-title absolute-center-x current-map-metadata-wrapper" id="current-map-artist-title">
+            <span id="current-map-artist" id="current-map-artist"></span> - 
+            <span class="current-map-metadata-bold" id="current-map-title"></span>
+        </div>
+        <div class="current-map-mapper absolute-center-x current-map-metadata-wrapper" id="current-map-mapped-by">Mapped by 
+            <span class="current-map-metadata-bold" id="current-map-mapper-name"></span>
+        </div>        
+        <img class="current-map-picker absolute-center-x" id="current-map-picker">
+        <img class="current-map-win-result absolute-center-x" src="static/win-result/blue-win-result.png" id="current-map-win-result">
+        <div class="current-mpa-win-scores absolute-center-x" id="current-map-win-scores"><span class="current-map-win-scores-medium"></span> - <span class=""></span></div>
+
+        <!-- Title -->
         <img class="logo" src="static/logo.png">
         <div class="stream-title round-name" id="round-name">ROUND OF 32</div>
 
@@ -46,27 +67,6 @@
             <div class="team-ban-container team-blue-ban-container" id="team-blue-protect-container"></div>
             <div class="team-ban-container team-blue-ban-container" id="team-blue-ban-container"></div>
         </div>
-        
-
-        <!-- Current Map Background -->
-        <div class="current-map-background-image-mask absolute-center-x">
-            <img src="https://assets.ppy.sh/beatmaps/2164402/covers/cover.jpg" id="current-map-background-image-mask">
-        </div>
-        <!-- Current Map -->
-        <div class="current-map-background-image absolute-center-x" id="current-map-background-image" >
-            <img src="static/map-bg/map-bg-GLASS.png">
-        </div>
-        <img class="current-map-category-image absolute-center-x" id="current-map-category-image">
-        <div class="current-map-artist-title absolute-center-x current-map-metadata-wrapper" id="current-map-artist-title">
-            <span id="current-map-artist" id="current-map-artist"></span> - 
-            <span class="current-map-metadata-bold" id="current-map-title"></span>
-        </div>
-        <div class="current-map-mapper absolute-center-x current-map-metadata-wrapper" id="current-map-mapped-by">Mapped by 
-            <span class="current-map-metadata-bold" id="current-map-mapper-name"></span>
-        </div>        
-        <img class="current-map-picker absolute-center-x" id="current-map-picker">
-        <img class="current-map-win-result absolute-center-x" src="static/win-result/blue-win-result.png" id="current-map-win-result">
-        <div class="current-mpa-win-scores absolute-center-x" id="current-map-win-scores"><span class="current-map-win-scores-medium"></span> - <span class=""></span></div>
 
         <!-- Chat Box -->
         <img class="chat-box" src="../_shared/assets/chat-box.png">
@@ -132,7 +132,9 @@
             <div class="sidebar-section" id="ban-pick-management">
                 <h1>Ban / Pick Management</h1>
                 <h2>Which Action?</h2>
-                <select class="ban-pick-management-select" id="ban-pick-management-select-action" size="6">
+                <select class="ban-pick-management-select" id="ban-pick-management-select-action" size="8">
+                    <option value="setProtect">Set Protect</option>
+                    <option value="removeProtect">Remove Protect</option>
                     <option value="setBan">Set Ban</option>
                     <option value="removeBan">Remove Ban</option>
                     <option value="setPick">Set Pick</option>

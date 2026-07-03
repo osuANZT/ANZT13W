@@ -189,6 +189,7 @@ function mapClickEvent(event) {
     // Action
     let action = "pick"
     if (event.ctrlKey) action = "ban"
+    if (event.shiftKey) action = "protect"
 
     // Check if map exists in bans
     const mapCheck = !!(
@@ -205,8 +206,17 @@ function mapClickEvent(event) {
         for (let i = 0; i < currentElement.childElementCount; i++) {
             const element = currentElement.children[i]
             if (element.hasAttribute("data-id")) continue
-            setBanDetails(element, currentMap)
+            setSideMapDetails(element, currentMap, "banned")
             break
+        }
+    }
+
+    // If protect
+    if (action === "protect") {
+        const currentElement = team === "red" ? teamRedProtectContainerEl : teamBlueProtectContainerEl
+        const element = currentElement.children[0]
+        if (!element.hasAttribute("data-id")) {
+            setSideMapDetails(element, currentMap, "protect")
         }
     }
 
@@ -250,11 +260,10 @@ function mapClickEvent(event) {
     }
 }
 
-// Set Ban Details
-function setBanDetails(element, currentMap) {
-    element.style.display = "block"
+function setSideMapDetails(element, currentMap, action) {
+    element.style.display = "flex"
     element.children[0].children[0].style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
-    element.children[0].children[2].innerText = `BANNED`
+    element.children[0].children[2].innerText = `${action.toUpperCase()}`
     element.children[1].setAttribute("src", `static/mods/${currentMap.mod.toLowerCase()}${currentMap.order}.png`)
     element.dataset.id = currentMap.beatmap_id
 }
@@ -531,6 +540,32 @@ function setBanPickAction() {
         banPickManagementEl.lastElementChild.remove()
     }
 
+    // Protects
+    if (currentAction === "setProtect" || currentAction === "removeProtect") {
+        makeSidebarText("Which Team?")
+
+        // Which Team Select
+        const whichTeamSelect = document.createElement("select")
+        whichTeamSelect.setAttribute("id", "which-ban-select")
+        whichTeamSelect.classList.add("ban-pick-management-select")
+        whichTeamSelect.addEventListener("change", event => setProtectContainer(event.currentTarget))
+
+        // Which Team Select Options
+        whichTeamSelect.append(
+            makeTeamProtectOption("red"),
+            makeTeamProtectOption("blue")
+        )
+        whichTeamSelect.setAttribute("size", whichTeamSelect.childElementCount)
+        banPickManagementEl.append(whichTeamSelect)
+
+        if (whichTeamSelect.options.length > 0) {
+            whichTeamSelect.selectedIndex = 0
+            whichTeamSelect.dispatchEvent(new Event("change"))
+        }
+
+        if (currentAction === "setProtect") makeTeamAddMaps()
+    }
+
     // Bans
     if (currentAction === "setBan" || currentAction === "removeBan") {
         makeSidebarText("Which Team?")
@@ -590,6 +625,8 @@ function setBanPickAction() {
 
     // Apply changes clicks
     switch (currentAction) {
+        case "setProtect": applyChangesButton.addEventListener("click", sidebarSetProtectAction); break;
+        case "removeProtect": applyChangesButton.addEventListener("click", sidebarRemoveProtectAction); break;
         case "setBan": applyChangesButton.addEventListener("click", sidebarSetBanAction); break;
         case "removeBan": applyChangesButton.addEventListener("click", sidebarRemoveBanAction); break;
         case "setPick": applyChangesButton.addEventListener("click", sidebarSetPickAction); break;
@@ -608,10 +645,18 @@ function makeSidebarText(text) {
     banPickManagementEl.append(h2)
 }
 
+// Team Protect Options
+function makeTeamProtectOption(team) {
+    const selectOptionBan = document.createElement("option")
+    selectOptionBan.setAttribute("value", `${team}`)
+    selectOptionBan.innerText = `${team.substring(0, 1).toUpperCase()}${team.substring(1)} Protect`
+    return selectOptionBan
+}
+
 // Team Ban Options
 function makeTeamBanOption(team, number) {
     const selectOptionBan = document.createElement("option")
-    selectOptionBan.setAttribute("value", `${team}|${number}|ban`)
+    selectOptionBan.setAttribute("value", `${team}`)
     selectOptionBan.innerText = `${team.substring(0, 1).toUpperCase()}${team.substring(1)} Ban ${number}`
     return selectOptionBan
 }
@@ -677,6 +722,13 @@ function whichTeamSelect(text) {
     banPickManagementEl.append(whichTeamSelect)
 }
 
+// Set Protect Container
+let currentProtectTeam, currentProtectContainer
+function setProtectContainer(element) {
+    currentProtectTeam = element.value
+    if (currentProtectTeam === "red") currentProtectContainer = teamRedProtectContainerEl.children[0]
+    else currentProtectContainer = teamBlueProtectContainerEl.children[0]
+}
 
 // Add Ban Container
 let currentBanContainer, currentBanTeam
@@ -687,7 +739,7 @@ function setBanContainer(element) {
     else currentBanContainer = teamBlueBanContainerEl.children[currentBanElements[1] - 1]
 }
 
-// Set Piock Container
+// Set Pick Container
 let currentPickContainer, currentPickTeam
 function setPickContainer(element) {
     const currentPickElement = element
@@ -731,11 +783,27 @@ function setSidebarBeatmap(element) {
     element.style.color = "black"
 }
 
+// Sidebar Set Protect Action
+function sidebarSetProtectAction() {
+    if (!currentProtectContainer || !sidebarButtonBeatmap) return
+    const currentMap = findBeatmap(sidebarButtonBeatmap)
+    setSideMapDetails(currentProtectContainer, currentMap, "protect")
+}
+
 // Sidebar Set Ban Action
 function sidebarSetBanAction() {
     if (!currentBanContainer || !sidebarButtonBeatmap) return
     const currentMap = findBeatmap(sidebarButtonBeatmap)
-    setBanDetails(currentBanContainer, currentMap)
+    setSideMapDetails(currentBanContainer, currentMap, "banned")
+}
+
+// Sidebar Remove Ban Action
+function sidebarRemoveProtectAction() { 
+    if (!currentProtectContainer) return
+
+    // Remove details
+    currentProtectContainer.removeAttribute("data-id")
+    currentProtectContainer.style.display = "none"
 }
 
 // Sidebar Remove Ban Action
