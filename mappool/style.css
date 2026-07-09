@@ -371,7 +371,7 @@
 }
 
 /* Pick Container */
-.pick-container { top: 942px; }
+.pick-container { top: 682px; }
 
 /* Pick Tile */
 .pick-tile { display: none; }
@@ -381,11 +381,14 @@
     position: absolute;
     top: -2px;
     left: -5px;
+    width: 146px;
+    height: 336px;
 }
 
 /* Pick Tile Category */
 .pick-tile-category {
-    top: -50px;
+    top: 10px;
+    width: 60px;
 }
 
 /* Winner Crowns */
@@ -396,17 +399,19 @@
     position: absolute;
     bottom: -10px;
     left: -5px;
+    width: 147px;
 }
 
 .pick-tile-bottom-text {
     position: absolute;
-    bottom: 20px;
+    bottom: 0;
     font-size: 26px;
     color: white;
     font-weight: 700;
     width: 100%;
     text-align: center;
-    text-shadow: 0px 5px 7.65px rgba(49, 86, 170, 0.004);
+    font-size: 20px;
+    line-height: 54px;
 }
 
 /* Sidebar */

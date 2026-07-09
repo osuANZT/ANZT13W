@@ -132,8 +132,8 @@
 .pick-tile {
     position: relative;
     border-radius: 20px;
-    width: 175px;
-    height: 434px;
+    width: 133px;
+    height: 326px;
     background: center / cover;
 }
 /* Pick Tile Border */
