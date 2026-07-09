@@ -31,7 +31,7 @@ let currentWinnerArray, previousWinnerArray
 Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams, matches]) => {
     // Load beatmaps
     allBeatmaps = beatmaps.beatmaps
-    roundNameEl.textContent = `// ${beatmaps.roundName} mappool`
+    roundNameEl.textContent = `${beatmaps.roundName.toLowerCase()} mappool`
 
     switch (beatmaps.roundName.toUpperCase()) {
         case "ROUND OF 64": case "ROUND OF 32": case "ROUND OF 16":
@@ -169,9 +169,8 @@ const currentMapArtistEl = document.getElementById("current-map-artist")
 const currentMapTitleEl = document.getElementById("current-map-title")
 const currentMapMappedByEl= document.getElementById("current-map-mapped-by")
 const currentMapMapperNameEl = document.getElementById("current-map-mapper-name")
+const currentMapDifficultyEl = document.getElementById("current-map-difficulty")
 const currentMapPickerEl = document.getElementById("current-map-picker")
-const currentMapWinResultEl = document.getElementById("current-map-win-result")
-const currentMapWinScoresEl = document.getElementById("current-map-win-scores")
 
 // Map Click Event
 function mapClickEvent(event) {
@@ -246,16 +245,15 @@ function mapClickEvent(event) {
             currentMapCategoryImageEl.setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
             currentMapArtistEl.textContent = currentMap.artist
             currentMapTitleEl.textContent = currentMap.title
+            currentMapDifficultyEl.textCotnent = currentMap.version
             currentMapMapperNameEl.textContent = currentMap.creator
-            currentMapPickerEl.setAttribute("src", `static/picks/${currentMap.mod === "TB" ? "tb" : team}-pick.png`)
-            currentMapPickerEl.style.top = "535px"
-            currentMapPickerEl.style.height = "65px"
+            // currentMapPickerEl.setAttribute("src", `static/picks/${currentMap.mod === "TB" ? "tb" : team}-pick.png`)
+            // currentMapPickerEl.style.top = "535px"
+            // currentMapPickerEl.style.height = "65px"
 
             // Set display
             currentMapArtistTitleEl.style.display = "block"
             currentMapMappedByEl.style.display = "block"
-            currentMapWinResultEl.style.display = "none"
-            currentMapWinScoresEl.style.display = "none"
         }
     }
 }

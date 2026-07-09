@@ -3,6 +3,7 @@
     --team-pfp-x: 546px;
     --team-ban-container-x: 1282px;
     --team-protect-ban-text-x: 4px;
+    --current-map-picker-x: 7px;
 
     --sidebar-column-width: 300px;
     --screen-height: 1440px;
@@ -189,7 +190,6 @@
 }
 .current-map-background-image-mask img { height: inherit; }
 
-
 /* Current Map Background Image */
 .current-map-background-image {
     top: 148px;
@@ -221,40 +221,145 @@
     color: rgb(229, 229, 229);
     font-size: 27px;
 }
-.current-map-artist-title { 
-    top: 143px;
-    display: none
+
+/* Current Metadata */
+.current-map-metadata {
+    position: absolute;
+    left: 7px;
+    font-family: "Alan Sans";
+    text-shadow:
+        0 0 3px rgb(255 255 255 / 32%),
+        0 0 6px rgb(255 255 255 / 20%);
 }
-.current-map-mapper { 
-    top: 170px;
-    display: none
+
+.current-map-artist {
+    bottom: 39px;
+    font-size: 14px;
+    color: #dcdcdc;
+    font-weight: 400;
 }
-.current-map-metadata-bold { font-weight: 700; }
+
+.current-map-title {
+    bottom: 54px;
+    font-size: 16px;
+    color: white;
+    font-weight: 800;
+}
+
+/* Final Line */
+.current-map-final-line {
+    position: absolute;
+    bottom: 18px;
+    left: 7px;
+    display: flex;
+    align-items: center;
+}
+
+.current-map-difficulty {
+    font-size: 14px;
+    font-weight: 700;
+    background-color: white;
+    height: 16px;
+    padding: 0 2px;
+    margin-right: 12px;
+}
+
+.current-map-timer {
+    color: white;
+    font-family: "Alan Sans";
+    font-size: 13px;
+    font-weight: 600;
+    text-shadow:
+        0 0 3px rgb(255 255 255 / 32%),
+        0 0 6px rgb(255 255 255 / 20%);
+    margin-right: 8px;
+}
+
+.current-map-pipe {
+    font-family: "Alan Sans";
+    font-size: 13px;
+    color: #dcdcdc;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.current-map-bpm {
+    color: white;
+    font-family: "Alan Sans";
+    font-size: 13px;
+    font-weight: 600;
+    text-shadow:
+        0 0 3px rgb(255 255 255 / 32%),
+        0 0 6px rgb(255 255 255 / 20%);
+}
+.current-map-bpm-number { font-weight: 900 }
+
+/* Current Map Stats */
+.current-map-stats {
+    position: absolute;
+    bottom: 17px;
+    right: 12px;
+    display: flex;
+    color: white;
+    font-family: "Alan Sans";
+    font-size: 13px;
+    display: flex;
+    gap: 22px;
+    align-items: center;
+}
+
+.current-map-stats-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.current-map-stats-text {
+    font-weight: 700;
+    width: max-content;
+    height: 14px;
+    padding: 0 3px;
+    text-align: center;
+    line-height: 14px;
+}
+.current-map-stats-text-sr { background-color: #d3a03c; }
+.current-map-stats-text-cs { background-color: #c53e9a; }
+.current-map-stats-text-ar { background-color: #228852; }
+.current-map-stats-text-od { background-color: #3c40e9; }
+
+.current-map-stats-number {
+    font-weight: 600;
+    text-shadow:
+        0 0 3px rgb(255 255 255 / 32%),
+        0 0 6px rgb(255 255 255 / 20%);
+}
 
 /* Current Map Picker */
 .current-map-picker {
-    top: 495px;
-    height: 43px;
-}
-/* .current-map-picker {
-    top: 535px;
-    height: 65px;
-} */
-
-/* Current Map Win Result */
-.current-map-win-result {
-    top: 541px;
-    display: none;
-}
-.current-mpa-win-scores {
-    top: 547px;
-    font-family: "SUSE";
-    color: white;
+    position: absolute;
+    font-family: "Alan Sans";
     font-weight: 700;
-    font-size: 28px;
-    display: none;
+    font-size: 17px;
+    color: white;
+    top: 7px;
+    height: 21px;
+    padding: 0 2px;
 }
-.current-map-win-scores-medium { font-weight: 500; }
+
+.current-map-red-picker {
+    background-image: linear-gradient( 90deg, hsl(0, 40%, 69%) 0%, hsl(332, 71%, 46%) 100%);
+    left: var(--current-map-picker-x);
+    text-shadow: 2px 3.5px 3.5px #aa3131;
+    box-shadow: 0 0 6px #ff0000;
+}
+
+.current-map-blue-picker {
+    background-image: linear-gradient( 90deg, hsl(227, 71%, 46%) 0%, hsl(227, 40%, 69%) 100%);
+    right: var(--current-map-picker-x);
+    text-shadow: 2px 3.5px 3.5px hsl(227, 55%, 43%);
+    box-shadow: 0 0 6px hsl(227, 100%, 50%);
+}
 
 /* Chat Box */
 .chat-box { top: 642px; }
@@ -292,6 +397,7 @@
     bottom: -10px;
     left: -5px;
 }
+
 .pick-tile-bottom-text {
     position: absolute;
     bottom: 20px;
@@ -315,12 +421,14 @@
     color: white;
     font-family: "Alan Sans";
 }
+
 /* Sidebar Column */
 .column {
     position: absolute;
     top: 0;
     width: var(--sidebar-column-width);
 }
+
 .column-1 { left: 0; }
 .column-2 { left: var(--sidebar-column-width); }
 .column-3 { left: calc(var(--sidebar-column-width) * 2); }
@@ -331,30 +439,36 @@
     height: var(--screen-height);
     background-color: white;
 }
+
 .divider-1 { left: 298.5px; }
 .divider-2 { left: 598.5px; }
+
 /* Sidebar Section */
 .sidebar-section {
     padding-bottom: 13px;
     border-bottom: 3px solid white;
 }
+
 /* Sidebar H1s */
 .sidebar-section h1 {
     text-align: center;
     width: 100%;
     font-size: 1.4em;
 }
+
 .sidebar-section h2 {
     text-align: center;
     width: 100%;
     font-size: 1.15em;
 }
+
 /* Sidebar Text */
 .sidebar-text {
     text-align: center;
     font-family: "Alan Sans";
     font-size: 1.2em;
 }
+
 /* Sidebar Button Container */
 .sidebar-button-container {
     display: flex;
@@ -374,13 +488,16 @@
     font-family: inherit;
     color: inherit;
 }
+
 .sidebar-button:active {
     background-color: white;
     color: var(--sidebar-background-colour);
 }
+
 /* Full Size Button */
 .full-size-button { width: 230px; }
 .full-size-button:active { color: var(--sidebar-background-colour); }
+
 /* Apply Changes Button */
 .apply-changes-button, #apply-match {
     margin-top: 15px;
@@ -402,8 +519,10 @@
     font-weight: 700;
     font-size: 1.25em;
 }
+
 .ban-pick-management-select::-webkit-scrollbar,
 .match-select::-webkit-scrollbar { display: none; }
+
 /* Which Map */
 .which-map-select {
     width: var(--sidebar-column-width);
@@ -412,6 +531,7 @@
     justify-content: center;
     gap: 10px;
 }
+
 .which-side-button {
     --height: 25px;
     height: var(--height);
@@ -422,10 +542,9 @@
     background-color: transparent;
     border: none;
 }
+
 .which-map-button { width: 70px; }
-.which-pick-button {
-    width: 125px;
-}
+.which-pick-button { width: 125px; }
 
 /* Not Yet Picked Video */
 .not-yet-picked-video, .pick-video {
