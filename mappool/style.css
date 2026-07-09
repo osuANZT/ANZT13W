@@ -362,11 +362,11 @@
 }
 
 /* Chat Box */
-.chat-box { top: 642px; }
+.chat-box { top: 452px; }
 
 /* Chat Display Container */
 .chat-display-container {
-    top: 646px;
+    top: 456px;
     height: 208px;
 }
 
