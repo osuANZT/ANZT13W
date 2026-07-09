@@ -654,7 +654,7 @@ function makeTeamProtectOption(team) {
 // Team Ban Options
 function makeTeamBanOption(team, number) {
     const selectOptionBan = document.createElement("option")
-    selectOptionBan.setAttribute("value", `${team}`)
+    selectOptionBan.setAttribute("value", `${team}|${number}`)
     selectOptionBan.innerText = `${team.substring(0, 1).toUpperCase()}${team.substring(1)} Ban ${number}`
     return selectOptionBan
 }
