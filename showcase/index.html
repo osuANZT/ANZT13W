@@ -15,68 +15,11 @@
 </head>
 <body>
     <div class="main">
-        <img class="logo" src="static/logo.png">
-        <div class="current-mod-id current-mod-hr" id="current-mod-id">HR2</div>
-        <div class="font-weight-600 current-round">// <span id="round-name">[CURRENT_BRACKET]</span> SHOWCASE</div>
-
         <!-- Now Playing Area-->
         <div class="now-playing-section">
-            <!-- Mask -->
-            <img class="now-playing-mask" id="now-playing-background" src="https://assets.ppy.sh/beatmaps/1896584/covers/cover.jpg">
-
-            <!-- Metadata -->
-            <div class="font-weight-600 now-playing-metadata now-playing-artist" id="now-playing-artist">Tommy heavenly6</div>
-            <div class="font-weight-600 now-playing-metadata now-playing-title" id="now-playing-title">PAPERMOON</div>
-
-            <!-- Line 3 with Difficulty, and a couple of stat points-->
-            <div class="now-playing-line-three">
-                <div class="now-playing-difficulty" id="now-playing-difficulty">InsaneInsaneInsane</div>
-                <div class="font-weight-600 padding-y-2px now-playing-song-length" id="now-playing-song-length">04:21</div>
-                <div class="font-weight-600 color-949494 padding-y-2px now-playing-pipe">|</div>
-                <div class="font-weight-600 color-949494 padding-y-2px now-playing-bpm"><span class="now-playing-bpm-number" id="now-playing-bpm-number">164</span> BPM</div>
-            </div>
-
-            <!-- Stats -->
-            <div class="now-playing-stat-line now-playing-stat-line-sr">
-                <div class="now-playing-box now-playing-box-sr">sr</div>
-                <div class="now-playing-text" id="now-playing-sr">5.28*</div>
-            </div>
-            <div class="now-playing-stat-line now-playing-stat-line-cs">
-                <div class="now-playing-box now-playing-box-cs">cs</div>
-                <div class="now-playing-text" id="now-playing-cs">4.0</div>
-            </div>
-            <div class="now-playing-stat-line now-playing-stat-line-ar">
-                <div class="now-playing-box now-playing-box-ar">ar</div>
-                <div class="now-playing-text" id="now-playing-ar">8.0</div>
-            </div>
-            <div class="now-playing-stat-line now-playing-stat-line-od">
-                <div class="now-playing-box now-playing-box-od">od</div>
-                <div class="now-playing-text" id="now-playing-od">8.0</div>
-            </div>
-
-            <!-- Strain Graph -->
-            <div id="strain-graph">
-                <canvas class="strain-graph-detail" id="strain" width="275" height="106"></canvas>
-                <div id="progress">
-                    <canvas class="strain-graph-detail" id="strain-progress" width="275" height="106"></canvas>
-                </div>
-            </div>
-
-            <!-- Map and replay data-->
-            <div class="now-playing-bottom-metadata now-playing-mapped-by">mapped by <span class="font-weight-700" id="now-playing-mapper">aishiteiru-</span></div>
-            <div class="now-playing-bottom-metadata now-playing-replayed-by">replayed by <span class="font-weight-700" id="now-playing-replayer">player-name</span></div>
-
             <!-- Chat Display -->
             <div class="chat-display" id="chat-display"></div>
         </div>
-
-        <!-- Previous Maps -->
-        <div class="previous-maps">
-            <div class="previous-maps-wrapper" id="previous-maps-wrapper"></div>
-        </div>
-
-        <!-- Caster Box -->
-        <div class="caster-box"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
@@ -85,7 +28,6 @@
     <script src="../_shared/deps/Chart.min.js"></script>
     <script src="../_shared/deps/smooth.js"></script>
     <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
-    <script type="module" src="index.js"></script>
 </body>
 </html>
 
