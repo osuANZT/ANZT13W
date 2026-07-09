@@ -822,7 +822,7 @@ function sidebarSetPickAction() {
     currentTile.dataset.id = currentMap.beatmap_id
     currentTile.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
     currentTile.children[0].setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
-    currentTile.children[3].setAttribute("src", `static/pick-bgs/${currentMap.mod === "tb" ? "TB" : team}-pick-bg.png`)
+    currentTile.children[3].setAttribute("src", `static/pick-bgs/${currentMap.mod === "TB" ? "TB" : team}-pick-bg.png`)
     currentTile.children[4].textContent = `${currentMap.mod === "TB" ? "TB" : team.toUpperCase()} PICK`
 }
 
