@@ -5,8 +5,8 @@
     --team-protect-ban-text-x: 4px;
     --current-map-picker-x: 7px;
 
-    --sidebar-column-width: 300px;
-    --screen-height: 1440px;
+    --sidebar-column-width: 250px;
+    --screen-height: 1080px;
 }
 
 /* Ageta Chubby */
@@ -418,13 +418,13 @@
 .sidebar {
     position: absolute;
     top: 0;
-    left: 2560px;
-    width: calc(var(--sidebar-column-width) * 3);
+    left: 1920px;
+    width: 750px;
     height: var(--screen-height);
     background-color: var(--sidebar-background-colour);
     overfloW: hidden;
     color: white;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
 }
 
 /* Sidebar Column */
@@ -440,38 +440,38 @@
 /* Sidebar Divider */
 .divider {
     position: absolute;
-    width: 3px;
+    width: 2px;
     height: var(--screen-height);
     background-color: white;
 }
 
-.divider-1 { left: 298.5px; }
-.divider-2 { left: 598.5px; }
+.divider-1 { left: 249px; }
+.divider-2 { left: 499px; }
 
 /* Sidebar Section */
 .sidebar-section {
-    padding-bottom: 13px;
-    border-bottom: 3px solid white;
+    padding-bottom: 9px;
+    border-bottom: 2px solid white;
 }
 
 /* Sidebar H1s */
 .sidebar-section h1 {
     text-align: center;
     width: 100%;
-    font-size: 1.4em;
+    font-size: 1em;
 }
 
 .sidebar-section h2 {
     text-align: center;
     width: 100%;
-    font-size: 1.15em;
+    font-size: 0.85em;
 }
 
 /* Sidebar Text */
 .sidebar-text {
     text-align: center;
     font-family: "Alan Sans";
-    font-size: 1.2em;
+    font-size: 0.9em;
 }
 
 /* Sidebar Button Container */
@@ -482,14 +482,15 @@
 }
 /* Sidebar Button */
 .sidebar-button {
-    --height: 30px;
-    width: 110px;
+    --height: 22.5px;
+
+    width: 82.5px;
     height: var(--height);
-    margin: 5px;
+    margin: 4px;
     border-radius: calc(var(--height) / 2);
     border: 2px solid white;
     background-color: transparent;
-    font-size: 1em;
+    font-size: 0.75em;
     font-family: inherit;
     color: inherit;
 }
@@ -500,14 +501,14 @@
 }
 
 /* Full Size Button */
-.full-size-button { width: 230px; }
+.full-size-button { width: 172.5px; }
 .full-size-button:active { color: var(--sidebar-background-colour); }
 
 /* Apply Changes Button */
 .apply-changes-button, #apply-match {
-    margin-top: 15px;
-    margin-left: 35px;
-    height: 45px;
+    margin-top: 11.25px;
+    margin-left: 38.75px;
+    height: 33.75px;
 }
 /* Toggle Button */
 .toggle-on { background-color: green; }
@@ -522,7 +523,7 @@
     border: none;
     font-family: "Alan Sans";
     font-weight: 700;
-    font-size: 1.25em;
+    font-size: 0.95em;
 }
 
 .ban-pick-management-select::-webkit-scrollbar,
@@ -534,22 +535,23 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 7.5px;
 }
 
 .which-side-button {
-    --height: 25px;
+    --height: 19px;
+
     height: var(--height);
     line-height: var(--height);
-    font-size: 1.25em;
+    font-size: 0.95em;
     font-family: "Alan Sans";
     color: var(--secondary-colour);
     background-color: transparent;
     border: none;
 }
 
-.which-map-button { width: 70px; }
-.which-pick-button { width: 125px; }
+.which-map-button { width: 60px; }
+.which-pick-button { width: 95px; }
 
 /* Not Yet Picked Video */
 .not-yet-picked-video, .pick-video {
