@@ -108,8 +108,8 @@
 
 /* Wrapper */
 .team-ban-protect-wrapper {
-    display: flex;
     gap: 10px;
+    display: none;
 }
 .team-blue-ban-protect-wrapper { flex-direction: row-reverse; }
 
