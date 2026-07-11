@@ -278,8 +278,6 @@ let mapId, mapChecksum
 const chatDisplayWrapperEl = document.getElementById("chat-display-wrapper")
 let chatLen = 0
 
-let currentState
-
 // Socket
 const socket = createTosuWsSocket()
 socket.onmessage = event => {
@@ -300,7 +298,6 @@ socket.onmessage = event => {
                 else currentBlueScore += score
             }
             checkedWinner = false
-            currentState = 3
 
         } else {
             // Results
@@ -317,14 +314,12 @@ socket.onmessage = event => {
                     updateStarCount(winner, "plus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName)
                 }
             }
-            currentState = 4 
         }
     } else {
         // If in main lobby scene
         currentRedScore = 0
         currentBlueScore = 0
         checkedWinner = false
-        currentState = 1
     }
 
     // Set beatmap information
@@ -482,7 +477,7 @@ let currentAction
 function setBanPickAction() {
     currentAction = banPickManagementSelectActionEl.value
     currentBanContainer = undefined
-    currentPickTeam = undefined
+    // currentPickTeam = undefined
     currentBanTeam = undefined
     sidebarButtonBeatmap = undefined
 
@@ -690,14 +685,16 @@ function setBanContainer(element) {
 }
 
 // Set Pick Container
-// let currentPickContainer, currentPickTeam
-// function setPickContainer(element) {
-//     const currentPickElement = element
-//     currentPickTeam = currentPickElement.dataset.side
-//     if (currentPickTeam === "red") currentPickContainer = pickContainer.querySelectorAll(".red-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
-//     else if (currentPickTeam === "blue") currentPickContainer = blueChoiceContainerEl.querySelectorAll(".blue-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
-//     else if (currentPickTeam === "TB") currentPickContainer = tiebreakerPickContainerEl
-// }
+// let currentPickContainer
+// let currentPickTeam
+function setPickContainer(element) {
+    const currentPickElement = element
+    console.log(currentPickElement)
+    // currentPickTeam = currentPickElement.dataset.side
+    // if (currentPickTeam === "red") currentPickContainer = pickContainer.querySelectorAll(".red-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
+    // else if (currentPickTeam === "blue") currentPickContainer = blueChoiceContainerEl.querySelectorAll(".blue-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
+    // else if (currentPickTeam === "TB") currentPickContainer = tiebreakerPickContainerEl
+}
 
 // Team Add maps
 function makeTeamAddMaps() {
