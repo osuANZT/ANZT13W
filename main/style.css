@@ -111,7 +111,18 @@
 
 .score-left { right: 1008px; }
 .score-right { left: 1008px; }
+
 .score-leading {
     top: 877px;
     font-size: 38px;
+}
+
+/* Crown */
+.crown {
+    position: absolute;
+    top: 836px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    transition: 200ms ease-in-out;
 }
