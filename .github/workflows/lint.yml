@@ -26,7 +26,7 @@ jobs:
                   repository: illonion/lint-configs
                   path: lint-configs
                   token: ${{ secrets.CONFIG_REPO_PAT }}
-                  
+
             - name: Remove lint-configs from git tracking
               run: |
                 git config --global --add safe.directory "$GITHUB_WORKSPACE/lint-configs"
@@ -71,6 +71,10 @@ jobs:
                   echo "  CSS:  ${{ steps.css_fix.outcome }}"
                   echo "  JS:   ${{ steps.js_fix.outcome }}"
                   echo "  HTML: ${{ steps.html_lint.outcome }}"
+
+            - name: Remove lint configs
+              run: |
+                  rm -rf lint-configs
 
             - name: Check for changes
               id: changes
