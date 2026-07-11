@@ -21,16 +21,8 @@ jobs:
                   token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Checkout lint configs
-              uses: actions/checkout@v4
-              with:
-                  repository: illonion/lint-configs
-                  path: lint-configs
-                  token: ${{ secrets.CONFIG_REPO_PAT }}
-
-            - name: Remove lint-configs from git tracking
               run: |
-                git config --global --add safe.directory "$GITHUB_WORKSPACE/lint-configs"
-                rm -rf lint-configs/.git
+                  git clone https://x-access-token:${{ secrets.CONFIG_REPO_PAT }}@github.com/illonion/lint-configs.git ../lint-configs
 
             - name: Set up Node
               uses: actions/setup-node@v4
@@ -46,7 +38,7 @@ jobs:
               continue-on-error: true
               run: |
                   stylelint "**/*.css" \
-                    --config lint-configs/.stylelintrc.json \
+                    --config ../lint-configs/.stylelintrc.json \
                     --fix
 
             - name: Auto-fix JavaScript
@@ -54,7 +46,7 @@ jobs:
               continue-on-error: true
               run: |
                   eslint "**/*.js" \
-                    --config lint-configs/eslint.config.js \
+                    --config ../lint-configs/eslint.config.js \
                     --fix
 
             - name: Lint HTML
@@ -62,7 +54,7 @@ jobs:
               continue-on-error: true
               run: |
                   htmlhint "**/*.html" \
-                    --config lint-configs/.htmlhintrc
+                    --config ../lint-configs/.htmlhintrc
 
             - name: Report lint results
               if: always()
@@ -71,10 +63,6 @@ jobs:
                   echo "  CSS:  ${{ steps.css_fix.outcome }}"
                   echo "  JS:   ${{ steps.js_fix.outcome }}"
                   echo "  HTML: ${{ steps.html_lint.outcome }}"
-
-            - name: Remove lint configs
-              run: |
-                  rm -rf lint-configs
 
             - name: Check for changes
               id: changes
@@ -170,10 +158,10 @@ jobs:
                   echo "Running final lint verification..."
 
                   stylelint "**/*.css" \
-                    --config lint-configs/.stylelintrc.json
+                    --config ../lint-configs/.stylelintrc.json
 
                   eslint "**/*.js" \
-                    --config lint-configs/eslint.config.js
+                    --config ../lint-configs/eslint.config.js
 
                   htmlhint "**/*.html" \
-                    --config lint-configs/.htmlhintrc
+                    --config ../lint-configs/.htmlhintrc
