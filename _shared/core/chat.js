@@ -21,10 +21,9 @@ export function updateChat(
         // Time
         const messageTime = document.createElement("div")
         const date = new Date(chatData[i].timestamp)
-        const timeUTC = date.toISOString().substring(11, 19)
         messageTime.classList.add("chat-message-time")
-        messageTime.textContent = timeUTC
-
+        messageTime.textContent = date.toISOString().substring(11, 19)
+        
         // Wrapper
         const messageWhole = document.createElement("div")
         messageWhole.classList.add("chat-message-whole")

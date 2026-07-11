@@ -385,52 +385,6 @@ socket.onmessage = event => {
         previousWinnerArray = currentWinnerArray
         localStorage.setItem("currentWinnerString", currentWinnerArray.join("|"))
     }
-
-    // Log Data
-    const logData = {
-        tournament: "ANZT13S",
-        team: {
-            left: currentTeamRedName,
-            right: currentTeamBlueName
-        },
-        isStarOn: isStarOn(),
-        ipcState: currentState,
-        checkedWinner: checkedWinner,
-        playerInfo: {},
-        scoreInfo: {
-            team: {
-                left: 0,
-                right: 0
-            },
-            individual: {}
-        },
-        beatmapInfo: {
-            currentBeatmapId: mapId,
-            currentBeatmapDetails: findBeatmap(mapId)
-        }
-    }
-
-    // If not in lobby
-    if (currentState !== 1) {
-        const clients = data.tourney.clients
-        // Populate player info
-        for (let i = 0; i < noOfClients; i++) {
-            logData.playerInfo[`player${i + 1}Id`] = clients[i].user.id
-            logData.playerInfo[`player${i + 1}Name`] = clients[i].user.name
-        }
-
-        // Populate score info
-        let scoresLeft = 0, scoresRight = 0
-        for (let i = 0; i < noOfClients; i++) {
-            const currentScore = clients[i].play.score
-            logData.scoreInfo.individual[`player${i + 1}`] = currentScore
-            if (clients[i].team === "left") scoresLeft += currentScore
-            else scoresRight += currentScore
-        }
-
-        logData.scoreInfo.team.left = scoresLeft
-        logData.scoreInfo.team.right = scoresRight
-    }
 }
 
 // Update Star Count Buttons
