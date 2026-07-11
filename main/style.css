@@ -4,6 +4,7 @@
     --team-pfp-x: 755px;
     --team-background-x: 459px;
     --team-point-container-x: 1172px;
+    --score-difference-x: 1011px;
 }
 
 /* Whole Page */
@@ -83,3 +84,15 @@
     border-radius: 0 5px 5px 0;
     left: 50%;
 }
+
+.score-difference {
+    position: absolute;
+    top: 864px;
+    font-size: 20px;
+    color: white;
+    font-weight: 600;
+    font-family: "Alan Sans", sans-serif;
+    filter: drop-shadow(0.675px 2.923px 1.5px rgba(0 0 0 / 41%));
+}
+.score-difference-left { right: var(--score-difference-x); }
+.score-difference-right { left: var(--score-difference-x); }
