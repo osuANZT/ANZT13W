@@ -29,7 +29,7 @@ let currentPickArray, previousPickArray
 let currentWinnerArray, previousWinnerArray
 
 loadTeams()
-Promise.all([loadBeatmaps(), , loadMatches()]).then(([beatmaps, matches]) => {
+Promise.all([loadBeatmaps(), loadMatches()]).then(([beatmaps, matches]) => {
     // Load beatmaps
     allBeatmaps = beatmaps.beatmaps
     roundNameEl.textContent = `${beatmaps.roundName.toLowerCase()} mappool`
@@ -278,6 +278,8 @@ let mapId, mapChecksum
 const chatDisplayWrapperEl = document.getElementById("chat-display-wrapper")
 let chatLen = 0
 
+let currentState
+
 // Socket
 const socket = createTosuWsSocket()
 socket.onmessage = event => {
@@ -508,7 +510,7 @@ function setBanPickAction() {
 
         if (whichTeamSelect.options.length > 0) {
             whichTeamSelect.selectedIndex = 0
-            whichTeamSelect.dispatchEvent(new Event("change"))
+            whichTeamSelect.dispatchEvent(new window.Event("change"))
         }
 
         if (currentAction === "setProtect") makeTeamAddMaps()
@@ -538,7 +540,7 @@ function setBanPickAction() {
 
         if (whichTeamSelect.options.length > 0) {
             whichTeamSelect.selectedIndex = 0
-            whichTeamSelect.dispatchEvent(new Event("change"))
+            whichTeamSelect.dispatchEvent(new window.Event("change"))
         }
 
         if (currentAction === "setBan") makeTeamAddMaps()
@@ -688,14 +690,14 @@ function setBanContainer(element) {
 }
 
 // Set Pick Container
-let currentPickContainer, currentPickTeam
-function setPickContainer(element) {
-    const currentPickElement = element
-    currentPickTeam = currentPickElement.dataset.side
-    if (currentPickTeam === "red") currentPickContainer = pickContainer.querySelectorAll(".red-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
-    else if (currentPickTeam === "blue") currentPickContainer = blueChoiceContainerEl.querySelectorAll(".blue-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
-    else if (currentPickTeam === "TB") currentPickContainer = tiebreakerPickContainerEl
-}
+// let currentPickContainer, currentPickTeam
+// function setPickContainer(element) {
+//     const currentPickElement = element
+//     currentPickTeam = currentPickElement.dataset.side
+//     if (currentPickTeam === "red") currentPickContainer = pickContainer.querySelectorAll(".red-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
+//     else if (currentPickTeam === "blue") currentPickContainer = blueChoiceContainerEl.querySelectorAll(".blue-pick-container")[Number(currentPickElement.dataset.pickNumber) - 1]
+//     else if (currentPickTeam === "TB") currentPickContainer = tiebreakerPickContainerEl
+// }
 
 // Team Add maps
 function makeTeamAddMaps() {
