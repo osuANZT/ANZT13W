@@ -259,7 +259,7 @@ function setSideMapDetails(element, currentMap, action) {
     element.style.display = "flex"
     element.children[0].children[0].style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
     element.children[0].children[2].innerText = `${action.toUpperCase()}`
-    element.children[1].setAttribute("src", `static/mods/${currentMap.mod.toLowerCase()}${currentMap.order}.png`)
+    element.children[1].setAttribute("src", `../_shared/assets/mods/${currentMap.mod.toLowerCase()}${currentMap.order}.png`)
     element.dataset.id = currentMap.beatmap_id
 }
 
