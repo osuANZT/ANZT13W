@@ -46,7 +46,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
     --dimension: 117px;
+
     width: var(--dimension);
     height: var(--dimension);
     background: center / cover;
@@ -111,7 +113,7 @@
     font-size: 30px;
     font-weight: 400;
     color: rgb(185 183 183);
-    text-shadow: 0px 3px 7px black;
+    text-shadow: 0 3px 7px black;
     position: absolute;
     width: 554px;
     height: 105px;

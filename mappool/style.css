@@ -4,7 +4,6 @@
     --team-ban-container-x: 1282px;
     --team-protect-ban-text-x: 4px;
     --current-map-picker-x: 7px;
-
     --sidebar-column-width: 250px;
     --screen-height: 1080px;
 }
@@ -160,17 +159,17 @@
 }
 
 .team-red-ban-protect-text {
-    background-image: linear-gradient( 90deg, hsl(0, 40%, 69%) 0%, hsl(332, 71%, 46%) 100%);
+    background-image: linear-gradient( 90deg, hsl(0deg 40% 69%) 0%, hsl(332deg 71% 46%) 100%);
     right: var(--team-protect-ban-text-x);
     text-shadow: 2px 3.5px 3.5px #aa3131;
-    box-shadow: 0 0 6px #ff0000;
+    box-shadow: 0 0 6px #f00;
 }
 
 .team-blue-ban-protect-text {
-    background-image: linear-gradient( 90deg, hsl(227, 71%, 46%) 0%, hsl(227, 40%, 69%) 100%);
+    background-image: linear-gradient( 90deg, hsl(227deg 71% 46%) 0%, hsl(227deg 40% 69%) 100%);
     left: var(--team-protect-ban-text-x);
-    text-shadow: 2px 3.5px 3.5px hsl(227, 55%, 43%);
-    box-shadow: 0 0 6px hsl(227, 100%, 50%);
+    text-shadow: 2px 3.5px 3.5px hsl(227deg 55% 43%);
+    box-shadow: 0 0 6px hsl(227deg 100% 50%);
 }
 
 /* Current Map Background Image Mask */
@@ -198,12 +197,12 @@
     justify-content: center;
     align-items: center;
     background: center / cover;
-    background-image: url(https://assets.ppy.sh/beatmaps/2164402/covers/cover.jpg);
+    background-image: url("https://assets.ppy.sh/beatmaps/2164402/covers/cover.jpg");
     border-radius: 18px;
 }
 .current-map-background-image img { height: inherit; }
 
-/* Current Map Category Image*/
+/* Current Map Category Image */
 .current-map-category-image {
     top: 55px;
     height: 60px;
@@ -211,7 +210,7 @@
 
 /* Current Map Artist + Title */
 .current-map-metadata-wrapper {
-    text-shadow: 0px 6px 8px rgb(0 0 0 / 30%);
+    text-shadow: 0 6px 8px rgb(0 0 0 / 30%);
     color: rgb(229 229 229);
     font-size: 27px;
 }
@@ -293,7 +292,6 @@
     position: absolute;
     bottom: 17px;
     right: 12px;
-    display: flex;
     color: white;
     font-family: "Alan Sans", sans-serif;
     font-size: 13px;
@@ -342,17 +340,17 @@
 }
 
 .current-map-red-picker {
-    background-image: linear-gradient( 90deg, hsl(0, 40%, 69%) 0%, hsl(332, 71%, 46%) 100%);
+    background-image: linear-gradient( 90deg, hsl(0deg 40% 69%) 0%, hsl(332deg 71% 46%) 100%);
     left: var(--current-map-picker-x);
     text-shadow: 2px 3.5px 3.5px #aa3131;
-    box-shadow: 0 0 6px #ff0000;
+    box-shadow: 0 0 6px #f00;
 }
 
 .current-map-blue-picker {
-    background-image: linear-gradient( 90deg, hsl(227, 71%, 46%) 0%, hsl(227, 40%, 69%) 100%);
+    background-image: linear-gradient( 90deg, hsl(227deg 71% 46%) 0%, hsl(227deg 40% 69%) 100%);
     right: var(--current-map-picker-x);
-    text-shadow: 2px 3.5px 3.5px hsl(227, 55%, 43%);
-    box-shadow: 0 0 6px hsl(227, 100%, 50%);
+    text-shadow: 2px 3.5px 3.5px hsl(227deg 55% 43%);
+    box-shadow: 0 0 6px hsl(227deg 100% 50%);
 }
 
 /* Chat Box */
@@ -399,7 +397,6 @@
 .pick-tile-bottom-text {
     position: absolute;
     bottom: 0;
-    font-size: 26px;
     color: white;
     font-weight: 700;
     width: 100%;
@@ -431,6 +428,7 @@
 .column-1 { left: 0; }
 .column-2 { left: var(--sidebar-column-width); }
 .column-3 { left: calc(var(--sidebar-column-width) * 2); }
+
 /* Sidebar Divider */
 .divider {
     position: absolute;
