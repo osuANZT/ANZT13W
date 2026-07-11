@@ -1,0 +1,121 @@
+:root {
+    --team-background-x: 250px;
+    --team-point-container-x: 1381px;
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 19px;
+    left: 17px;
+}
+
+/* Round Name */
+.round-name {
+    left: 18px;
+    top: 107px;
+}
+
+/* Team Name */
+.team-name {
+    position: absolute;
+    color: white;
+    font-weight: 700;
+    letter-spacing: -1px;
+    text-indent: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.team-red-name { 
+    right: var(--team-name-x);
+    text-align: right;
+}
+
+.team-blue-name { left: var(--team-name-x); }
+
+/* Team Point Container */
+.team-point-container {
+    position: absolute;
+    top: 177px;
+    display: flex;
+}
+
+.team-red-point-container {
+    right: var(--team-point-container-x);
+    flex-direction: row-reverse;
+}
+
+.team-blue-point-container { left: var(--team-point-container-x); }
+
+.team-star-container {
+    position: relative;
+    width: 47px;
+    height: 49px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 -3px;
+}
+
+/* Chat Box */
+.chat-box {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Chat Display Container */
+.chat-display-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    border-radius: 20px;
+}
+
+.chat-display-wrapper {
+    --margin: 7px;
+
+    position: absolute;
+    inset: var(--margin) var(--margin) var(--margin) var(--margin);
+    width: calc(100% - var(--margin) * 2);
+    max-height: calc(100% - var(--margin) * 2);
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+/* Chat Message */
+.message-wrapper {
+    width: 100%;
+    display: flex;
+    font-family: "Alan Sans", sans-serif;
+    font-weight: 500;
+    text-shadow: -2px 3.5px 7px rgb(0 0 0 / 27%);
+    font-size: 14px;
+    color: white;
+}
+
+.message-time {
+    color: #CEBC50;
+    width: 11%;
+}
+
+.message-name {
+    color: #FEE763;
+    width: 17%;
+}
+
+.message-content {
+    max-width: 72%;
+}
+
+.unknown { color: rgb(255 233 103); }
+.left { color: rgb(255 103 103); }
+.right { color: rgb(103 220 255); }
+.bot { color: rgb(103 255 136); }

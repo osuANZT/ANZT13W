@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mappool</title>
+
+    <link rel="stylesheet" href="../_shared/css/common.css">
+    <link rel="stylesheet" href="../_shared/css/gameplay-mappool.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=SUSE:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
+</head>
+<body>
+    <video autoplay loop muted>
+        <source src="static/background.mp4" type="video/mp4">
+    </video>
+
+    <div class="page-size main">
+        <!-- Current Map Background -->
+        <div class="current-map-background-image-mask absolute-center-x">
+            <img id="current-map-background-image-mask">
+        </div>
+        <!-- Current Map -->
+        <div class="current-map-background-image absolute-center-x" id="current-map-background-image" >
+            <img src="static/map-bg/map-bg-GLASS.png">
+            <div class="current-map-picker current-map-red-picker">RED PICK</div>
+            <div class="current-map-picker current-map-blue-picker">BLUE PICK</div>
+            <div class="current-map-metadata current-map-title">Kokudou Slope</div>
+            <div class="current-map-metadata current-map-artist"><span id="current-map-artist">Kardashev</span> // <span id="current-map-mapper-name">Mapper</span></div>
+            <div class="current-map-final-line">
+                <div class="current-map-difficulty" id="current-map-difficulty">diffclyname</div>
+                <div class="current-map-timer" id="current-map-timer">04:21</div>
+                <div class="current-map-pipe">|</div>
+                <div class="current-map-bpm"><span id="current-map-bpm-number">164</span> BPM</div>
+            </div>
+            <div class="current-map-stats">
+                <div class="current-map-stats-container">
+                    <div class="current-map-stats-text current-map-stats-text-sr">sr</div>
+                    <div class="current-map-stats-number">5.28</div>
+                </div>
+                <div class="current-map-stats-container">
+                    <div class="current-map-stats-text current-map-stats-text-cs">cs</div>
+                    <div class="current-map-stats-number">4.0</div>
+                </div>
+                <div class="current-map-stats-container">
+                    <div class="current-map-stats-text current-map-stats-text-ar">ar</div>
+                    <div class="current-map-stats-number">8.0</div>
+                </div>
+                <div class="current-map-stats-container">
+                    <div class="current-map-stats-text current-map-stats-text-od">od</div>
+                    <div class="current-map-stats-number">8.0</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Title -->
+        <img class="logo" src="static/logo.png">
+        <div class="stream-title round-name" id="round-name">ROUND OF 32</div>
+
+        <!-- Team Red -->
+        <div class="team-background team-red-background"></div>
+        <div class="team-name team-red-name" id="team-red-name">team RRRRRRRRRRRR</div>
+        <div class="team-pfp team-red-pfp">
+            <img class="team-pfp-glass" src="static/avatar-GLASS.png">
+        </div>
+        <div class="team-point-container team-red-point-container" id="red-team-star-container"></div>
+        <div class="team-ban-protect-container team-red-ban-protect-container">
+            <div class="team-ban-container team-red-ban-container" id="team-red-protect-container"></div>
+            <div class="team-ban-container team-red-ban-container" id="team-red-ban-container"></div>
+        </div>
+
+        <!-- Team Blue -->
+        <div class="team-background team-blue-background"></div>
+        <div class="team-name team-blue-name" id="team-blue-name">team B</div>
+        <div class="team-pfp team-blue-pfp">
+            <img class="team-pfp-glass" src="static/avatar-GLASS.png">
+        </div>
+        <div class="team-point-container team-blue-point-container" id="blue-team-star-container"></div>
+        <div class="team-ban-protect-container team-blue-ban-protect-container">
+            <div class="team-ban-container team-blue-ban-container" id="team-blue-protect-container"></div>
+            <div class="team-ban-container team-blue-ban-container" id="team-blue-ban-container"></div>
+        </div>
+
+        <!-- Chat Box -->
+        <img class="chat-box" src="static/chat-GLASS.png">
+        <div class="chat-display-container">
+            <div class="chat-display-wrapper" id="chat-display-wrapper">
+                <div class="message-wrapper">
+                    <div class="message-time">18:34:01</div>
+                    <div class="message-name">playerA:</div>
+                    <div class="message-content">!roil</div>
+                </div>
+                <div class="message-wrapper">
+                    <div class="message-time">18:34:02</div>
+                    <div class="message-name">banchoBot:</div>
+                    <div class="message-content">playerA rolled 44</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mappool Tiles -->
+        <div class="pick-container absolute-center-x" id="pick-container"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="column column-1">
+            <!-- Star Control -->
+            <div class="sidebar-section">
+                <h1>Star Control</h1>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button" id="set-star-red-plus">Red ++</button>
+                    <button class="sidebar-button" id="set-star-red-minus">Red --</button>
+                    <button class="sidebar-button" id="set-star-blue-plus">Blue ++</button>
+                    <button class="sidebar-button" id="set-star-blue-minus">Blue --</button>
+                    <button class="sidebar-button full-size-button toggle-on" id="toggle-stars-button">Stars: <span id="toggle-stars-on-off">ON</span></button>
+                </div>
+            </div>
+            <!-- Next Autopick -->
+            <div class="sidebar-section">
+                <h1>Next Autopick</h1>
+                <div class="sidebar-text font-family-orlando-caps-cg" id="next-autopick-text">RED</div>
+                <br>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button" id="next-autopick-red">Red</button>
+                    <button class="sidebar-button" id="next-autopick-blue">Blue</button>
+                    <button class="sidebar-button full-size-button toggle-off" id="toggle-autopick-button">Autopick: <span id="toggle-autopick-on-off">OFF</span></button>
+                </div>
+            </div>
+            <!-- Choose Maps -->
+            <div class="sidebar-section" id="mappool-management">
+                <h1>Mappool Management</h1>
+                <div class="sidebar-text">
+                    Left Click (LC) = Red Pick<br>
+                    Right Click (RC) = Blue Pick<br>
+                    CTRL + LC = Red Ban<br>
+                    CTRL + RC = Blue Ban<br>
+                    Shift + LC = Red Protect<br>
+                    Shift + RC = Blue Protect<br>
+                </div><br>
+                <div class="sidebar-button-container" id="mappool-management-maps"></div>
+            </div>
+        </div>
+        <div class="divider divider-1"></div>
+        <div class="column column-2">
+            <div class="sidebar-section">
+                <h1>Current<br>Picker</h1>
+                <div class="sidebar-text font-family-orlando-caps-cg" id="current-picker-text">RED</div>
+                <br>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button" id="current-picker-red">Red</button>
+                    <button class="sidebar-button" id="current-picker-blue">Blue</button>
+                    <button class="sidebar-button full-size-button" id="current-picker-none">None</button>
+                </div>
+            </div>
+            <!-- Ban / Pick Management -->
+            <div class="sidebar-section" id="ban-pick-management">
+                <h1>Ban / Pick Management</h1>
+                <h2>Which Action?</h2>
+                <select class="ban-pick-management-select" id="ban-pick-management-select-action" size="8">
+                    <option value="setProtect">Set Protect</option>
+                    <option value="removeProtect">Remove Protect</option>
+                    <option value="setBan">Set Ban</option>
+                    <option value="removeBan">Remove Ban</option>
+                    <option value="setPick">Set Pick</option>
+                    <option value="removePick">Remove Pick</option>
+                    <option value="setWinner">Set Winner</option>
+                    <option value="removeWinner">Remove Winner</option>
+                </select>
+                <div class="sidebar-button-container"></div>
+            </div>
+        </div>
+        <div class="divider divider-2"></div>
+        <div class="column column-3">
+            <div class="sidebar-section">
+                <h1>Match Selection</h1>
+                <select size="8" class="match-select" id="match-select"></select>
+                <button class="sidebar-button full-size-button" id="apply-match">Apply Match</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="index.js"></script>
+</body>
+</html>

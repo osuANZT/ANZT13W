@@ -1,0 +1,557 @@
+:root {
+    --team-name-x: 1395px;
+    --team-pfp-x: 546px;
+    --team-ban-container-x: 1282px;
+    --team-protect-ban-text-x: 4px;
+    --current-map-picker-x: 7px;
+    --sidebar-column-width: 250px;
+    --screen-height: 1080px;
+}
+
+/* Ageta Chubby */
+@font-face {
+    font-family: "Ageta Chubby";
+    src: url("../fonts/Ageta\ Chubby\ Demo.otf")
+}
+
+/* Whole Page */
+.main, video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    font-family: "Alan Sans", sans-serif;
+    z-index: 1;
+}
+
+/* Title Area */
+.logo {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.round-name {
+    font-family: "Alan Sans", sans-serif;
+    font-weight: 700;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 96px;
+    font-size: 20px;
+    background-color: white;
+    line-height: 20px;
+    padding: 0 4px;
+    color: black;
+}
+
+/* Team Background */
+.team-background {
+    top: 150px;
+    height: 26px;
+}
+
+.team-red-background {
+    background-image: linear-gradient( 90deg, rgb(208 146 146) 0%, rgb(200 34 112) 100%);
+    left: var(--team-background-x);
+    box-shadow: 0 0 10px 4px rgb(200 34 112 / 50%);
+}
+
+.team-blue-background {
+    background-image: linear-gradient( 90deg, rgb(1 50 233) 0%, rgb(0 219 222) 100%);
+    right: var(--team-background-x);
+    box-shadow: 0 0 10px 4px rgb(1 50 233 / 50%);
+}
+
+/* Team Name */
+.team-name {
+    top: 150px;
+    font-size: 24px;
+    width: 275px;
+    line-height: 26px;
+}
+
+/* Team */
+.team-pfp {
+    --dimension: 88px;
+
+    position: absolute;
+    top: 150px;
+    width: var(--dimension);
+    height: var(--dimension);
+}
+.team-red-pfp { left: var(--team-pfp-x); }
+.team-blue-pfp { right: var(--team-pfp-x); }
+
+/* Team Ban Protect Container */
+.team-ban-protect-container {
+    position: absolute;
+    top: 254px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.team-red-ban-protect-container { right: var(--team-ban-container-x); }
+.team-blue-ban-protect-container { left: var(--team-ban-container-x); }
+
+/* Team Ban Container */
+.team-ban-container {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Wrapper */
+.team-ban-protect-wrapper {
+    gap: 10px;
+    display: none;
+}
+.team-blue-ban-protect-wrapper { flex-direction: row-reverse; }
+
+/* Image (including background and glass) */
+.team-ban-protect-image {
+    position: relative;
+    width: 232px;
+    height: 60px;
+}
+
+.team-ban-protect-background {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    width: 228px;
+    height: 50px;
+    border-radius: 10px;
+    background: center / cover;
+}
+
+.team-ban-protect-glass {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 239px;
+    height: 63px;
+}
+
+/* Team ban mod */
+.team-ban-protect-mod {
+    --dimension: 60px;
+
+    width: var(--dimension);
+    height: var(--dimension);
+    position: relative;
+    top: -3px;
+}
+
+/* Team Ban Protect Text */
+.team-ban-protect-text {
+    position: absolute;
+    top: 20px;
+    font-size: 11px;
+    color: white;
+    font-weight: 800;
+    font-family: "Alan Sans", sans-serif;
+    padding: 0 7px;
+}
+
+.team-red-ban-protect-text {
+    background-image: linear-gradient( 90deg, hsl(0deg 40% 69%) 0%, hsl(332deg 71% 46%) 100%);
+    right: var(--team-protect-ban-text-x);
+    text-shadow: 2px 3.5px 3.5px #aa3131;
+    box-shadow: 0 0 6px #f00;
+}
+
+.team-blue-ban-protect-text {
+    background-image: linear-gradient( 90deg, hsl(227deg 71% 46%) 0%, hsl(227deg 40% 69%) 100%);
+    left: var(--team-protect-ban-text-x);
+    text-shadow: 2px 3.5px 3.5px hsl(227deg 55% 43%);
+    box-shadow: 0 0 6px hsl(227deg 100% 50%);
+}
+
+/* Current Map Background Image Mask */
+.current-map-background-image-mask {
+    top: 0;
+    width: 1212px;
+    height: 741px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    mask-image: url("static/map-bg/map-bg-blur-mask.png");
+    mask-mode: alpha;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+}
+.current-map-background-image-mask img { height: inherit; }
+
+/* Current Map Background Image */
+.current-map-background-image {
+    top: 148px;
+    width: 614px;
+    height: 287px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: center / cover;
+    background-image: url("https://assets.ppy.sh/beatmaps/2164402/covers/cover.jpg");
+    border-radius: 18px;
+}
+.current-map-background-image img { height: inherit; }
+
+/* Current Map Category Image */
+.current-map-category-image {
+    top: 55px;
+    height: 60px;
+}
+
+/* Current Map Artist + Title */
+.current-map-metadata-wrapper {
+    text-shadow: 0 6px 8px rgb(0 0 0 / 30%);
+    color: rgb(229 229 229);
+    font-size: 27px;
+}
+
+/* Current Metadata */
+.current-map-metadata {
+    position: absolute;
+    left: 7px;
+    font-family: "Alan Sans", sans-serif;
+    text-shadow:
+        0 0 3px rgb(255 255 255 / 32%),
+        0 0 6px rgb(255 255 255 / 20%);
+}
+
+.current-map-artist {
+    bottom: 39px;
+    font-size: 14px;
+    color: #dcdcdc;
+    font-weight: 400;
+}
+
+.current-map-title {
+    bottom: 54px;
+    font-size: 16px;
+    color: white;
+    font-weight: 800;
+}
+
+/* Final Line */
+.current-map-final-line {
+    position: absolute;
+    bottom: 18px;
+    left: 7px;
+    display: flex;
+    align-items: center;
+}
+
+.current-map-difficulty {
+    font-size: 14px;
+    font-weight: 700;
+    background-color: white;
+    height: 16px;
+    padding: 0 2px;
+    margin-right: 12px;
+}
+
+.current-map-timer {
+    color: white;
+    font-family: "Alan Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-shadow:
+        0 0 3px rgb(255 255 255 / 32%),
+        0 0 6px rgb(255 255 255 / 20%);
+    margin-right: 8px;
+}
+
+.current-map-pipe {
+    font-family: "Alan Sans", sans-serif;
+    font-size: 13px;
+    color: #dcdcdc;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.current-map-bpm {
+    color: white;
+    font-family: "Alan Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-shadow:
+        0 0 3px rgb(255 255 255 / 32%),
+        0 0 6px rgb(255 255 255 / 20%);
+}
+.current-map-bpm-number { font-weight: 900 }
+
+/* Current Map Stats */
+.current-map-stats {
+    position: absolute;
+    bottom: 17px;
+    right: 12px;
+    color: white;
+    font-family: "Alan Sans", sans-serif;
+    font-size: 13px;
+    display: flex;
+    gap: 22px;
+    align-items: center;
+}
+
+.current-map-stats-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.current-map-stats-text {
+    font-weight: 700;
+    width: max-content;
+    height: 14px;
+    padding: 0 3px;
+    text-align: center;
+    line-height: 14px;
+}
+.current-map-stats-text-sr { background-color: #d3a03c; }
+.current-map-stats-text-cs { background-color: #c53e9a; }
+.current-map-stats-text-ar { background-color: #228852; }
+.current-map-stats-text-od { background-color: #3c40e9; }
+
+.current-map-stats-number {
+    font-weight: 600;
+    text-shadow:
+        0 0 3px rgb(255 255 255 / 32%),
+        0 0 6px rgb(255 255 255 / 20%);
+}
+
+/* Current Map Picker */
+.current-map-picker {
+    position: absolute;
+    font-family: "Alan Sans", sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: white;
+    top: 7px;
+    height: 21px;
+    padding: 0 2px;
+}
+
+.current-map-red-picker {
+    background-image: linear-gradient( 90deg, hsl(0deg 40% 69%) 0%, hsl(332deg 71% 46%) 100%);
+    left: var(--current-map-picker-x);
+    text-shadow: 2px 3.5px 3.5px #aa3131;
+    box-shadow: 0 0 6px #f00;
+}
+
+.current-map-blue-picker {
+    background-image: linear-gradient( 90deg, hsl(227deg 71% 46%) 0%, hsl(227deg 40% 69%) 100%);
+    right: var(--current-map-picker-x);
+    text-shadow: 2px 3.5px 3.5px hsl(227deg 55% 43%);
+    box-shadow: 0 0 6px hsl(227deg 100% 50%);
+}
+
+/* Chat Box */
+.chat-box { top: 452px; }
+
+/* Chat Display Container */
+.chat-display-container {
+    top: 456px;
+    height: 208px;
+}
+
+/* Pick Container */
+.pick-container { top: 682px; }
+
+/* Pick Tile */
+.pick-tile { display: none; }
+
+/* Pick Tile Border */
+.pick-tile-border {
+    position: absolute;
+    top: -2px;
+    left: -5px;
+    width: 146px;
+    height: 336px;
+}
+
+/* Pick Tile Category */
+.pick-tile-category {
+    top: 10px;
+    width: 60px;
+}
+
+/* Winner Crowns */
+.pick-tile-winner-crown { display: none; }
+
+/* Pick Tile Bottom */
+.pick-tile-bottom-bg {
+    position: absolute;
+    bottom: -10px;
+    left: -5px;
+    width: 147px;
+}
+
+.pick-tile-bottom-text {
+    position: absolute;
+    bottom: 0;
+    color: white;
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    line-height: 54px;
+}
+
+/* Sidebar */
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 1920px;
+    width: 750px;
+    height: var(--screen-height);
+    background-color: var(--sidebar-background-colour);
+    overfloW: hidden;
+    color: white;
+    font-family: "Alan Sans", sans-serif;
+}
+
+/* Sidebar Column */
+.column {
+    position: absolute;
+    top: 0;
+    width: var(--sidebar-column-width);
+}
+
+.column-1 { left: 0; }
+.column-2 { left: var(--sidebar-column-width); }
+.column-3 { left: calc(var(--sidebar-column-width) * 2); }
+
+/* Sidebar Divider */
+.divider {
+    position: absolute;
+    width: 2px;
+    height: var(--screen-height);
+    background-color: white;
+}
+
+.divider-1 { left: 249px; }
+.divider-2 { left: 499px; }
+
+/* Sidebar Section */
+.sidebar-section {
+    padding-bottom: 9px;
+    border-bottom: 2px solid white;
+}
+
+/* Sidebar H1s */
+.sidebar-section h1 {
+    text-align: center;
+    width: 100%;
+    font-size: 1em;
+}
+
+.sidebar-section h2 {
+    text-align: center;
+    width: 100%;
+    font-size: 0.85em;
+}
+
+/* Sidebar Text */
+.sidebar-text {
+    text-align: center;
+    font-family: "Alan Sans", sans-serif;
+    font-size: 0.9em;
+}
+
+/* Sidebar Button Container */
+.sidebar-button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Sidebar Button */
+.sidebar-button {
+    --height: 22.5px;
+
+    width: 82.5px;
+    height: var(--height);
+    margin: 4px;
+    border-radius: calc(var(--height) / 2);
+    border: 2px solid white;
+    background-color: transparent;
+    font-size: 0.75em;
+    font-family: inherit;
+    color: inherit;
+}
+
+.sidebar-button:active {
+    background-color: white;
+    color: var(--sidebar-background-colour);
+}
+
+/* Full Size Button */
+.full-size-button { width: 172.5px; }
+.full-size-button:active { color: var(--sidebar-background-colour); }
+
+/* Apply Changes Button */
+.apply-changes-button, #apply-match {
+    margin-top: 11.25px;
+    margin-left: 38.75px;
+    height: 33.75px;
+}
+
+/* Toggle Button */
+.toggle-on { background-color: green; }
+.toggle-off { background-color: maroon; }
+
+/* Ban Pick Management Select */
+.ban-pick-management-select, .match-select {
+    width: var(--sidebar-column-width);
+    text-align: center;
+    color: var(--dark-gray);
+    background-color: transparent;
+    border: none;
+    font-family: "Alan Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.95em;
+}
+
+.ban-pick-management-select::-webkit-scrollbar,
+.match-select::-webkit-scrollbar { display: none; }
+
+/* Which Map */
+.which-map-select {
+    width: var(--sidebar-column-width);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 7.5px;
+}
+
+.which-side-button {
+    --height: 19px;
+
+    height: var(--height);
+    line-height: var(--height);
+    font-size: 0.95em;
+    font-family: "Alan Sans", sans-serif;
+    color: var(--secondary-colour);
+    background-color: transparent;
+    border: none;
+}
+
+.which-map-button { width: 60px; }
+.which-pick-button { width: 95px; }
+
+/* Not Yet Picked Video */
+.not-yet-picked-video, .pick-video {
+    position: absolute;
+    width: 2560px;
+    opacity: 0;
+    transition: 500ms ease-in-out;
+}
+.pick-video { top: -70px; }

@@ -6,7 +6,7 @@
     --tb-color: #ffe270;
     --mod-id-current-round-x: 222px;
     --now-playing-section-y: 32px;
-    --now-playing-section-x: 98px;
+    --now-playing-section-x: 132px;
     --now-playing-left-align-x: 12px;
     --strain-graph-width: 275px;
     --right-section-width: 395px;
@@ -83,7 +83,6 @@
     top: var(--now-playing-section-x);
     width: var(--right-section-width);
     height: 810px;
-    background-color: rgb(0 0 0 / 50%);
     overflow: hidden;
 }
 
@@ -168,6 +167,7 @@
     line-height: var(--height);
 }
 .now-playing-box-sr { background-color: #d3a03c; }
+.now-playing-box-cs { background-color: #c53e9a; }
 .now-playing-box-ar { background-color: #228852; }
 .now-playing-box-od { background-color: #3c40e9; }
 
@@ -221,7 +221,7 @@
     left: var(--now-playing-left-align-x);
     bottom: var(--now-playing-left-align-x);
     width: calc(100% - var(--now-playing-left-align-x) * 2);
-    height: 490px;
+    height: 450px;
     color: white;
     font-weight: 500;
     font-size: 17px;
