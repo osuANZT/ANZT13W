@@ -64,7 +64,13 @@ jobs:
                       echo "changed=false" >> "$GITHUB_OUTPUT"
                   fi
 
-            - name: Check if fix branch exists
+            - name: Prepare fix branch name
+              id: branch_name
+              if: steps.changes.outputs.changed == 'true'
+              run: |
+                  echo "name=lint-fixes/${{ github.head_ref }}" >> "$GITHUB_OUTPUT"
+
+            - name: Check if fix branch exists remotely
               id: branch_check
               if: steps.changes.outputs.changed == 'true'
               env:
@@ -76,7 +82,7 @@ jobs:
                       echo "exists=false" >> "$GITHUB_OUTPUT"
                   fi
 
-            - name: Create or update fix branch
+            - name: Create or reset fix branch locally
               if: steps.changes.outputs.changed == 'true'
               run: |
                   branch_name="lint-fixes/${{ github.head_ref }}"
@@ -85,7 +91,9 @@ jobs:
                   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
                   if [ "${{ steps.branch_check.outputs.exists }}" = "true" ]; then
+                      git fetch origin "$branch_name":"$branch_name"
                       git checkout "$branch_name"
+                      git reset --hard HEAD
                   else
                       git checkout -b "$branch_name"
                   fi
@@ -99,24 +107,39 @@ jobs:
                   branch_name="lint-fixes/${{ github.head_ref }}"
                   git push --force-with-lease origin "$branch_name"
 
-            - name: Create Pull Request for lint fixes
+            - name: Check existing PR state
               if: steps.changes.outputs.changed == 'true'
+              id: pr_check
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  BRANCH_NAME: lint-fixes/${{ github.head_ref }}
+              run: |
+                  pr_state=$(gh pr list \
+                    --head "$BRANCH_NAME" \
+                    --base "${{ github.head_ref }}" \
+                    --json state \
+                    --jq '.[0].state // empty')
+
+                  if [ -z "$pr_state" ]; then
+                      echo "state=none" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "state=$pr_state" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Create new PR if none or closed
+              if: steps.changes.outputs.changed == 'true' && steps.pr_check.outputs.state != 'OPEN'
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                   branch_name="lint-fixes/${{ github.head_ref }}"
 
-                  if gh pr view "$branch_name" --json number >/dev/null 2>&1; then
-                      echo "PR already exists for $branch_name"
-                  else
-                      gh pr create \
-                        --base "${{ github.head_ref }}" \
-                        --head "$branch_name" \
-                        --title "Automated lint fixes for ${{ github.head_ref }}" \
-                        --body "This PR was automatically created by GitHub Actions after running lint autofixes on the current PR branch.
+                  gh pr create \
+                    --base "${{ github.head_ref }}" \
+                    --head "$branch_name" \
+                    --title "Automated lint fixes for ${{ github.head_ref }}" \
+                    --body "This PR was automatically created by GitHub Actions after running lint autofixes on the current PR branch.
 
-                      Lint results:
-                      - CSS: ${{ steps.css_fix.outcome }}
-                      - JS: ${{ steps.js_fix.outcome }}
-                      - HTML: ${{ steps.html_lint.outcome }}"
-                                        fi
+                  Lint results:
+                  - CSS: ${{ steps.css_fix.outcome }}
+                  - JS: ${{ steps.js_fix.outcome }}
+                  - HTML: ${{ steps.html_lint.outcome }}"
