@@ -85,14 +85,33 @@
     left: 50%;
 }
 
-.score-difference {
-    position: absolute;
-    top: 864px;
-    font-size: 20px;
+/* Score CSS */
+.score-text {
     color: white;
     font-weight: 600;
     font-family: "Alan Sans", sans-serif;
     filter: drop-shadow(0.675px 2.923px 1.5px rgba(0 0 0 / 41%));
 }
+
+/* Score Difference */
+.score-difference {
+    position: absolute;
+    top: 864px;
+    font-size: 20px;
+}
 .score-difference-left { right: var(--score-difference-x); }
 .score-difference-right { left: var(--score-difference-x); }
+
+/* Playing Score */
+.score {
+    position: absolute;
+    top: 885px;
+    font-size: 29px;
+}
+
+.score-left { right: 1008px; }
+.score-right { left: 1008px; }
+.score-leading {
+    top: 877px;
+    font-size: 38px;
+}
