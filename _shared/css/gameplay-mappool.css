@@ -79,10 +79,7 @@
     --margin: 7px;
 
     position: absolute;
-    top: var(--margin);
-    left: var(--margin);
-    right: var(--margin);
-    bottom: var(--margin);
+    inset: var(--margin) var(--margin) var(--margin) var(--margin);
     width: calc(100% - var(--margin) * 2);
     max-height: calc(100% - var(--margin) * 2);
     overflow-y: auto;
