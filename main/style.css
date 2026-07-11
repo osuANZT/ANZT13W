@@ -64,3 +64,22 @@
     text-align: center;
     line-height: 20px;
 }
+
+/* Score Bar */
+.score-bar {
+    position: absolute;
+    top: 859px;
+    background-color: white;
+    width: 200px;
+    height: 10px;
+}
+
+.score-bar-left {
+    border-radius: 5px 0 0 5px;
+    right: 50%;
+}
+
+.score-bar-right {
+    border-radius: 0 5px 5px 0;
+    left: 50%;
+}
