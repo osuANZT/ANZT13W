@@ -1,9 +1,6 @@
 name: Lint and Fix
 
 on:
-    workflow_dispatch:
-    push:
-        branches: [main]
     pull_request:
         branches: [main]
 
@@ -16,9 +13,10 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout repository
+            - name: Checkout PR branch
               uses: actions/checkout@v4
               with:
+                  ref: ${{ github.head_ref }}
                   token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Set up Node
@@ -47,6 +45,7 @@ jobs:
                   commit-message: "stylelint: auto-fix CSS issues"
                   title: "Stylelint CSS fixes"
                   body: |
-                      This PR was automatically created by GitHub Actions after running Stylelint autofixes.
-                  branch: stylelint-fixes
+                      This PR was automatically created by GitHub Actions after running Stylelint autofixes on the current PR branch.
+                  branch: lint-fixes/${{ github.head_ref }}
+                  base: ${{ github.head_ref }}
                   delete-branch: true
