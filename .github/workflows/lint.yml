@@ -55,27 +55,6 @@ jobs:
                   echo "  JS:   ${{ steps.js_fix.outcome }}"
                   echo "  HTML: ${{ steps.html_lint.outcome }}"
 
-                  failed=0
-
-                  if [ "${{ steps.css_fix.outcome }}" = "failure" ]; then
-                      echo "CSS lint/fix failed"
-                      failed=1
-                  fi
-
-                  if [ "${{ steps.js_fix.outcome }}" = "failure" ]; then
-                      echo "JavaScript lint/fix failed"
-                      failed=1
-                  fi
-
-                  if [ "${{ steps.html_lint.outcome }}" = "failure" ]; then
-                      echo "HTML lint failed"
-                      failed=1
-                  fi
-
-                  if [ "$failed" -ne 0 ]; then
-                      echo "One or more lint checks failed."
-                  fi
-
             - name: Check for changes
               id: changes
               run: |
@@ -85,19 +64,34 @@ jobs:
                       echo "changed=false" >> "$GITHUB_OUTPUT"
                   fi
 
-            - name: Create fix branch
+            - name: Check if fix branch exists
+              id: branch_check
+              if: steps.changes.outputs.changed == 'true'
+              env:
+                  BRANCH_NAME: lint-fixes/${{ github.head_ref }}
+              run: |
+                  if git ls-remote --exit-code --heads origin "$BRANCH_NAME" >/dev/null 2>&1; then
+                      echo "exists=true" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "exists=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Create or update fix branch
               if: steps.changes.outputs.changed == 'true'
               run: |
                   branch_name="lint-fixes/${{ github.head_ref }}"
-                  git checkout -b "$branch_name"
 
-            - name: Commit changes
-              if: steps.changes.outputs.changed == 'true'
-              run: |
                   git config user.name "github-actions[bot]"
                   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  if [ "${{ steps.branch_check.outputs.exists }}" = "true" ]; then
+                      git checkout "$branch_name"
+                  else
+                      git checkout -b "$branch_name"
+                  fi
+
                   git add -A
-                  git commit -m "lint: auto-fix style issues"
+                  git commit -m "lint: auto-fix style issues" || echo "No new commit to create"
 
             - name: Push fix branch
               if: steps.changes.outputs.changed == 'true'
@@ -111,13 +105,18 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                   branch_name="lint-fixes/${{ github.head_ref }}"
-                  gh pr create \
-                    --base "${{ github.base_ref }}" \
-                    --head "$branch_name" \
-                    --title "Automated lint fixes for ${{ github.head_ref }}" \
-                    --body "This PR was automatically created by GitHub Actions after running lint autofixes on the current PR branch.
 
-                    Lint results:
-                    - CSS: ${{ steps.css_fix.outcome }}
-                    - JS: ${{ steps.js_fix.outcome }}
-                    - HTML: ${{ steps.html_lint.outcome }}"
+                  if gh pr view "$branch_name" --json number >/dev/null 2>&1; then
+                      echo "PR already exists for $branch_name"
+                  else
+                      gh pr create \
+                        --base "${{ github.head_ref }}" \
+                        --head "$branch_name" \
+                        --title "Automated lint fixes for ${{ github.head_ref }}" \
+                        --body "This PR was automatically created by GitHub Actions after running lint autofixes on the current PR branch.
+
+                      Lint results:
+                      - CSS: ${{ steps.css_fix.outcome }}
+                      - JS: ${{ steps.js_fix.outcome }}
+                      - HTML: ${{ steps.html_lint.outcome }}"
+                                        fi
