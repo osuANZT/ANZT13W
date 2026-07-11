@@ -77,18 +77,16 @@
 
 .chat-display-wrapper {
     --margin: 7px;
+
     position: absolute;
     top: var(--margin);
     left: var(--margin);
     right: var(--margin);
     bottom: var(--margin);
-
     width: calc(100% - var(--margin) * 2);
     max-height: calc(100% - var(--margin) * 2);
-
     overflow-y: auto;
     scroll-behavior: smooth;
-
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -101,7 +99,7 @@
     display: flex;
     font-family: "Alan Sans", sans-serif;
     font-weight: 500;
-    text-shadow: -2px 3.5px 7px rgba(0, 0, 0, 0.27);
+    text-shadow: -2px 3.5px 7px rgb(0 0 0 / 27%);
     font-size: 14px;
     color: white;
 }
@@ -120,7 +118,7 @@
     max-width: 72%;
 }
 
-.unknown { color: rgb(255, 233, 103); }
-.left { color: rgb(255, 103, 103); }
-.right { color: rgb(103, 220, 255); }
-.bot { color: rgb(103, 255, 136); }
+.unknown { color: rgb(255 233 103); }
+.left { color: rgb(255 103 103); }
+.right { color: rgb(103 220 255); }
+.bot { color: rgb(103 255 136); }

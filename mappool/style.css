@@ -35,7 +35,7 @@
 }
 
 .round-name {
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     font-weight: 700;
     text-align: center;
     position: absolute;
@@ -56,15 +56,15 @@
 }
 
 .team-red-background {
-    background-image: linear-gradient( 90deg, rgb(208,146,146) 0%, rgb(200,34,112) 100%);
+    background-image: linear-gradient( 90deg, rgb(208 146 146) 0%, rgb(200 34 112) 100%);
     left: var(--team-background-x);
-    box-shadow: 0 0 10px 4px rgba(200, 34, 112, 0.5);
+    box-shadow: 0 0 10px 4px rgb(200 34 112 / 50%);
 }
 
 .team-blue-background {
-    background-image: linear-gradient( 90deg, rgb(1,50,233) 0%, rgb(0,219,222) 100%);
+    background-image: linear-gradient( 90deg, rgb(1 50 233) 0%, rgb(0 219 222) 100%);
     right: var(--team-background-x);
-    box-shadow: 0 0 10px 4px rgba(1, 50, 233, 0.5);
+    box-shadow: 0 0 10px 4px rgb(1 50 233 / 50%);
 }
 
 /* Team Name */
@@ -155,7 +155,7 @@
     font-size: 11px;
     color: white;
     font-weight: 800;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     padding: 0 7px;
 }
 
@@ -211,8 +211,8 @@
 
 /* Current Map Artist + Title */
 .current-map-metadata-wrapper {
-    text-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
-    color: rgb(229, 229, 229);
+    text-shadow: 0px 6px 8px rgb(0 0 0 / 30%);
+    color: rgb(229 229 229);
     font-size: 27px;
 }
 
@@ -220,7 +220,7 @@
 .current-map-metadata {
     position: absolute;
     left: 7px;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     text-shadow:
         0 0 3px rgb(255 255 255 / 32%),
         0 0 6px rgb(255 255 255 / 20%);
@@ -260,7 +260,7 @@
 
 .current-map-timer {
     color: white;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     font-size: 13px;
     font-weight: 600;
     text-shadow:
@@ -270,7 +270,7 @@
 }
 
 .current-map-pipe {
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     font-size: 13px;
     color: #dcdcdc;
     font-weight: 600;
@@ -279,7 +279,7 @@
 
 .current-map-bpm {
     color: white;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     font-size: 13px;
     font-weight: 600;
     text-shadow:
@@ -295,7 +295,7 @@
     right: 12px;
     display: flex;
     color: white;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     font-size: 13px;
     display: flex;
     gap: 22px;
@@ -332,7 +332,7 @@
 /* Current Map Picker */
 .current-map-picker {
     position: absolute;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     font-weight: 700;
     font-size: 17px;
     color: white;
@@ -464,7 +464,7 @@
 /* Sidebar Text */
 .sidebar-text {
     text-align: center;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     font-size: 0.9em;
 }
 
@@ -474,6 +474,7 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+
 /* Sidebar Button */
 .sidebar-button {
     --height: 22.5px;
@@ -504,18 +505,19 @@
     margin-left: 38.75px;
     height: 33.75px;
 }
+
 /* Toggle Button */
 .toggle-on { background-color: green; }
 .toggle-off { background-color: maroon; }
 
-/* Ban Pick Management Select*/
+/* Ban Pick Management Select */
 .ban-pick-management-select, .match-select {
     width: var(--sidebar-column-width);
     text-align: center;
     color: var(--dark-gray);
     background-color: transparent;
     border: none;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     font-weight: 700;
     font-size: 0.95em;
 }
@@ -538,7 +540,7 @@
     height: var(--height);
     line-height: var(--height);
     font-size: 0.95em;
-    font-family: "Alan Sans";
+    font-family: "Alan Sans", sans-serif;
     color: var(--secondary-colour);
     background-color: transparent;
     border: none;

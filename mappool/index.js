@@ -28,7 +28,8 @@ let allBeatmaps = []
 let currentPickArray, previousPickArray
 let currentWinnerArray, previousWinnerArray
 
-Promise.all([loadBeatmaps(), loadTeams(), loadMatches()]).then(([beatmaps, teams, matches]) => {
+loadTeams()
+Promise.all([loadBeatmaps(), , loadMatches()]).then(([beatmaps, matches]) => {
     // Load beatmaps
     allBeatmaps = beatmaps.beatmaps
     roundNameEl.textContent = `${beatmaps.roundName.toLowerCase()} mappool`
@@ -170,7 +171,6 @@ const currentMapTitleEl = document.getElementById("current-map-title")
 const currentMapMappedByEl= document.getElementById("current-map-mapped-by")
 const currentMapMapperNameEl = document.getElementById("current-map-mapper-name")
 const currentMapDifficultyEl = document.getElementById("current-map-difficulty")
-const currentMapPickerEl = document.getElementById("current-map-picker")
 
 // Map Click Event
 function mapClickEvent(event) {
@@ -247,9 +247,6 @@ function mapClickEvent(event) {
             currentMapTitleEl.textContent = currentMap.title
             currentMapDifficultyEl.textCotnent = currentMap.version
             currentMapMapperNameEl.textContent = currentMap.creator
-            // currentMapPickerEl.setAttribute("src", `static/picks/${currentMap.mod === "TB" ? "tb" : team}-pick.png`)
-            // currentMapPickerEl.style.top = "535px"
-            // currentMapPickerEl.style.height = "65px"
 
             // Set display
             currentMapArtistTitleEl.style.display = "block"
@@ -273,7 +270,6 @@ let currentTeamRedName, currentTeamBlueName, currentTeamRed, currentTeamBlue
 
 // Winner Checking Variables
 let noOfClients, currentRedScore, currentBlueScore, checkedWinner = false
-let currentState
 
 // Mappool Variables
 let mapId, mapChecksum

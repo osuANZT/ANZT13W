@@ -1,5 +1,10 @@
 module.exports = [
     {
+        env: {
+            browser: true,
+        }
+    },
+    {
         ignores: [
             "eslint.config.js",
             "_shared/deps/**"
