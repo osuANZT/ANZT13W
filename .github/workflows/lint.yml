@@ -20,6 +20,13 @@ jobs:
                   fetch-depth: 0
                   token: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: Checkout lint configs
+              uses: actions/checkout@v4
+              with:
+                  repository: illonion/lint-configs
+                  path: lint-configs
+                  token: ${{ secrets.CONFIG_REPO_PAT }}
+
             - name: Set up Node
               uses: actions/setup-node@v4
               with:
@@ -33,19 +40,24 @@ jobs:
               id: css_fix
               continue-on-error: true
               run: |
-                  stylelint "**/*.css" --fix
+                  stylelint "**/*.css" \
+                    --config lint-configs/.stylelintrc.json \
+                    --fix
 
             - name: Auto-fix JavaScript
               id: js_fix
               continue-on-error: true
               run: |
-                  eslint "**/*.js" --ignore-pattern eslint.config.js --fix
+                  eslint "**/*.js" \
+                    --config lint-configs/eslint.config.js \
+                    --fix
 
             - name: Lint HTML
               id: html_lint
               continue-on-error: true
               run: |
-                  htmlhint "**/*.html"
+                  htmlhint "**/*.html" \
+                    --config lint-configs/.htmlhintrc
 
             - name: Report lint results
               if: always()
