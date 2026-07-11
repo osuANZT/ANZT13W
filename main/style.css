@@ -1,3 +1,11 @@
+:root {
+    --team-general-y: 55px;
+    --team-name-x: 1186px;
+    --team-pfp-x: 755px;
+    --team-background-x: 459px;
+    --team-point-container-x: 1172px;
+}
+
 /* Whole Page */
 .main, video {
     position: absolute;
@@ -33,3 +41,9 @@
     height: 20px;
     line-height: 20px;
 }
+
+/* Team PFP */
+.team-pfp { top: var(--team-general-y); }
+.team-background { top: var(--team-general-y); }
+.team-name { top: var(--team-general-y); }
+.team-point-container { top: calc(var(--team-general-y) + 27px);}
