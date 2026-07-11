@@ -155,3 +155,16 @@ jobs:
                   - CSS: ${{ steps.css_fix.outcome }}
                   - JS: ${{ steps.js_fix.outcome }}
                   - HTML: ${{ steps.html_lint.outcome }}"
+
+            - name: Final lint check
+              run: |
+                  echo "Running final lint verification..."
+
+                  stylelint "**/*.css" \
+                    --config lint-configs/.stylelintrc.json
+
+                  eslint "**/*.js" \
+                    --config lint-configs/eslint.config.js
+
+                  htmlhint "**/*.html" \
+                    --config lint-configs/.htmlhintrc
