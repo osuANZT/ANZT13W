@@ -5,6 +5,7 @@
     --team-background-x: 459px;
     --team-point-container-x: 1172px;
     --score-difference-x: 1011px;
+    --history-panel-x-y: 20px;
 }
 
 /* Whole Page */
@@ -73,6 +74,7 @@
     background-color: white;
     width: 200px;
     height: 10px;
+    z-index: 1;
 }
 
 .score-bar-left {
@@ -98,6 +100,7 @@
     position: absolute;
     top: 864px;
     font-size: 20px;
+    z-index: 1;
 }
 .score-difference-left { right: var(--score-difference-x); }
 .score-difference-right { left: var(--score-difference-x); }
@@ -107,6 +110,7 @@
     position: absolute;
     top: 885px;
     font-size: 29px;
+    z-index: 1;
 }
 
 .score-left { right: 1008px; }
@@ -227,4 +231,39 @@
     bottom: 2px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+/* History Panel */
+.history-panel {
+    position: absolute;
+    bottom: var(--history-panel-x-y);
+    width: 628px;
+    height: 176px;
+    border-radius: 20px;
+    background-color: rgb(40 40 40 / 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.history-panel-left { left: var(--history-panel-x-y); }
+.history-panel-right { right: var(--history-panel-x-y); }
+
+/* Card */
+.history-panel-card {
+    position: relative;
+    width: 75px;
+    height: 153px;
+    border-radius: 15px;
+    background: center / cover;
+    background-image: url("https://assets.ppy.sh/beatmaps/2418008/covers/cover.jpg");
+}
+
+/* Mod ID */
+.history-panel-mod-id {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
 }
