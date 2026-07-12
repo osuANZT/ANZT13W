@@ -267,3 +267,11 @@
     transform: translateX(-50%);
     width: 50px;
 }
+
+/* History Pick */
+.history-panel-win {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
