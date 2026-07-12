@@ -1,8 +1,6 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { updateChat } from "../_shared/core/chat.js"
-import { loadMatches, findMatch } from "../_shared/core/matches.js"
 import { toggleStars, setDefaultStarCount, updateStarCount, isStarOn } from "../_shared/core/stars.js"
-import { loadTeams, findTeam } from "../_shared/core/teams.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 // Star Containers
@@ -28,8 +26,7 @@ let allBeatmaps = []
 let currentPickArray, previousPickArray
 let currentWinnerArray, previousWinnerArray
 
-loadTeams()
-Promise.all([loadBeatmaps(), loadMatches()]).then(([beatmaps, matches]) => {
+Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
     // Load beatmaps
     allBeatmaps = beatmaps.beatmaps
     roundNameEl.textContent = `${beatmaps.roundName.toLowerCase()} mappool`
@@ -99,15 +96,6 @@ Promise.all([loadBeatmaps(), loadMatches()]).then(([beatmaps, matches]) => {
         button.textContent = `${allBeatmaps[i].mod}${allBeatmaps[i].order}`
         mappoolManagementMapsEl.append(button)
     }
-
-    // Load matches into match selection
-    for (let i = 0; i < matches.length; i++) {
-        const option = document.createElement("option")
-        option.setAttribute("value", matches[i].id)
-        option.textContent = `${matches[i].id}. ${shortenString(matches[i].team_a)} vs ${shortenString(matches[i].team_b)}`
-        matchSelectEl.append(option)
-    }
-    matchSelectEl.setAttribute("size", matchSelectEl.childElementCount)
 })
 
 function createBanProtectElement(team) {
@@ -283,6 +271,18 @@ const socket = createTosuWsSocket()
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
 
+    // Player info
+    if (player1Id !== clients[0].user.id) {
+        player1Id = clients[0].user.id
+        teamRedPfpEl.style.backgroundImage = `url("https://a.ppy.sh/${player1Id}")`
+        teamRedNameEl.innerText = clients[0].user.name
+    }
+    if (player2Id !== clients[1].user.id) {
+        player2Id = clients[1].user.id
+        teamBluePfpEl.style.backgroundImage = `url("https://a.ppy.sh/${player2Id}")`
+        teamBlueNameEl.innerText = clients[1].user.name
+    }
+
     if (noOfClients !== data.tourney.clients.length) {
         noOfClients = data.tourney.clients.length
     }
@@ -394,9 +394,6 @@ const toggleAutopickButtonEl = document.getElementById("toggle-autopick-button")
 const toggleAutopickOnOffEl = document.getElementById("toggle-autopick-on-off")
 let isAutopickOn = false, currentPicker = "red"
 
-// Apply Match button
-const applyMatchButtonEl = document.getElementById("apply-match")
-
 // Toggle stars button
 const toggleStarButtonEl = document.getElementById("toggle-stars-button")
 const toggleStarsOnOffEl = document.getElementById("toggle-stars-on-off")
@@ -428,9 +425,6 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPickerNoneEl.addEventListener("click", () => updateCurrentPicker("none"))
     currentPickerNoneEl.click()
 
-    // Apply match button
-    applyMatchButtonEl.addEventListener("click", () => applyMatch())
-
     // Ban Pick Management
     banPickManagementSelectActionEl.addEventListener("click", setBanPickAction)
 })
@@ -451,24 +445,6 @@ function setAutopicker(picker) {
     nextAutopickNextEl.textContent = `${currentPicker.substring(0, 1).toUpperCase()}${currentPicker.substring(1)}`
 }
 
-// Apply Match
-async function applyMatch() {
-    const match = await findMatch(matchSelectEl.value)
-    if (!match) return
-
-    // Team A
-    currentTeamRedName = match.team_a
-    currentTeamRed = await findTeam(currentTeamRedName)
-    teamRedNameEl.textContent = currentTeamRedName
-
-    // Team B
-    currentTeamBlueName = match.team_b
-    currentTeamBlue = await findTeam(currentTeamBlueName)
-    teamBlueNameEl.textContent = currentTeamBlueName
-
-    document.cookie = `currentTeamRedName=${currentTeamRedName}; path=/`
-    document.cookie = `currentTeamBlueName=${currentTeamBlueName}; path=/`
-}
 
 // Set Ban Pick Action
 const banPickManagementEl = document.getElementById("ban-pick-management")
