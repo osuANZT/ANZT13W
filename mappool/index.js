@@ -1,11 +1,7 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { updateChat } from "../_shared/core/chat.js"
-import { toggleStars, setDefaultStarCount, updateStarCount, isStarOn } from "../_shared/core/stars.js"
+import { displayStars } from "../_shared/core/stars.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
-
-// Star Containers
-const redTeamStarContainerEl = document.getElementById("red-team-star-container")
-const blueTeamStarContainerEl = document.getElementById("blue-team-star-container")
 
 // Pick Container
 const pickContainerEl = document.getElementById("pick-container")
@@ -49,9 +45,6 @@ Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
         teamRedBanContainerEl.append(createBanProtectElement("red"))
         teamBlueBanContainerEl.append(createBanProtectElement("blue"))
     }
-
-    // Set default star count
-    setDefaultStarCount(bestOf, redTeamStarContainerEl, blueTeamStarContainerEl)
 
     // Create pick tiles
     for (let i = 0; i < bestOf; i++) {
@@ -252,6 +245,16 @@ function setSideMapDetails(element, currentMap, action) {
 const teamRedNameEl = document.getElementById("team-red-name")
 const teamBlueNameEl = document.getElementById("team-blue-name")
 let currentTeamRedName, currentTeamBlueName, currentTeamRed, currentTeamBlue
+let player1Id, player2Id
+
+// Team PFPs
+const teamRedPfpEl = document.getElementById("team-red-pfp")
+const teamBluePfpEl = document.getElementById("team-blue-pfp")
+
+// Star Containers
+const redTeamStarContainerEl = document.getElementById("red-team-star-container")
+const blueTeamStarContainerEl = document.getElementById("blue-team-star-container")
+let currentRedTeamStars, currentBlueTeamStars, currentOsuBestOf
 
 // Winner Checking Variables
 let noOfClients, currentRedScore, currentBlueScore, checkedWinner = false
@@ -267,6 +270,10 @@ let chatLen = 0
 const socket = createTosuWsSocket()
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
+    console.log(data)
+
+    const clients = data.tourney.clients
+    const teamPoints = data.tourney.points
 
     // Player info
     if (player1Id !== clients[0].user.id) {
@@ -279,6 +286,18 @@ socket.onmessage = event => {
         teamBluePfpEl.style.backgroundImage = `url("https://a.ppy.sh/${player2Id}")`
         teamBlueNameEl.innerText = clients[1].user.name
     }
+
+    // Star info
+    if (currentOsuBestOf !== data.tourney.bestOF ||
+        currentRedTeamStars !== teamPoints.left ||
+        currentBlueTeamStars !== teamPoints.right
+    ) {
+        currentOsuBestOf = data.tourney.bestOF
+        currentRedTeamStars = teamPoints.left
+        currentBlueTeamStars = teamPoints.right
+        displayStars(currentOsuBestOf, redTeamStarContainerEl, blueTeamStarContainerEl, currentRedTeamStars, currentBlueTeamStars)
+    }
+
 
     if (noOfClients !== data.tourney.clients.length) {
         noOfClients = data.tourney.clients.length
@@ -298,7 +317,7 @@ socket.onmessage = event => {
 
         } else {
             // Results
-            if (!checkedWinner && currentPickTile && isStarOn()) {
+            if (!checkedWinner && currentPickTile) {
                 
                 checkedWinner = true
 
@@ -307,8 +326,6 @@ socket.onmessage = event => {
                     // Set pick
                     currentPickTile.children[2].setAttribute("src", `../_shared/assets/winner-crowns/winner-${winner}-map.png`)
                     currentPickTile.children[2].style.display = "block"
-                    // Add stars
-                    updateStarCount(winner, "plus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName)
                 }
             }
         }
@@ -392,17 +409,7 @@ const toggleAutopickOnOffEl = document.getElementById("toggle-autopick-on-off")
 let isAutopickOn = false, currentPicker = "red"
 
 // Toggle stars button
-const toggleStarButtonEl = document.getElementById("toggle-stars-button")
-const toggleStarsOnOffEl = document.getElementById("toggle-stars-on-off")
 document.addEventListener("DOMContentLoaded", () => {
-    toggleStarButtonEl.addEventListener("click", () => toggleStars(toggleStarsOnOffEl, toggleStarButtonEl, redTeamStarContainerEl, blueTeamStarContainerEl))
-    document.cookie = `toggleStarContainers=${true}; path=/`
-
-    // Update star count buttons
-    setStarRedPlusEl.addEventListener("click", () => updateStarCount("red", "plus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName))
-    setStarRedMinusEl.addEventListener("click", () => updateStarCount("red", "minus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName))
-    setStarBluePlusEl.addEventListener("click", () => updateStarCount("blue", "plus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName))
-    setStarBlueMinusEl.addEventListener("click", () => updateStarCount("blue", "minus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName))
 
     // Toggle Autopick button
     toggleAutopickButtonEl.addEventListener("click", function() {

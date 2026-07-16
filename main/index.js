@@ -1,4 +1,5 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
+import { displayStars } from "../_shared/core/stars.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 const roundNameEl = document.getElementById("round-name")
@@ -19,6 +20,11 @@ const animation = {
     accuracyDifference: new CountUp(accuracyDifferenceEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", suffix: "%"})
 }
 
+// Star Containers
+const redTeamStarContainerEl = document.getElementById("red-team-star-container")
+const blueTeamStarContainerEl = document.getElementById("blue-team-star-container")
+let currentRedTeamStars, currentBlueTeamStars, currentOsuBestOf
+
 const socket = createTosuWsSocket()
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
@@ -26,6 +32,7 @@ socket.onmessage = event => {
 
     // Save data
     const clients = data.tourney.clients
+    const teamPoints = data.tourney.points
     
     if (player1Id !== clients[0].user.id) {
         player1Id = clients[0].user.id
@@ -40,4 +47,15 @@ socket.onmessage = event => {
 
     // Accuracy
     animation.accuracyDifference.update(Math.abs(clients[0].play.accuracy - clients[1].play.accuracy))
+
+    // Star info
+    if (currentOsuBestOf !== data.tourney.bestOF ||
+        currentRedTeamStars !== teamPoints.left ||
+        currentBlueTeamStars !== teamPoints.right
+    ) {
+        currentOsuBestOf = data.tourney.bestOF
+        currentRedTeamStars = teamPoints.left
+        currentBlueTeamStars = teamPoints.right
+        displayStars(currentOsuBestOf, redTeamStarContainerEl, blueTeamStarContainerEl, currentRedTeamStars, currentBlueTeamStars)
+    }
 }
