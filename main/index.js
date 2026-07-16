@@ -1,11 +1,9 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
-let allTeams
 const roundNameEl = document.getElementById("round-name")
-Promise.all([loadBeatmaps(), loadTeams()]).then(([beatmaps, teams]) => {
+Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
     roundNameEl.textContent = beatmaps.roundName.toUpperCase()
-    allTeams = teams
 })
 
 // Team Info
@@ -15,9 +13,17 @@ const teamRedNameEl = document.getElementById("team-red-name")
 const teamBlueNameEl = document.getElementById("team-blue-name")
 let player1Id, player2Id
 
+// Accuracy Difference
+const accuracyDifferenceEl = document.getElementById("accuracy-difference")
+const animation = {
+    accuracyDifference: new CountUp(accuracyDifferenceEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", suffix: "%"})
+}
+
 const socket = createTosuWsSocket()
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
+    // console.log(data)
+
     // Save data
     const clients = data.tourney.clients
     
@@ -31,4 +37,7 @@ socket.onmessage = event => {
         teamBluePfpEl.style.backgroundImage = `url("https://a.ppy.sh/${player2Id}")`
         teamBlueNameEl.innerText = clients[1].user.name
     }
+
+    // Accuracy
+    animation.accuracyDifference.update(Math.abs(clients[0].play.accuracy - clients[1].play.accuracy))
 }

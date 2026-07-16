@@ -13,9 +13,6 @@ const pickContainerEl = document.getElementById("pick-container")
 // Mappool Management Maps
 const mappoolManagementMapsEl = document.getElementById("mappool-management-maps")
 
-// Match Select
-const matchSelectEl = document.getElementById("match-select")
-
 // Load mappool
 let bestOf = 0
 let banCount = 2

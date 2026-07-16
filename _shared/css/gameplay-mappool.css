@@ -48,6 +48,7 @@
     top: 150px;
     width: 86px;
     height: 69px;
+    background: center / cover;
 }
 .team-red-pfp { left: var(--team-pfp-x); }
 .team-blue-pfp { right: var(--team-pfp-x); }
