@@ -254,7 +254,7 @@ const teamBluePfpEl = document.getElementById("team-blue-pfp")
 // Star Containers
 const redTeamStarContainerEl = document.getElementById("red-team-star-container")
 const blueTeamStarContainerEl = document.getElementById("blue-team-star-container")
-let currentRedTeamStars, currentBlueTeamStars, currentOsuBestOf
+let currentRedTeamStars, currentBlueTeamStars, currentOsuBestOf, starsVisible
 
 // Winner Checking Variables
 let noOfClients, currentRedScore, currentBlueScore, checkedWinner = false
@@ -285,6 +285,18 @@ socket.onmessage = event => {
         player2Id = clients[1].user.id
         teamBluePfpEl.style.backgroundImage = `url("https://a.ppy.sh/${player2Id}")`
         teamBlueNameEl.innerText = clients[1].user.name
+    }
+
+    // Star visibility
+    if (starsVisible !== data.tourney.starsVisible) {
+        starsVisible = data.tourney.starsVisible
+        if (starsVisible) {
+            redTeamStarContainerEl.style.opacity = 1
+            blueTeamStarContainerEl.style.opacity = 1
+        } else {
+            redTeamStarContainerEl.style.opacity = 0
+            blueTeamStarContainerEl.style.opacity = 0
+        }
     }
 
     // Star info

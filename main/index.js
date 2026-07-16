@@ -23,7 +23,18 @@ const animation = {
 // Star Containers
 const redTeamStarContainerEl = document.getElementById("red-team-star-container")
 const blueTeamStarContainerEl = document.getElementById("blue-team-star-container")
-let currentRedTeamStars, currentBlueTeamStars, currentOsuBestOf
+let currentRedTeamStars, currentBlueTeamStars, currentOsuBestOf, starsVisible
+
+// Score Bar
+const scoreBarLeftEl = document.getElementById("score-bar-left")
+const scoreBarRightEl = document.getElementById("score-bar-right")
+const scoreDifferenceLeftEl = document.getElementById("score-difference-left")
+const scoreDifferenceRightEl = document.getElementById("score-difference-right")
+const scoreLeftEl = document.getElementById("score-left")
+const scoreRightEl = document.getElementById("score-right")
+const crownLeftEl = document.getElementById("crown-left")
+const crownRightEl = document.getElementById("crown-right")
+let scoreVisible
 
 const socket = createTosuWsSocket()
 socket.onmessage = event => {
@@ -48,6 +59,19 @@ socket.onmessage = event => {
     // Accuracy
     animation.accuracyDifference.update(Math.abs(clients[0].play.accuracy - clients[1].play.accuracy))
 
+    // Star visibility
+    console.log(data)
+    if (starsVisible !== data.tourney.starsVisible) {
+        starsVisible = data.tourney.starsVisible
+        if (starsVisible) {
+            redTeamStarContainerEl.style.opacity = 1
+            blueTeamStarContainerEl.style.opacity = 1
+        } else {
+            redTeamStarContainerEl.style.opacity = 0
+            blueTeamStarContainerEl.style.opacity = 0
+        }
+    }
+
     // Star info
     if (currentOsuBestOf !== data.tourney.bestOF ||
         currentRedTeamStars !== teamPoints.left ||
@@ -57,5 +81,29 @@ socket.onmessage = event => {
         currentRedTeamStars = teamPoints.left
         currentBlueTeamStars = teamPoints.right
         displayStars(currentOsuBestOf, redTeamStarContainerEl, blueTeamStarContainerEl, currentRedTeamStars, currentBlueTeamStars)
+    }
+
+    // Score visibility
+    if (scoreVisible !== data.tourney.scoreVisible) {
+        scoreVisible = data.tourney.scoreVisible
+        if (scoreVisible) {
+            scoreBarLeftEl.style.opacity = 1
+            scoreBarRightEl.style.opacity = 1
+            scoreDifferenceLeftEl.style.opacity = 1
+            scoreDifferenceRightEl.style.opacity = 1
+            scoreLeftEl.style.opacity = 1
+            scoreRightEl.style.opacity = 1
+            crownLeftEl.style.opacity = 1
+            crownRightEl.style.opacity = 1
+        } else {
+            scoreBarLeftEl.style.opacity = 0
+            scoreBarRightEl.style.opacity = 0
+            scoreDifferenceLeftEl.style.opacity = 0
+            scoreDifferenceRightEl.style.opacity = 0
+            scoreLeftEl.style.opacity = 0
+            scoreRightEl.style.opacity = 0
+            crownLeftEl.style.opacity = 0
+            crownRightEl.style.opacity = 0
+        }
     }
 }

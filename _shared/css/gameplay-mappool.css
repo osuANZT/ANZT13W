@@ -3,6 +3,12 @@
     --team-point-container-x: 1381px;
 }
 
+/* Opacity Transition */
+.opacity-transition-500 {
+    opacity: 1;
+    transition: 500ms ease-in-out;
+}
+
 /* Logo */
 .logo {
     position: absolute;
