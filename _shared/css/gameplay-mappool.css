@@ -6,7 +6,12 @@
 /* Opacity Transition */
 .opacity-transition-500 {
     opacity: 1;
-    transition: 500ms ease-in-out;
+    transition: opacity 500ms ease-in-out;
+}
+
+.opacity-transition-500 {
+    opacity: 1;
+    transition: opacity 200ms ease-in-out;
 }
 
 /* Logo */

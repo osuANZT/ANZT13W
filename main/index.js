@@ -16,9 +16,6 @@ let player1Id, player2Id
 
 // Accuracy Difference
 const accuracyDifferenceEl = document.getElementById("accuracy-difference")
-const animation = {
-    accuracyDifference: new CountUp(accuracyDifferenceEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", suffix: "%"})
-}
 
 // Star Containers
 const redTeamStarContainerEl = document.getElementById("red-team-star-container")
@@ -35,6 +32,15 @@ const scoreRightEl = document.getElementById("score-right")
 const crownLeftEl = document.getElementById("crown-left")
 const crownRightEl = document.getElementById("crown-right")
 let scoreVisible
+let currentScoreLeft, currentScoreRight
+
+const animation = {
+    accuracyDifference: new CountUp(accuracyDifferenceEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", suffix: "%"}),
+    scoreLeft: new CountUp(scoreLeftEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", suffix: ""}),
+    scoreRight: new CountUp(scoreRightEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", suffix: ""}),
+    scoreDifferenceLeft: new CountUp(scoreDifferenceLeftEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", prefix: "-"}),
+    scoreDifferenceRight: new CountUp(scoreDifferenceRightEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", prefix: "-"}), 
+}
 
 const socket = createTosuWsSocket()
 socket.onmessage = event => {
@@ -44,6 +50,7 @@ socket.onmessage = event => {
     // Save data
     const clients = data.tourney.clients
     const teamPoints = data.tourney.points
+    const totalScores = data.tourney.totalScore
     
     if (player1Id !== clients[0].user.id) {
         player1Id = clients[0].user.id
@@ -104,6 +111,66 @@ socket.onmessage = event => {
             scoreRightEl.style.opacity = 0
             crownLeftEl.style.opacity = 0
             crownRightEl.style.opacity = 0
+        }
+    }
+
+    // Scores
+    if (scoreVisible) {
+        // Update scores
+        currentScoreLeft = totalScores.left
+        currentScoreRight = totalScores.right
+        animation.scoreLeft.update(currentScoreLeft)
+        animation.scoreRight.update(currentScoreRight)
+
+        // Update deltas
+        // When transitioning these, use display instead of opacity for when scores flip
+        const scoreDelta = Math.abs(currentScoreLeft - currentScoreRight)
+        animation.scoreDifferenceLeft.update(scoreDelta)
+        animation.scoreDifferenceRight.update(scoreDelta)
+
+        // Score bar width
+        const multiplier = 1
+        const scoreBarMaxWidth = 960
+		const scoreBarMaxDifference = 300000
+        let scoreBarDifferencePercent = Math.min(scoreDifference / (scoreBarMaxDifference * multiplier), 1)
+        let scoreBarRectangleWidth = Math.min(Math.pow(scoreBarDifferencePercent, 1.4) * scoreBarMaxWidth, scoreBarMaxWidth)
+
+        if (currentScoreLeft > currentScoreRight) {
+            scoreBarLeftEl.style.width = `${scoreBarRectangleWidth}px`
+            scoreBarRightEl.style.width = "0px"
+
+            scoreDifferenceLeftEl.style.display = "none"
+            scoreDifferenceRightEl.style.display = "block"
+
+            scoreLeftEl.classList.add("score-leading")
+            scoreRightEl.classList.remove("score-leading")
+
+            crownLeftEl.style.display = "block"
+            crownRightEl.style.display = "none"
+        } else if (currentScoreLeft === currentScoreRight) {
+            scoreBarLeftEl.style.width = `0px`
+            scoreBarRightEl.style.width = "0px"
+
+            scoreDifferenceLeftEl.style.display = "none"
+            scoreDifferenceRightEl.style.display = "none"
+
+            scoreLeftEl.classList.remove("score-leading")
+            scoreRightEl.classList.remove("score-leading")
+
+            crownLeftEl.style.display = "none"
+            crownRightEl.style.display = "none"
+        } else {
+            scoreBarLeftEl.style.width = "0px"
+            scoreBarRightEl.style.width = `${scoreBarRectangleWidth}px`
+
+            scoreDifferenceLeftEl.style.display = "block"
+            scoreDifferenceRightEl.style.display = "none"
+
+            scoreLeftEl.classList.remove("score-leading")
+            scoreRightEl.classList.add("score-leading")
+
+            crownLeftEl.style.display = "none"
+            crownRightEl.style.display = "block"
         }
     }
 }

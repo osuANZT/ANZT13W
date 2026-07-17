@@ -75,6 +75,8 @@
     width: 200px;
     height: 10px;
     z-index: 1;
+    opacity: 1;
+    transition: opacity 500ms ease-in-out, width 200ms ease-in-out;
 }
 
 .score-bar-left {
