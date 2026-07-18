@@ -297,3 +297,16 @@
     left: 50%;
     transform: translate(-50%, 50%);
 }
+
+/* Chat Box */
+.chat-box {
+    top: 888px;
+    height: 176px;
+    width: 624px;
+}
+
+/* Chat Display Container */
+.chat-display-container {
+    top: 892px;
+    height: 161px;
+}
