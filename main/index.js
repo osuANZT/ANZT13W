@@ -1,9 +1,12 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { displayStars } from "../_shared/core/stars.js"
+import { delay } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 const roundNameEl = document.getElementById("round-name")
+let allBeatmaps
 Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
+    allBeatmaps = beatmaps.beatmaps
     roundNameEl.textContent = beatmaps.roundName.toUpperCase()
 })
 
@@ -42,8 +45,21 @@ const animation = {
     scoreDifferenceRight: new CountUp(scoreDifferenceRightEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", prefix: "-"}), 
 }
 
+const nowPlayingBackgroundEl = document.getElementById("now-playing-background")
+const nowPlayingModIdEl = document.getElementById("now-playing-mod-id")
+const nowPlayingDetailsEl = document.getElementById("now-playing-details")
+const nowPlayingStatsCsEl = document.getElementById("now-playing-stats-cs")
+const nowPlayingStatsArEl = document.getElementById("now-playing-stats-ar")
+const nowPlayingStatsOdEl = document.getElementById("now-playing-stats-od")
+const nowPlayingStatsSrEl = document.getElementById("now-playing-stats-sr")
+const nowPlayingArtistEl = document.getElementById("now-playing-artist")
+const nowPlayingTitleEl = document.getElementById("now-playing-title")
+const nowPlayingDiffivultyEl = document.getElementById("now-playing-diffivulty")
+const nowPlayingMapperNameEl = document.getElementById("now-playing-mapper-name")
+let nowPlayingId, nowPlayingChecksum, updateStats = false
+
 const socket = createTosuWsSocket()
-socket.onmessage = event => {
+socket.onmessage = async event => {
     const data = JSON.parse(event.data)
     // console.log(data)
 
@@ -51,6 +67,7 @@ socket.onmessage = event => {
     const clients = data.tourney.clients
     const teamPoints = data.tourney.points
     const totalScores = data.tourney.totalScore
+    const beatmapInfo = data.beatmap
     
     if (player1Id !== clients[0].user.id) {
         player1Id = clients[0].user.id
@@ -132,7 +149,7 @@ socket.onmessage = event => {
         const multiplier = 1
         const scoreBarMaxWidth = 960
 		const scoreBarMaxDifference = 300000
-        let scoreBarDifferencePercent = Math.min(scoreDifference / (scoreBarMaxDifference * multiplier), 1)
+        let scoreBarDifferencePercent = Math.min(scoreDelta / (scoreBarMaxDifference * multiplier), 1)
         let scoreBarRectangleWidth = Math.min(Math.pow(scoreBarDifferencePercent, 1.4) * scoreBarMaxWidth, scoreBarMaxWidth)
 
         if (currentScoreLeft > currentScoreRight) {
@@ -172,5 +189,72 @@ socket.onmessage = event => {
             crownLeftEl.style.display = "none"
             crownRightEl.style.display = "block"
         }
+    }
+
+    // Now Playing Information
+    if ((nowPlayingId !== beatmapInfo.id || nowPlayingChecksum !== beatmapInfo.checksum) && allBeatmaps) {
+        nowPlayingId = beatmapInfo.id
+        nowPlayingChecksum = beatmapInfo.checksum
+
+        nowPlayingBackgroundEl.style.backgroundImage = `url("${window.location.origin}/Songs/${data.folders.beatmap}/${data.files.background}")`
+        nowPlayingArtistEl.textContent = `${beatmapInfo.artist}`
+        nowPlayingTitleEl.textContent = `${beatmapInfo.title}`
+        nowPlayingDiffivultyEl.textContent = `[${beatmapInfo.version}]`
+        nowPlayingMapperNameEl.textContent = `${beatmapInfo.mapper}`
+
+        const currentMap = findBeatmap(nowPlayingId)
+        if (currentMap) {
+            nowPlayingModIdEl.style.display = "block"
+            nowPlayingDetailsEl.style.top = "40px"
+            nowPlayingDetailsEl.style.transform = "translateX(-50%)"
+
+            // Set Stats Variable
+            let currentSr = Math.round(Number(currentMap.difficultyrating) * 100) / 100
+            let currentCs = Math.round(Number(currentMap.diff_size) * 10) / 10
+            let currentAr = Math.round(Number(currentMap.diff_approach) * 10) / 10
+            let currentOd = Math.round(Number(currentMap.diff_overall) * 10) / 10
+            // let currentBpm = Number(currentMappoolBeatmap.bpm)
+            // let currentLength = Number(currentMappoolBeatmap.hit_length)
+
+            switch (currentMappoolBeatmap.mod) {
+                case "HR":
+                    currentCs = Math.min(Math.round(Number(currentMappoolBeatmap.diff_size) * 1.3 * 10) / 10, 10)
+                    currentAr = Math.min(Math.round(Number(currentMappoolBeatmap.diff_approach) * 1.4 * 10) / 10, 10)
+                    currentOd = Math.min(Math.round(Number(currentMappoolBeatmap.diff_overall) * 1.4 * 10) / 10, 10)
+                    break
+                case "DT":
+                    if (currentAr > 5) currentAr = Math.round((((1200 - (( 1200 - (currentAr - 5) * 150) * 2 / 3)) / 150) + 5) * 10) / 10
+                    else currentAr = Math.round((1800 - ((1800 - currentAr * 120) * 2 / 3)) / 120 * 10) / 10
+                    currentOd = Math.round((79.5 - (( 79.5 - 6 * currentOd) * 2 / 3)) / 6 * 10) / 10
+                    // currentBpm = Math.round(currentBpm * 1.5)
+                    // currentLength = Math.round(currentLength / 1.5)
+                    break
+                case "EZ":
+                    currentCs /= 2
+                    currentAr /= 2
+                    currentOd /= 2
+            }
+
+            nowPlayingStatsCsEl.textContent = `${currentCs}`
+            nowPlayingStatsArEl.textContent = `${currentAr}`
+            nowPlayingStatsOdEl.textContent = `${currentOd}`
+            nowPlayingStatsSrEl.textContent = `${currentSr}`
+            updateStats = false
+        } else {
+            nowPlayingModIdEl.style.display = "none"
+            nowPlayingDetailsEl.style.top = "50%"
+            nowPlayingDetailsEl.style.transform = "translate(-50%, -50%)"
+
+            await delay(250)
+            updateStats = true
+        }
+    }
+
+    if (updateStats) {
+        const beatmapStats = data.beatmap.stats
+        nowPlayingStatsCsEl.textContent = beatmapStats.cs.converted
+        nowPlayingStatsArEl.textContent = beatmapStats.ar.converted
+        nowPlayingStatsOdEl.textContent = beatmapStats.od.converted
+        nowPlayingStatsSrEl.textContent = beatmapStats.stars.total
     }
 }
