@@ -20,6 +20,10 @@ jobs:
                   fetch-depth: 0
                   token: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: Checkout lint configs
+              run: |
+                  git clone https://x-access-token:${{ secrets.CONFIG_REPO_PAT }}@github.com/illonion/lint-configs.git ../lint-configs
+
             - name: Set up Node
               uses: actions/setup-node@v4
               with:
@@ -33,19 +37,24 @@ jobs:
               id: css_fix
               continue-on-error: true
               run: |
-                  stylelint "**/*.css" --fix
+                  stylelint "**/*.css" \
+                    --config ../lint-configs/.stylelintrc.json \
+                    --fix
 
             - name: Auto-fix JavaScript
               id: js_fix
               continue-on-error: true
               run: |
-                  eslint "**/*.js" --ignore-pattern eslint.config.js --fix
+                  eslint "**/*.js" \
+                    --config ../lint-configs/eslint.config.js \
+                    --fix
 
             - name: Lint HTML
               id: html_lint
               continue-on-error: true
               run: |
-                  htmlhint "**/*.html"
+                  htmlhint "**/*.html" \
+                    --config ../lint-configs/.htmlhintrc
 
             - name: Report lint results
               if: always()
@@ -143,3 +152,16 @@ jobs:
                   - CSS: ${{ steps.css_fix.outcome }}
                   - JS: ${{ steps.js_fix.outcome }}
                   - HTML: ${{ steps.html_lint.outcome }}"
+
+            - name: Final lint check
+              run: |
+                  echo "Running final lint verification..."
+
+                  stylelint "**/*.css" \
+                    --config ../lint-configs/.stylelintrc.json
+
+                  eslint "**/*.js" \
+                    --config ../lint-configs/eslint.config.js
+
+                  htmlhint "**/*.html" \
+                    --config ../lint-configs/.htmlhintrc

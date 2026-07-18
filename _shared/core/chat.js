@@ -1,12 +1,9 @@
 // Update all chat information
 export function updateChat(
-    tourneyData,
+    chatData,
     chatLength,
-    chatDisplayContainerEl,
-    currentTeamRed,
-    currentTeamBlue
+    chatDisplayContainerEl
 ) {
-    const chatData = tourneyData.chat
     if (chatLength === 0 || chatLength > chatData.length) {
         chatDisplayContainerEl.innerHTML = ""
         chatLength = 0
@@ -16,39 +13,26 @@ export function updateChat(
     for (let i = chatLength; i < chatData.length; i++) {
         // Message container
         const messageWrapper = document.createElement("div")
-        messageWrapper.classList.add("chat-message-wrapper")
+        messageWrapper.classList.add("message-wrapper")
 
         // Time
         const messageTime = document.createElement("div")
-        const date = new Date(chatData[i].timestamp)
-        messageTime.classList.add("chat-message-time")
-        messageTime.textContent = date.toISOString().substring(11, 19)
-        
-        // Wrapper
-        const messageWhole = document.createElement("div")
-        messageWhole.classList.add("chat-message-whole")
+        messageTime.classList.add("message-time")
+        messageTime.textContent = chatData[i].timestamp
 
         // Name
-        const messageName = document.createElement("span")
-        const chatName = chatData[i].name
-        messageName.textContent = `${chatName}: `
+        const messageName = document.createElement("div")
+        messageName.classList.add("message-name", chatData[i].team)
+        messageName.textContent = `${chatData[i].name}:`
         // Set class of chat
-        let chatClass
-        console.log(currentTeamRed, currentTeamBlue)
-        if (!currentTeamRed || !currentTeamBlue) chatClass = "unknown"
-        else if (currentTeamRed["player1-name"] === chatName || currentTeamRed["player2-name"] === chatName) chatClass = "left"
-        else if (currentTeamBlue["player1-name"] === chatName || currentTeamBlue["player2-name"] === chatName) chatClass = "right"
-        else if (chatData[i].message.includes("[FakeBanchoBot]")) messageName.classList.add("bot")
-        else chatClass = "unknown"
-        messageName.classList.add(chatClass)
 
         // Message
-        const messageContent = document.createElement("span")
+        const messageContent = document.createElement("div")
+        messageContent.classList.add("message-content")
         messageContent.textContent = chatData[i].message
 
         // Append everything
-        messageWhole.append(messageName, messageContent)
-        messageWrapper.append(messageTime, messageWhole)
+        messageWrapper.append(messageTime, messageName, messageContent)
         fragment.append(messageWrapper)
     }
 
