@@ -68,8 +68,8 @@
         <!-- Team Red -->
         <div class="team-background team-red-background"></div>
         <div class="team-name team-red-name" id="team-red-name">team RRRRRRRRRRRR</div>
-        <div class="team-pfp team-red-pfp">
-            <img class="team-pfp-glass" src="static/avatar-GLASS.png">
+        <div class="team-pfp team-red-pfp" id="team-red-pfp">
+            <img class="team-pfp-glass" src="../_shared/assets/avatar-glass.png">
         </div>
         <div class="team-point-container team-red-point-container" id="red-team-star-container"></div>
         <div class="team-ban-protect-container team-red-ban-protect-container">
@@ -80,8 +80,8 @@
         <!-- Team Blue -->
         <div class="team-background team-blue-background"></div>
         <div class="team-name team-blue-name" id="team-blue-name">team B</div>
-        <div class="team-pfp team-blue-pfp">
-            <img class="team-pfp-glass" src="static/avatar-GLASS.png">
+        <div class="team-pfp team-blue-pfp" id="team-blue-pfp">
+            <img class="team-pfp-glass" src="../_shared/assets/avatar-glass.png">
         </div>
         <div class="team-point-container team-blue-point-container" id="blue-team-star-container"></div>
         <div class="team-ban-protect-container team-blue-ban-protect-container">
@@ -90,7 +90,7 @@
         </div>
 
         <!-- Chat Box -->
-        <img class="chat-box" src="static/chat-GLASS.png">
+        <img class="chat-box" src="../_shared/assets/chat-GLASS.png">
         <div class="chat-display-container">
             <div class="chat-display-wrapper" id="chat-display-wrapper">
                 <div class="message-wrapper">
@@ -113,17 +113,6 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="column column-1">
-            <!-- Star Control -->
-            <div class="sidebar-section">
-                <h1>Star Control</h1>
-                <div class="sidebar-button-container">
-                    <button class="sidebar-button" id="set-star-red-plus">Red ++</button>
-                    <button class="sidebar-button" id="set-star-red-minus">Red --</button>
-                    <button class="sidebar-button" id="set-star-blue-plus">Blue ++</button>
-                    <button class="sidebar-button" id="set-star-blue-minus">Blue --</button>
-                    <button class="sidebar-button full-size-button toggle-on" id="toggle-stars-button">Stars: <span id="toggle-stars-on-off">ON</span></button>
-                </div>
-            </div>
             <!-- Next Autopick -->
             <div class="sidebar-section">
                 <h1>Next Autopick</h1>
@@ -148,9 +137,6 @@
                 </div><br>
                 <div class="sidebar-button-container" id="mappool-management-maps"></div>
             </div>
-        </div>
-        <div class="divider divider-1"></div>
-        <div class="column column-2">
             <div class="sidebar-section">
                 <h1>Current<br>Picker</h1>
                 <div class="sidebar-text font-family-orlando-caps-cg" id="current-picker-text">RED</div>
@@ -161,6 +147,9 @@
                     <button class="sidebar-button full-size-button" id="current-picker-none">None</button>
                 </div>
             </div>
+        </div>
+        <div class="divider divider-1"></div>
+        <div class="column column-2">
             <!-- Ban / Pick Management -->
             <div class="sidebar-section" id="ban-pick-management">
                 <h1>Ban / Pick Management</h1>
@@ -176,14 +165,6 @@
                     <option value="removeWinner">Remove Winner</option>
                 </select>
                 <div class="sidebar-button-container"></div>
-            </div>
-        </div>
-        <div class="divider divider-2"></div>
-        <div class="column column-3">
-            <div class="sidebar-section">
-                <h1>Match Selection</h1>
-                <select size="8" class="match-select" id="match-select"></select>
-                <button class="sidebar-button full-size-button" id="apply-match">Apply Match</button>
             </div>
         </div>
     </div>

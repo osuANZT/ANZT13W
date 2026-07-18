@@ -1,22 +1,13 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { updateChat } from "../_shared/core/chat.js"
-import { loadMatches, findMatch } from "../_shared/core/matches.js"
-import { toggleStars, setDefaultStarCount, updateStarCount, isStarOn } from "../_shared/core/stars.js"
-import { loadTeams, findTeam } from "../_shared/core/teams.js"
+import { displayStars } from "../_shared/core/stars.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
-
-// Star Containers
-const redTeamStarContainerEl = document.getElementById("red-team-star-container")
-const blueTeamStarContainerEl = document.getElementById("blue-team-star-container")
 
 // Pick Container
 const pickContainerEl = document.getElementById("pick-container")
 
 // Mappool Management Maps
 const mappoolManagementMapsEl = document.getElementById("mappool-management-maps")
-
-// Match Select
-const matchSelectEl = document.getElementById("match-select")
 
 // Load mappool
 let bestOf = 0
@@ -28,8 +19,7 @@ let allBeatmaps = []
 let currentPickArray, previousPickArray
 let currentWinnerArray, previousWinnerArray
 
-loadTeams()
-Promise.all([loadBeatmaps(), loadMatches()]).then(([beatmaps, matches]) => {
+Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
     // Load beatmaps
     allBeatmaps = beatmaps.beatmaps
     roundNameEl.textContent = `${beatmaps.roundName.toLowerCase()} mappool`
@@ -56,9 +46,6 @@ Promise.all([loadBeatmaps(), loadMatches()]).then(([beatmaps, matches]) => {
         teamBlueBanContainerEl.append(createBanProtectElement("blue"))
     }
 
-    // Set default star count
-    setDefaultStarCount(bestOf, redTeamStarContainerEl, blueTeamStarContainerEl)
-
     // Create pick tiles
     for (let i = 0; i < bestOf; i++) {
         const pickTile = document.createElement("div")
@@ -76,6 +63,7 @@ Promise.all([loadBeatmaps(), loadMatches()]).then(([beatmaps, matches]) => {
         // Pick Tile Winner Crown
         const pickTileWinnerCrown = document.createElement("img")
         pickTileWinnerCrown.classList.add("pick-tile-winner-crown", "absolute-center-x")
+        pickTileWinnerCrown.setAttribute("src", "")
 
         // Pick Tile Bottom BG
         const pickTileBottomBg = document.createElement("img")
@@ -99,15 +87,6 @@ Promise.all([loadBeatmaps(), loadMatches()]).then(([beatmaps, matches]) => {
         button.textContent = `${allBeatmaps[i].mod}${allBeatmaps[i].order}`
         mappoolManagementMapsEl.append(button)
     }
-
-    // Load matches into match selection
-    for (let i = 0; i < matches.length; i++) {
-        const option = document.createElement("option")
-        option.setAttribute("value", matches[i].id)
-        option.textContent = `${matches[i].id}. ${shortenString(matches[i].team_a)} vs ${shortenString(matches[i].team_b)}`
-        matchSelectEl.append(option)
-    }
-    matchSelectEl.setAttribute("size", matchSelectEl.childElementCount)
 })
 
 function createBanProtectElement(team) {
@@ -259,7 +238,7 @@ function setSideMapDetails(element, currentMap, action) {
     element.style.display = "flex"
     element.children[0].children[0].style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
     element.children[0].children[2].innerText = `${action.toUpperCase()}`
-    element.children[1].setAttribute("src", `static/mods/${currentMap.mod.toLowerCase()}${currentMap.order}.png`)
+    element.children[1].setAttribute("src", `../_shared/assets/mods/${currentMap.mod.toLowerCase()}${currentMap.order}.png`)
     element.dataset.id = currentMap.beatmap_id
 }
 
@@ -267,6 +246,16 @@ function setSideMapDetails(element, currentMap, action) {
 const teamRedNameEl = document.getElementById("team-red-name")
 const teamBlueNameEl = document.getElementById("team-blue-name")
 let currentTeamRedName, currentTeamBlueName, currentTeamRed, currentTeamBlue
+let player1Id, player2Id
+
+// Team PFPs
+const teamRedPfpEl = document.getElementById("team-red-pfp")
+const teamBluePfpEl = document.getElementById("team-blue-pfp")
+
+// Star Containers
+const redTeamStarContainerEl = document.getElementById("red-team-star-container")
+const blueTeamStarContainerEl = document.getElementById("blue-team-star-container")
+let currentRedTeamStars, currentBlueTeamStars, currentOsuBestOf, starsVisible
 
 // Winner Checking Variables
 let noOfClients, currentRedScore, currentBlueScore, checkedWinner = false
@@ -282,6 +271,47 @@ let chatLen = 0
 const socket = createTosuWsSocket()
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
+    console.log(data)
+
+    const clients = data.tourney.clients
+    const teamPoints = data.tourney.points
+    const chatData = data.tourney.chat
+
+    // Player info
+    if (player1Id !== clients[0].user.id) {
+        player1Id = clients[0].user.id
+        teamRedPfpEl.style.backgroundImage = `url("https://a.ppy.sh/${player1Id}")`
+        teamRedNameEl.innerText = clients[0].user.name
+    }
+    if (player2Id !== clients[1].user.id) {
+        player2Id = clients[1].user.id
+        teamBluePfpEl.style.backgroundImage = `url("https://a.ppy.sh/${player2Id}")`
+        teamBlueNameEl.innerText = clients[1].user.name
+    }
+
+    // Star visibility
+    if (starsVisible !== data.tourney.starsVisible) {
+        starsVisible = data.tourney.starsVisible
+        if (starsVisible) {
+            redTeamStarContainerEl.style.opacity = 1
+            blueTeamStarContainerEl.style.opacity = 1
+        } else {
+            redTeamStarContainerEl.style.opacity = 0
+            blueTeamStarContainerEl.style.opacity = 0
+        }
+    }
+
+    // Star info
+    if (currentOsuBestOf !== data.tourney.bestOF ||
+        currentRedTeamStars !== teamPoints.left ||
+        currentBlueTeamStars !== teamPoints.right
+    ) {
+        currentOsuBestOf = data.tourney.bestOF
+        currentRedTeamStars = teamPoints.left
+        currentBlueTeamStars = teamPoints.right
+        displayStars(currentOsuBestOf, redTeamStarContainerEl, blueTeamStarContainerEl, currentRedTeamStars, currentBlueTeamStars)
+    }
+
 
     if (noOfClients !== data.tourney.clients.length) {
         noOfClients = data.tourney.clients.length
@@ -301,7 +331,7 @@ socket.onmessage = event => {
 
         } else {
             // Results
-            if (!checkedWinner && currentPickTile && isStarOn()) {
+            if (!checkedWinner && currentPickTile) {
                 
                 checkedWinner = true
 
@@ -310,8 +340,6 @@ socket.onmessage = event => {
                     // Set pick
                     currentPickTile.children[2].setAttribute("src", `../_shared/assets/winner-crowns/winner-${winner}-map.png`)
                     currentPickTile.children[2].style.display = "block"
-                    // Add stars
-                    updateStarCount(winner, "plus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName)
                 }
             }
         }
@@ -342,6 +370,7 @@ socket.onmessage = event => {
             element.dispatchEvent(event)
             element.setAttribute("data-is-autopicked", "true")
 
+            updateCurrentPicker(currentPicker)
             if (currentPicker === "red") setAutopicker("blue")
             else if (currentPicker === "blue") setAutopicker("red")
         } else {
@@ -350,8 +379,8 @@ socket.onmessage = event => {
     }
 
     // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
-    if (chatLen !== data.tourney.chat.length) {
-        chatLen = updateChat(data.tourney, chatLen, chatDisplayWrapperEl, true, currentTeamRed, currentTeamBlue, currentTeamRedName, currentTeamBlueName)
+    if (chatLen !== chatData.length) {
+        chatLen = updateChat(chatData, chatLen, chatDisplayWrapperEl)
     }
 
     // Save pick string
@@ -380,12 +409,6 @@ socket.onmessage = event => {
     }
 }
 
-// Update Star Count Buttons
-const setStarRedPlusEl = document.getElementById("set-star-red-plus")
-const setStarRedMinusEl = document.getElementById("set-star-red-minus")
-const setStarBluePlusEl = document.getElementById("set-star-blue-plus")
-const setStarBlueMinusEl = document.getElementById("set-star-blue-minus")
-
 // Next autopick
 const nextAutopickNextEl = document.getElementById("next-autopick-text")
 const nextAutopickRedEl = document.getElementById("next-autopick-red")
@@ -394,21 +417,8 @@ const toggleAutopickButtonEl = document.getElementById("toggle-autopick-button")
 const toggleAutopickOnOffEl = document.getElementById("toggle-autopick-on-off")
 let isAutopickOn = false, currentPicker = "red"
 
-// Apply Match button
-const applyMatchButtonEl = document.getElementById("apply-match")
-
 // Toggle stars button
-const toggleStarButtonEl = document.getElementById("toggle-stars-button")
-const toggleStarsOnOffEl = document.getElementById("toggle-stars-on-off")
 document.addEventListener("DOMContentLoaded", () => {
-    toggleStarButtonEl.addEventListener("click", () => toggleStars(toggleStarsOnOffEl, toggleStarButtonEl, redTeamStarContainerEl, blueTeamStarContainerEl))
-    document.cookie = `toggleStarContainers=${true}; path=/`
-
-    // Update star count buttons
-    setStarRedPlusEl.addEventListener("click", () => updateStarCount("red", "plus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName))
-    setStarRedMinusEl.addEventListener("click", () => updateStarCount("red", "minus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName))
-    setStarBluePlusEl.addEventListener("click", () => updateStarCount("blue", "plus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName))
-    setStarBlueMinusEl.addEventListener("click", () => updateStarCount("blue", "minus", redTeamStarContainerEl, blueTeamStarContainerEl, currentTeamRedName, currentTeamBlueName))
 
     // Toggle Autopick button
     toggleAutopickButtonEl.addEventListener("click", function() {
@@ -427,9 +437,6 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPickerBlueEl.addEventListener("click", () => updateCurrentPicker("blue"))
     currentPickerNoneEl.addEventListener("click", () => updateCurrentPicker("none"))
     currentPickerNoneEl.click()
-
-    // Apply match button
-    applyMatchButtonEl.addEventListener("click", () => applyMatch())
 
     // Ban Pick Management
     banPickManagementSelectActionEl.addEventListener("click", setBanPickAction)
@@ -451,24 +458,6 @@ function setAutopicker(picker) {
     nextAutopickNextEl.textContent = `${currentPicker.substring(0, 1).toUpperCase()}${currentPicker.substring(1)}`
 }
 
-// Apply Match
-async function applyMatch() {
-    const match = await findMatch(matchSelectEl.value)
-    if (!match) return
-
-    // Team A
-    currentTeamRedName = match.team_a
-    currentTeamRed = await findTeam(currentTeamRedName)
-    teamRedNameEl.textContent = currentTeamRedName
-
-    // Team B
-    currentTeamBlueName = match.team_b
-    currentTeamBlue = await findTeam(currentTeamBlueName)
-    teamBlueNameEl.textContent = currentTeamBlueName
-
-    document.cookie = `currentTeamRedName=${currentTeamRedName}; path=/`
-    document.cookie = `currentTeamBlueName=${currentTeamBlueName}; path=/`
-}
 
 // Set Ban Pick Action
 const banPickManagementEl = document.getElementById("ban-pick-management")
@@ -804,3 +793,17 @@ function sidebarRemoveWinnerAction() {
     currentTile.children[2].style.display = "none"
     currentTile.children[2].removeAttribute("src")
 }
+
+// Read mappool data
+setInterval(() => {
+    const currentPicks = [...pickContainerEl.children].map(child => child.dataset.id).join(",")
+    const currentPickers = [...pickContainerEl.children].map(child => child.children[4].textContent.split(" ")[0].toLowerCase()).join(",")
+    const currentWinners = [...pickContainerEl.children].map(child => {
+        return child.children[2].getAttribute("src").includes("red") ? "red" :
+        child.children[2].getAttribute("src").includes("blue") ? "blue" : ""
+    }).join(",")
+
+    document.cookie = `currentPicks=${currentPicks}; path=/`
+    document.cookie = `currentPickers=${currentPickers}; path=/`
+    document.cookie = `currentWinners=${currentWinners}; path=/`
+}, 200)

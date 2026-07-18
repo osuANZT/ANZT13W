@@ -1,0 +1,312 @@
+:root {
+    --team-general-y: 55px;
+    --team-name-x: 1186px;
+    --team-pfp-x: 755px;
+    --team-background-x: 459px;
+    --team-point-container-x: 1172px;
+    --score-difference-x: 1011px;
+    --history-panel-x-y: 20px;
+}
+
+/* Whole Page */
+.main, video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    font-family: "Alan Sans", sans-serif;
+    background-image: url("static/background.png");
+}
+
+/* Mask */
+.bg-mask {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1212px;
+    height: 1080px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    mask-image: url("static/map-bg-mask.png");
+    mask-mode: alpha;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+}
+
+.bg-mask img { height: inherit; }
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Round Name */
+.round-name {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    color: black;
+    font-weight: 800;
+    font-family: "Alan Sans", sans-serif;
+    text-align: center;
+    background-color: white;
+    padding: 0px 5px;
+    height: 20px;
+    line-height: 20px;
+}
+
+/* Team PFP */
+.team-pfp { top: var(--team-general-y); }
+.team-background { top: var(--team-general-y); }
+.team-name { top: var(--team-general-y); }
+.team-point-container { top: calc(var(--team-general-y) + 27px);}
+
+/* Accuracy  Difference */
+.accuracy-difference {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 19px;
+    color: black;
+    font-weight: 800;
+    font-family: "Alan Sans", sans-serif;
+    font-variant-numeric: tabular-nums;
+    background-color: white;
+    width: 100px;
+    text-align: center;
+    line-height: 20px;
+}
+
+/* Score Bar */
+.score-bar {
+    position: absolute;
+    top: 859px;
+    background-color: white;
+    width: 200px;
+    height: 10px;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 500ms ease-in-out, width 200ms ease-in-out;
+}
+
+.score-bar-left {
+    border-radius: 5px 0 0 5px;
+    right: 50%;
+}
+
+.score-bar-right {
+    border-radius: 0 5px 5px 0;
+    left: 50%;
+}
+
+/* Score CSS */
+.score-text {
+    color: white;
+    font-weight: 600;
+    font-family: "Alan Sans", sans-serif;
+    filter: drop-shadow(0.675px 2.923px 1.5px rgba(0 0 0 / 41%));
+}
+
+/* Score Difference */
+.score-difference {
+    position: absolute;
+    top: 864px;
+    font-size: 20px;
+    z-index: 1;
+}
+.score-difference-left { right: var(--score-difference-x); }
+.score-difference-right { left: var(--score-difference-x); }
+
+/* Playing Score */
+.score {
+    position: absolute;
+    top: 885px;
+    font-size: 29px;
+    z-index: 1;
+}
+
+.score-left { right: 1008px; }
+.score-right { left: 1008px; }
+
+.score-leading {
+    top: 877px;
+    font-size: 38px;
+}
+
+/* Crown */
+.crown {
+    position: absolute;
+    top: 836px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    transition: 200ms ease-in-out;
+}
+
+/* Now Playing */
+.now-playing-panel {
+    position: absolute;
+    bottom: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 569px;
+    height: 118px;
+
+}
+
+.now-playing-background {
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 7px);
+    height: calc(100% - 12px);
+    border-radius: 15px;
+    background: center / cover;
+    /* background-image: url("https://assets.ppy.sh/beatmaps/2418008/covers/cover.jpg"); */
+}
+
+.now-playing-overlay {
+    position: absolute;
+}
+
+/* Mod ID */
+.now-playing-mod-id {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 46px;
+}
+
+/* Details */
+.now-playing-details {
+    --column-1-3-width: 150px;
+
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    display: grid;
+    grid-template-columns: vaR(--column-1-3-width) auto vaR(--column-1-3-width);
+    font-size: 14px;
+    font-family: "Alan Sans", sans-serif;
+    filter: drop-shadow(2.5px 4.33px 3px rgba(0,0,0,0.47));
+}
+
+/* Now Playing Stats */
+.now-playing-stats {
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    column-gap: 26px;
+    flex-wrap: wrap;
+}
+
+.now-playing-stats-wrapper {
+    justify-self: center;
+    display: flex;
+    gap: 13px;
+}
+
+/* Now Playing Metadata */
+.now-playing-metadata {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Now Playing Mapper */
+.now-playing-mapper {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+}
+
+/* Texts */
+.now-playing-details-white-bold {
+    color: white;
+    font-weight: 700;
+}
+
+.now-playing-details-grey-nonbold {
+    color: #d1d1d1;
+    font-weight: 500;
+}
+
+/* Now Playing Pick */
+.np-pick {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* History Panel */
+.history-panel {
+    position: absolute;
+    bottom: var(--history-panel-x-y);
+    width: 628px;
+    height: 176px;
+    border-radius: 20px;
+    background-color: rgb(40 40 40 / 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.history-panel-left { left: var(--history-panel-x-y); }
+.history-panel-right { right: var(--history-panel-x-y); }
+
+/* Card */
+.history-panel-card {
+    position: relative;
+    width: 75px;
+    height: 153px;
+    border-radius: 15px;
+    background: center / cover;
+    background-image: url("https://assets.ppy.sh/beatmaps/2418008/covers/cover.jpg");
+}
+
+/* Mod ID */
+.history-panel-mod-id {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+}
+
+/* History Pick */
+.history-panel-win {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
+/* Chat Box */
+.chat-box {
+    top: 888px;
+    height: 176px;
+    width: 624px;
+}
+
+/* Chat Display Container */
+.chat-display-container {
+    top: 892px;
+    height: 161px;
+}
