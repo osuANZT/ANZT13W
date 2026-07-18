@@ -63,6 +63,7 @@ Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
         // Pick Tile Winner Crown
         const pickTileWinnerCrown = document.createElement("img")
         pickTileWinnerCrown.classList.add("pick-tile-winner-crown", "absolute-center-x")
+        pickTileWinnerCrown.setAttribute("src", "")
 
         // Pick Tile Bottom BG
         const pickTileBottomBg = document.createElement("img")
@@ -797,3 +798,17 @@ function sidebarRemoveWinnerAction() {
     currentTile.children[2].style.display = "none"
     currentTile.children[2].removeAttribute("src")
 }
+
+// Read mappool data
+setInterval(() => {
+    const currentPicks = [...pickContainerEl.children].map(child => child.dataset.id).join(",")
+    const currentPickers = [...pickContainerEl.children].map(child => child.children[4].textContent.split(" ")[0].toLowerCase()).join(",")
+    const currentWinners = [...pickContainerEl.children].map(child => {
+        return child.children[2].getAttribute("src").includes("red") ? "red" :
+        child.children[2].getAttribute("src").includes("blue") ? "blue" : ""
+    }).join(",")
+
+    document.cookie = `currentPicks=${currentPicks}; path=/`
+    document.cookie = `currentPickers=${currentPickers}; path=/`
+    document.cookie = `currentWinners=${currentWinners}; path=/`
+}, 200)

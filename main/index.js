@@ -265,6 +265,13 @@ socket.onmessage = async event => {
 // NP Pick
 const npPickEl = document.getElementById("np-pick")
 let currentPicker, previousPicker
+
+// Current Picks
+const historyPanelLeftEl = document.getElementById("history-panel-left")
+const historyPanelRightEl = document.getElementById("history-panel-right")
+let currentPicks, previousPicks 
+let currentPickers, previousPickers 
+let currentWinners, previousWinners 
 setInterval(() => {
     currentPicker = getCookie("currentPicker")
     if (previousPicker !== currentPicker) {
@@ -276,5 +283,57 @@ setInterval(() => {
             npPickEl.style.display = "none"
         }
     }
-    
+
+    currentPicks = getCookie("currentPicks")
+    currentPickers = getCookie("currentPickers")
+    currentWinners = getCookie("currentWinners")
+
+    if (currentPicks !== previousPicks ||
+        currentPickers !== previousPickers ||
+        currentWinners !== previousWinners) {
+        historyPanelLeftEl.innerHTML = ""
+        historyPanelRightEl.innerHTML = ""
+        
+        // Set previous info
+        previousPicks = currentPicks 
+        previousPickers = currentPickers 
+        previousWinners = currentWinners
+        
+        // Use Arrays
+        const currentPicksArray = currentPicks.split(",")
+        const currentPickersArray = currentPickers.split(",")
+        const currentWinnersArray = currentWinners.split(",")
+        for (let i = 0; i < currentPickersArray.length; i++) {
+            if (!currentPicksArray[i] || !currentPickersArray[i]) continue
+            const currentPanel = currentPickersArray[i] === "red" ? historyPanelLeftEl : currentPickersArray[i] === "blue" ? historyPanelRightEl : ""
+            if (currentPanel === "") continue
+
+            const panelCard = createPanelCard(currentPicksArray[i], currentWinnersArray[i])
+            if (panelCard) currentPanel.append(panelCard)
+        }
+
+        console.log(currentPicks, currentPickers, currentWinners)
+    }
 }, 200)
+
+// Create Panel
+function createPanelCard(currentId, currentWinner) {
+    const currentMap = findBeatmap(Number(currentId))
+    if (!currentMap) return
+
+    const historyPanelCard = document.createElement("div")
+    historyPanelCard.classList.add("history-panel-card")
+
+    const historyPanelModId = document.createElement("img")
+    historyPanelModId.classList.add("history-panel-mod-id")
+    historyPanelModId.setAttribute("src", `../_shared/assets/mods/${currentMap.mod}${currentMap.order}.png`)
+
+    const historyPanelWin = document.createElement("img")
+    historyPanelWin.classList.add("history-panel-win")
+    if (currentWinner) {
+        historyPanelWin.setAttribute("src", `static/history-pick/history-${currentWinner}-pick.png`)
+    }
+
+    historyPanelCard.append(historyPanelModId, historyPanelWin)
+    return historyPanelCard
+}
