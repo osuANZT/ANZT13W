@@ -45,6 +45,7 @@ const animation = {
     scoreDifferenceRight: new CountUp(scoreDifferenceRightEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", prefix: "-"}), 
 }
 
+const bgMaskImageEl = document.getElementById("bg-mask-image")
 const nowPlayingBackgroundEl = document.getElementById("now-playing-background")
 const nowPlayingModIdEl = document.getElementById("now-playing-mod-id")
 const nowPlayingDetailsEl = document.getElementById("now-playing-details")
@@ -196,7 +197,9 @@ socket.onmessage = async event => {
         nowPlayingId = beatmapInfo.id
         nowPlayingChecksum = beatmapInfo.checksum
 
-        nowPlayingBackgroundEl.style.backgroundImage = `url("${window.location.origin}/Songs/${data.folders.beatmap}/${data.files.background}")`
+        const imageLink = `${window.location.origin}/Songs/${data.folders.beatmap}/${data.files.background}`
+        bgMaskImageEl.setAttribute("src", imageLink)
+        nowPlayingBackgroundEl.style.backgroundImage = `url("${imageLink}")`
         nowPlayingArtistEl.textContent = `${beatmapInfo.artist}`
         nowPlayingTitleEl.textContent = `${beatmapInfo.title}`
         nowPlayingDiffivultyEl.textContent = `[${beatmapInfo.version}]`

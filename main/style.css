@@ -16,8 +16,28 @@
     width: 1920px;
     height: 1080px;
     font-family: "Alan Sans", sans-serif;
-    background-image: url("static/background.png")
+    background-image: url("static/background.png");
 }
+
+/* Mask */
+.bg-mask {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1212px;
+    height: 1080px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    mask-image: url("static/map-bg-mask.png");
+    mask-mode: alpha;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+}
+
+.bg-mask img { height: inherit; }
 
 /* Logo */
 .logo {
