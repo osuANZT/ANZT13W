@@ -1,6 +1,7 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { updateChat } from "../_shared/core/chat.js"
 import { displayStars } from "../_shared/core/stars.js"
+import { setLengthDisplay } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 // Pick Container
@@ -140,13 +141,21 @@ let currentPickTile
 // Current map
 const currentMapBackgroundImageMaskEl = document.getElementById("current-map-background-image-mask")
 const currentMapBackgroundImageEl = document.getElementById("current-map-background-image")
-const currentMapCategoryImageEl = document.getElementById("current-map-category-image")
-const currentMapArtistTitleEl= document.getElementById("current-map-artist-title")
+// const currentMapCategoryImageEl = document.getElementById("current-map-category-image")
+// const currentMapArtistTitleEl= document.getElementById("current-map-artist-title")
 const currentMapArtistEl = document.getElementById("current-map-artist")
 const currentMapTitleEl = document.getElementById("current-map-title")
-const currentMapMappedByEl= document.getElementById("current-map-mapped-by")
+// const currentMapMappedByEl= document.getElementById("current-map-mapped-by")
 const currentMapMapperNameEl = document.getElementById("current-map-mapper-name")
 const currentMapDifficultyEl = document.getElementById("current-map-difficulty")
+
+// Current map stats
+const currentMapStatsNumberSrEl = document.getElementById("current-map-stats-number-sr")
+const currentMapStatsNumberCsEl = document.getElementById("current-map-stats-number-cs")
+const currentMapStatsNumberArEl = document.getElementById("current-map-stats-number-ar")
+const currentMapStatsNumberOdEl = document.getElementById("current-map-stats-number-od")
+const currentMapBpmNumberEl = document.getElementById("current-map-bpm-number")
+const currentMapTimerEl = document.getElementById("current-map-timer")
 
 // Map Click Event
 function mapClickEvent(event) {
@@ -214,19 +223,49 @@ function mapClickEvent(event) {
         }
 
         // Set top information
+        console.log(mapsFound)
         if (mapsFound !== 0) {
             // Set content
             currentMapBackgroundImageMaskEl.setAttribute("src", `https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg`)
             currentMapBackgroundImageEl.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
-            currentMapCategoryImageEl.setAttribute("src", `../_shared/assets/category-images/${currentMap.mod.toUpperCase()}${currentMap.order}.png`)
             currentMapArtistEl.textContent = currentMap.artist
             currentMapTitleEl.textContent = currentMap.title
-            currentMapDifficultyEl.textCotnent = currentMap.version
+            currentMapDifficultyEl.textContent = currentMap.version
             currentMapMapperNameEl.textContent = currentMap.creator
+            
+            // Set Stats Variable
+            let currentSr = Math.round(Number(currentMap.difficultyrating) * 100) / 100
+            let currentCs = Math.round(Number(currentMap.diff_size) * 10) / 10
+            let currentAr = Math.round(Number(currentMap.diff_approach) * 10) / 10
+            let currentOd = Math.round(Number(currentMap.diff_overall) * 10) / 10
+            let currentBpm = Number(currentMap.bpm)
+            let currentLength = Number(currentMap.hit_length)
 
-            // Set display
-            currentMapArtistTitleEl.style.display = "block"
-            currentMapMappedByEl.style.display = "block"
+            switch (currentMap.mod) {
+                case "HR":
+                    currentCs = Math.min(Math.round(Number(currentMap.diff_size) * 1.3 * 10) / 10, 10)
+                    currentAr = Math.min(Math.round(Number(currentMap.diff_approach) * 1.4 * 10) / 10, 10)
+                    currentOd = Math.min(Math.round(Number(currentMap.diff_overall) * 1.4 * 10) / 10, 10)
+                    break
+                case "DT":
+                    if (currentAr > 5) currentAr = Math.round((((1200 - (( 1200 - (currentAr - 5) * 150) * 2 / 3)) / 150) + 5) * 10) / 10
+                    else currentAr = Math.round((1800 - ((1800 - currentAr * 120) * 2 / 3)) / 120 * 10) / 10
+                    currentOd = Math.round((79.5 - (( 79.5 - 6 * currentOd) * 2 / 3)) / 6 * 10) / 10
+                    currentBpm = Math.round(currentBpm * 1.5)
+                    currentLength = Math.round(currentLength / 1.5)
+                    break
+                case "EZ":
+                    currentCs /= 2
+                    currentAr /= 2
+                    currentOd /= 2
+            }
+
+            currentMapStatsNumberSrEl.textContent = currentSr.toFixed(2)
+            currentMapStatsNumberCsEl.textContent = currentCs.toFixed(1)
+            currentMapStatsNumberArEl.textContent = currentAr.toFixed(1)
+            currentMapStatsNumberOdEl.textContent = currentOd.toFixed(1)
+            currentMapBpmNumberEl.textContent = Math.round(currentBpm)
+            currentMapTimerEl.textContent = setLengthDisplay(currentLength)
         }
     }
 }

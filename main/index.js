@@ -259,10 +259,10 @@ socket.onmessage = async event => {
                     currentOd /= 2
             }
 
-            nowPlayingStatsCsEl.textContent = `${currentCs}`
-            nowPlayingStatsArEl.textContent = `${currentAr}`
-            nowPlayingStatsOdEl.textContent = `${currentOd}`
-            nowPlayingStatsSrEl.textContent = `${currentSr}`
+            nowPlayingStatsCsEl.textContent = `${currentCs.toFixed(1)}`
+            nowPlayingStatsArEl.textContent = `${currentAr.toFixed(1)}`
+            nowPlayingStatsOdEl.textContent = `${currentOd.toFixed(1)}`
+            nowPlayingStatsSrEl.textContent = `${currentSr.toFixed(2)}`
             updateStats = false
         } else {
             nowPlayingModIdEl.style.display = "none"
@@ -276,10 +276,10 @@ socket.onmessage = async event => {
 
     if (updateStats) {
         const beatmapStats = data.beatmap.stats
-        nowPlayingStatsCsEl.textContent = beatmapStats.cs.converted
-        nowPlayingStatsArEl.textContent = beatmapStats.ar.converted
-        nowPlayingStatsOdEl.textContent = beatmapStats.od.converted
-        nowPlayingStatsSrEl.textContent = beatmapStats.stars.total
+        nowPlayingStatsCsEl.textContent = beatmapStats.cs.converted.toFixed(1)
+        nowPlayingStatsArEl.textContent = beatmapStats.ar.converted.toFixed(1)
+        nowPlayingStatsOdEl.textContent = beatmapStats.od.converted.toFixed(1)
+        nowPlayingStatsSrEl.textContent = beatmapStats.stars.total.toFixed(2)
     }
 
         // Star visibility
