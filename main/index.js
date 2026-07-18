@@ -240,11 +240,11 @@ socket.onmessage = async event => {
             // let currentBpm = Number(currentMappoolBeatmap.bpm)
             // let currentLength = Number(currentMappoolBeatmap.hit_length)
 
-            switch (currentMappoolBeatmap.mod) {
+            switch (currentMap.mod) {
                 case "HR":
-                    currentCs = Math.min(Math.round(Number(currentMappoolBeatmap.diff_size) * 1.3 * 10) / 10, 10)
-                    currentAr = Math.min(Math.round(Number(currentMappoolBeatmap.diff_approach) * 1.4 * 10) / 10, 10)
-                    currentOd = Math.min(Math.round(Number(currentMappoolBeatmap.diff_overall) * 1.4 * 10) / 10, 10)
+                    currentCs = Math.min(Math.round(Number(currentMap.diff_size) * 1.3 * 10) / 10, 10)
+                    currentAr = Math.min(Math.round(Number(currentMap.diff_approach) * 1.4 * 10) / 10, 10)
+                    currentOd = Math.min(Math.round(Number(currentMap.diff_overall) * 1.4 * 10) / 10, 10)
                     break
                 case "DT":
                     if (currentAr > 5) currentAr = Math.round((((1200 - (( 1200 - (currentAr - 5) * 150) * 2 / 3)) / 150) + 5) * 10) / 10

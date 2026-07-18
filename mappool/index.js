@@ -127,9 +127,6 @@ function createBanProtectElement(team) {
     return teamBanProtectWrapper
 }
 
-// Shorten string
-const shortenString = str => str.length > 10 ? str.slice(0, 8) + "..." : str
-
 // Protect Containers
 const teamRedProtectContainerEl = document.getElementById("team-red-protect-container")
 const teamBlueProtectContainerEl = document.getElementById("team-blue-protect-container")
@@ -245,7 +242,6 @@ function setSideMapDetails(element, currentMap, action) {
 // Team Names
 const teamRedNameEl = document.getElementById("team-red-name")
 const teamBlueNameEl = document.getElementById("team-blue-name")
-let currentTeamRedName, currentTeamBlueName, currentTeamRed, currentTeamBlue
 let player1Id, player2Id
 
 // Team PFPs
