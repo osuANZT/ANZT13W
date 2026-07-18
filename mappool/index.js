@@ -368,6 +368,7 @@ socket.onmessage = event => {
             element.dispatchEvent(event)
             element.setAttribute("data-is-autopicked", "true")
 
+            updateCurrentPicker(currentPicker)
             if (currentPicker === "red") setAutopicker("blue")
             else if (currentPicker === "blue") setAutopicker("red")
         } else {

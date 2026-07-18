@@ -1,6 +1,6 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { displayStars } from "../_shared/core/stars.js"
-import { delay } from "../_shared/core/utils.js"
+import { delay, getCookie } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 const roundNameEl = document.getElementById("round-name")
@@ -261,3 +261,20 @@ socket.onmessage = async event => {
         nowPlayingStatsSrEl.textContent = beatmapStats.stars.total
     }
 }
+
+// NP Pick
+const npPickEl = document.getElementById("np-pick")
+let currentPicker, previousPicker
+setInterval(() => {
+    currentPicker = getCookie("currentPicker")
+    if (previousPicker !== currentPicker) {
+        previousPicker = currentPicker
+        if (currentPicker !== "none") {
+            npPickEl.style.display = "block"
+            npPickEl.setAttribute("src", `static/np-pick/np-${currentPicker}-pick.png`)
+        } else {
+            npPickEl.style.display = "none"
+        }
+    }
+    
+}, 200)
