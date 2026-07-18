@@ -110,7 +110,7 @@
 /* Chat Box */
 .chat-box {
     position: absolute;
-    left: 50%;
+    left: 963px;
     transform: translateX(-50%);
 }
 

@@ -275,6 +275,7 @@ socket.onmessage = event => {
 
     const clients = data.tourney.clients
     const teamPoints = data.tourney.points
+    const chatData = data.tourney.chat
 
     // Player info
     if (player1Id !== clients[0].user.id) {
@@ -378,8 +379,8 @@ socket.onmessage = event => {
     }
 
     // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
-    if (chatLen !== data.tourney.chat.length) {
-        chatLen = updateChat(data.tourney, chatLen, chatDisplayWrapperEl, true, currentTeamRed, currentTeamBlue, currentTeamRedName, currentTeamBlueName)
+    if (chatLen !== chatData.length) {
+        chatLen = updateChat(chatData, chatLen, chatDisplayWrapperEl)
     }
 
     // Save pick string
@@ -407,12 +408,6 @@ socket.onmessage = event => {
         localStorage.setItem("currentWinnerString", currentWinnerArray.join("|"))
     }
 }
-
-// Update Star Count Buttons
-const setStarRedPlusEl = document.getElementById("set-star-red-plus")
-const setStarRedMinusEl = document.getElementById("set-star-red-minus")
-const setStarBluePlusEl = document.getElementById("set-star-blue-plus")
-const setStarBlueMinusEl = document.getElementById("set-star-blue-minus")
 
 // Next autopick
 const nextAutopickNextEl = document.getElementById("next-autopick-text")

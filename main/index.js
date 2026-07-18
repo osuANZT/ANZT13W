@@ -1,4 +1,5 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
+import { updateChat } from "../_shared/core/chat.js"
 import { displayStars } from "../_shared/core/stars.js"
 import { delay, getCookie } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
@@ -46,6 +47,7 @@ const animation = {
 }
 
 const bgMaskImageEl = document.getElementById("bg-mask-image")
+const nowPlayingPanelEl = document.getElementById("now-playing-panel")
 const nowPlayingBackgroundEl = document.getElementById("now-playing-background")
 const nowPlayingModIdEl = document.getElementById("now-playing-mod-id")
 const nowPlayingDetailsEl = document.getElementById("now-playing-details")
@@ -59,6 +61,12 @@ const nowPlayingDiffivultyEl = document.getElementById("now-playing-diffivulty")
 const nowPlayingMapperNameEl = document.getElementById("now-playing-mapper-name")
 let nowPlayingId, nowPlayingChecksum, updateStats = false
 
+// Chat
+const chatBoxEl = document.getElementById("chat-box")
+const chatDisplayContainerEl = document.getElementById("chat-display-container")
+const chatDisplayWrapperEl = document.getElementById("chat-display-wrapper")
+let chatLen = 0
+
 const socket = createTosuWsSocket()
 socket.onmessage = async event => {
     const data = JSON.parse(event.data)
@@ -69,6 +77,7 @@ socket.onmessage = async event => {
     const teamPoints = data.tourney.points
     const totalScores = data.tourney.totalScore
     const beatmapInfo = data.beatmap
+    const chatData = data.tourney.chat
     
     if (player1Id !== clients[0].user.id) {
         player1Id = clients[0].user.id
@@ -111,6 +120,7 @@ socket.onmessage = async event => {
     // Score visibility
     if (scoreVisible !== data.tourney.scoreVisible) {
         scoreVisible = data.tourney.scoreVisible
+        console.log(scoreVisible)
         if (scoreVisible) {
             scoreBarLeftEl.style.opacity = 1
             scoreBarRightEl.style.opacity = 1
@@ -120,6 +130,9 @@ socket.onmessage = async event => {
             scoreRightEl.style.opacity = 1
             crownLeftEl.style.opacity = 1
             crownRightEl.style.opacity = 1
+            nowPlayingPanelEl.style.opacity = 1
+            chatBoxEl.style.opacity = 0
+            chatDisplayContainerEl.style.opacity = 0
         } else {
             scoreBarLeftEl.style.opacity = 0
             scoreBarRightEl.style.opacity = 0
@@ -129,6 +142,9 @@ socket.onmessage = async event => {
             scoreRightEl.style.opacity = 0
             crownLeftEl.style.opacity = 0
             crownRightEl.style.opacity = 0
+            nowPlayingPanelEl.style.opacity = 0
+            chatBoxEl.style.opacity = 1
+            chatDisplayContainerEl.style.opacity = 1
         }
     }
 
@@ -189,6 +205,11 @@ socket.onmessage = async event => {
 
             crownLeftEl.style.display = "none"
             crownRightEl.style.display = "block"
+        }
+    } else {
+        // Chat data
+        if (chatLen !== data.tourney.chat.length) {
+            chatLen = updateChat(chatData, chatLen, chatDisplayWrapperEl)
         }
     }
 
@@ -259,6 +280,18 @@ socket.onmessage = async event => {
         nowPlayingStatsArEl.textContent = beatmapStats.ar.converted
         nowPlayingStatsOdEl.textContent = beatmapStats.od.converted
         nowPlayingStatsSrEl.textContent = beatmapStats.stars.total
+    }
+
+        // Star visibility
+    if (starsVisible !== data.tourney.starsVisible) {
+        starsVisible = data.tourney.starsVisible
+        if (starsVisible) {
+            redTeamStarContainerEl.style.opacity = 1
+            blueTeamStarContainerEl.style.opacity = 1
+        } else {
+            redTeamStarContainerEl.style.opacity = 0
+            blueTeamStarContainerEl.style.opacity = 0
+        }
     }
 }
 
