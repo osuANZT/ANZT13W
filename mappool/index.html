@@ -29,11 +29,12 @@
             <img id="current-map-background-image-mask">
         </div>
         <!-- Current Map -->
-        <div class="current-map-background-image absolute-center-x" id="current-map-background-image" >
+        <div class="current-map-background-image absolute-center-x" id="current-map-background-image">
+            <div class="overlay"></div>
             <img src="static/map-bg/map-bg-GLASS.png">
             <div class="current-map-picker current-map-red-picker">RED PICK</div>
             <div class="current-map-picker current-map-blue-picker">BLUE PICK</div>
-            <div class="current-map-metadata current-map-title">Kokudou Slope</div>
+            <div class="current-map-metadata current-map-title" id="current-map-title">Kokudou Slope</div>
             <div class="current-map-metadata current-map-artist"><span id="current-map-artist">Kardashev</span> // <span id="current-map-mapper-name">Mapper</span></div>
             <div class="current-map-final-line">
                 <div class="current-map-difficulty" id="current-map-difficulty">diffclyname</div>
@@ -44,19 +45,19 @@
             <div class="current-map-stats">
                 <div class="current-map-stats-container">
                     <div class="current-map-stats-text current-map-stats-text-sr">sr</div>
-                    <div class="current-map-stats-number">5.28</div>
+                    <div class="current-map-stats-number" id="current-map-stats-number-sr">5.28</div>
                 </div>
                 <div class="current-map-stats-container">
                     <div class="current-map-stats-text current-map-stats-text-cs">cs</div>
-                    <div class="current-map-stats-number">4.0</div>
+                    <div class="current-map-stats-number" id="current-map-stats-number-cs">4.0</div>
                 </div>
                 <div class="current-map-stats-container">
                     <div class="current-map-stats-text current-map-stats-text-ar">ar</div>
-                    <div class="current-map-stats-number">8.0</div>
+                    <div class="current-map-stats-number" id="current-map-stats-number-ar">8.0</div>
                 </div>
                 <div class="current-map-stats-container">
                     <div class="current-map-stats-text current-map-stats-text-od">od</div>
-                    <div class="current-map-stats-number">8.0</div>
+                    <div class="current-map-stats-number" id="current-map-stats-number-od">8.0</div>
                 </div>
             </div>
         </div>
