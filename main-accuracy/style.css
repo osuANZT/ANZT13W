@@ -1,0 +1,16 @@
+/* Accuracy  Difference */
+.accuracy-difference {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 19px;
+    color: black;
+    font-weight: 800;
+    font-family: "Alan Sans", sans-serif;
+    font-variant-numeric: tabular-nums;
+    background-color: white;
+    width: 100px;
+    text-align: center;
+    line-height: 20px;
+}
