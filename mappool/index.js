@@ -136,7 +136,7 @@ const teamRedBanContainerEl = document.getElementById("team-red-ban-container")
 const teamBlueBanContainerEl = document.getElementById("team-blue-ban-container")
 
 // Current pick tile
-let currentPickTile
+let currentPickTile, currentTotalPicks = 0
 
 // Current map
 const currentMapBackgroundImageMaskEl = document.getElementById("current-map-background-image-mask")
@@ -156,6 +156,10 @@ const currentMapStatsNumberArEl = document.getElementById("current-map-stats-num
 const currentMapStatsNumberOdEl = document.getElementById("current-map-stats-number-od")
 const currentMapBpmNumberEl = document.getElementById("current-map-bpm-number")
 const currentMapTimerEl = document.getElementById("current-map-timer")
+
+// Current Map Picker
+const currentMapRedPickerEl = document.getElementById("current-map-red-picker")
+const currentMapBluePickerEl = document.getElementById("current-map-blue-picker")
 
 // Map Click Event
 function mapClickEvent(event) {
@@ -206,6 +210,7 @@ function mapClickEvent(event) {
 
     // If pick
     if (action === "pick") {
+        currentTotalPicks++
         let mapsFound = 0
         // Set Tile
         for (let i = 0; i < bestOf; i++) {
@@ -223,7 +228,6 @@ function mapClickEvent(event) {
         }
 
         // Set top information
-        console.log(mapsFound)
         if (mapsFound !== 0) {
             // Set content
             currentMapBackgroundImageMaskEl.setAttribute("src", `https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg`)
@@ -266,6 +270,14 @@ function mapClickEvent(event) {
             currentMapStatsNumberOdEl.textContent = currentOd.toFixed(1)
             currentMapBpmNumberEl.textContent = Math.round(currentBpm)
             currentMapTimerEl.textContent = setLengthDisplay(currentLength)
+
+            // Set red / blue picks
+            currentMapRedPickerEl.style.display = "none"
+            currentMapBluePickerEl.style.display = "none"
+            const currentPicker = team === "red" ? currentMapRedPickerEl : currentMapBluePickerEl
+            const otherPlayer = currentPicker === currentMapRedPickerEl ? currentMapBluePickerEl : currentMapRedPickerEl
+            currentPicker.style.display = "block"
+            otherPlayer.style.display = "none"
         }
     }
 }
@@ -410,6 +422,33 @@ socket.onmessage = event => {
             else if (currentPicker === "blue") setAutopicker("red")
         } else {
             setAutopicker("none")
+        }
+
+        // If map has not been clicked on yet
+        if (currentTotalPicks === 0) {
+            const currentMap = data.beatmap
+            // Set content
+            currentMapBackgroundImageMaskEl.setAttribute("src", `https://assets.ppy.sh/beatmaps/${currentMap.set}/covers/cover.jpg`)
+            currentMapBackgroundImageEl.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.set}/covers/cover.jpg")`
+            currentMapArtistEl.textContent = currentMap.artist
+            currentMapTitleEl.textContent = currentMap.title
+            currentMapDifficultyEl.textContent = currentMap.version
+            currentMapMapperNameEl.textContent = currentMap.mapper
+            
+            // Set Stats Variable
+            let currentSr = currentMap.stats.stars.total
+            let currentCs = currentMap.stats.cs.converted
+            let currentAr = currentMap.stats.ar.converted
+            let currentOd = currentMap.stats.od.converted
+            let currentBpm = currentMap.stats.bpm.common
+            let currentLength = (currentMap.time.lastObject - currentMap.time.firstObject) / 1000
+
+            currentMapStatsNumberSrEl.textContent = currentSr.toFixed(2)
+            currentMapStatsNumberCsEl.textContent = currentCs.toFixed(1)
+            currentMapStatsNumberArEl.textContent = currentAr.toFixed(1)
+            currentMapStatsNumberOdEl.textContent = currentOd.toFixed(1)
+            currentMapBpmNumberEl.textContent = Math.round(currentBpm)
+            currentMapTimerEl.textContent = setLengthDisplay(Math.round(currentLength))
         }
     }
 
