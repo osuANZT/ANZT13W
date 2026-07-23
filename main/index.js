@@ -309,7 +309,7 @@ setInterval(() => {
     currentPicker = getCookie("currentPicker")
     if (previousPicker !== currentPicker) {
         previousPicker = currentPicker
-        if (currentPicker !== "none") {
+        if (currentPicker && currentPicker !== "none") {
             npPickEl.style.display = "block"
             npPickEl.setAttribute("src", `static/np-pick/np-${currentPicker}-pick.png`)
         } else {
