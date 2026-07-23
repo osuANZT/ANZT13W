@@ -86,9 +86,6 @@ socket.onmessage = async event => {
         teamBlueNameEl.innerText = clients[1].user.name
     }
 
-    // Accuracy
-    animation.accuracyDifference.update(Math.abs(clients[0].play.accuracy - clients[1].play.accuracy))
-
     // Star visibility
     console.log(data)
     if (starsVisible !== data.tourney.starsVisible) {
