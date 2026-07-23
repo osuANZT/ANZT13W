@@ -309,6 +309,7 @@
     top: 7px;
     height: 21px;
     padding: 0 2px;
+    display: none;
 }
 
 .current-map-red-picker {
