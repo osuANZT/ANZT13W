@@ -222,6 +222,7 @@ socket.onmessage = async event => {
         const currentMap = findBeatmap(nowPlayingId)
         if (currentMap) {
             nowPlayingModIdEl.style.display = "block"
+            nowPlayingModIdEl.setAttribute("img", `../_shared/assets/mods/${currentMap.mod.toLowerCase()}${currentMap.order}.png`)
             nowPlayingDetailsEl.style.top = "40px"
             nowPlayingDetailsEl.style.transform = "translateX(-50%)"
 
