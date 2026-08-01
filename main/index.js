@@ -222,7 +222,7 @@ socket.onmessage = async event => {
         const currentMap = findBeatmap(nowPlayingId)
         if (currentMap) {
             nowPlayingModIdEl.style.display = "block"
-            nowPlayingModIdEl.setAttribute("img", `../_shared/assets/mods/${currentMap.mod.toLowerCase()}${currentMap.order}.png`)
+            nowPlayingModIdEl.setAttribute("src", `../_shared/assets/mods/${currentMap.mod.toLowerCase()}${currentMap.order}.png`)
             nowPlayingDetailsEl.style.top = "40px"
             nowPlayingDetailsEl.style.transform = "translateX(-50%)"
 
@@ -350,6 +350,8 @@ function createPanelCard(currentId, currentWinner) {
 
     const historyPanelCard = document.createElement("div")
     historyPanelCard.classList.add("history-panel-card")
+    console.log(currentMap)
+    historyPanelCard.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
 
     const historyPanelModId = document.createElement("img")
     historyPanelModId.classList.add("history-panel-mod-id")
