@@ -31,6 +31,7 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 2;
 }
 
 .round-name {
@@ -46,6 +47,7 @@
     line-height: 20px;
     padding: 0 4px;
     color: black;
+    z-index: 2;
 }
 
 /* Team Ban Protect Container */
@@ -336,7 +338,10 @@
 }
 
 /* Pick Container */
-.pick-container { top: 682px; }
+.pick-container {
+    top: 682px;
+    z-index: 2;
+}
 
 /* Pick Tile */
 .pick-tile { display: none; }

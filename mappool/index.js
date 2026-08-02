@@ -23,7 +23,7 @@ let currentWinnerArray, previousWinnerArray
 Promise.all([loadBeatmaps()]).then(([beatmaps]) => {
     // Load beatmaps
     allBeatmaps = beatmaps.beatmaps
-    roundNameEl.textContent = `${beatmaps.roundName.toLowerCase()} mappool`
+    roundNameEl.textContent = `${beatmaps.roundName.toUpperCase()}`
 
     switch (beatmaps.roundName.toUpperCase()) {
         case "ROUND OF 64": case "ROUND OF 32": case "ROUND OF 16":
