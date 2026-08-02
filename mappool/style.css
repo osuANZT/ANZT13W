@@ -531,3 +531,16 @@
     transition: 500ms ease-in-out;
 }
 .pick-video { top: -70px; }
+
+/* Winner Avatar */
+.winner-avatar {
+    --dimension: 88px;
+
+    top: 295px;
+    z-index: 2;
+    background: center / cover;
+    background-image: url("https://a.ppy.sh/11805037");
+    width: var(--dimension);
+    height: var(--dimension);
+    border-radius: 10px;
+}
