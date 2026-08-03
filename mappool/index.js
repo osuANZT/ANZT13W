@@ -314,9 +314,15 @@ let mapId, mapChecksum
 const chatDisplayWrapperEl = document.getElementById("chat-display-wrapper")
 let chatLen = 0
 
+// Winner variables
+const winnerContainerEl = document.getElementById("winner-container")
+const winnerAvatarEl = document.getElementById("winner-avatar")
+const winnerBackgroundEl = document.getElementById("winner-background")
+const winnerNameEl = document.getElementById("winner-name")
+
 // Socket
 const socket = createTosuWsSocket()
-socket.onmessage = event => {
+socket.onmessage = async event => {
     const data = JSON.parse(event.data)
     console.log(data)
 
@@ -357,13 +363,35 @@ socket.onmessage = event => {
         currentRedTeamStars = teamPoints.left
         currentBlueTeamStars = teamPoints.right
         displayStars(currentOsuBestOf, redTeamStarContainerEl, blueTeamStarContainerEl, currentRedTeamStars, currentBlueTeamStars)
+
+        // Setting winner information
+        const currentOsuFirstTo = Math.ceil(currentOsuBestOf / 2)
+        if (currentRedTeamStars >= currentOsuFirstTo || currentBlueTeamStars >= currentOsuFirstTo) {
+            winnerContainerEl.style.display = "block"
+            winnerContainerEl.style.opacity = 1
+
+            let client
+            if (currentRedTeamStars >= currentOsuFirstTo) {
+                client = clients[0]
+                winnerBackgroundEl.classList.add("winner-red-background")
+                winnerBackgroundEl.classList.remove("winner-blue-background")
+            } else {
+                client = clients[1]
+                winnerBackgroundEl.classList.remove("winner-red-background")
+                winnerBackgroundEl.classList.add("winner-blue-background")
+            }
+            
+            winnerAvatarEl.style.backgroundImage = `url("https://a.ppy.sh/${client.user.id}")`
+            winnerNameEl.textContent = client.user.name
+        } else {
+            winnerContainerEl.style.opacity = 0
+            await delay(600)
+            winnerContainerEl.style.display = "none"
+        }
     }
 
 
-    if (noOfClients !== data.tourney.clients.length) {
-        noOfClients = data.tourney.clients.length
-    }
-
+    if (noOfClients !== clients.length) { noOfClients = clients.length }
     if (noOfClients > 0) {
         // Gameplay
         if (data.beatmap.time.live < data.beatmap.time.lastObject) {

@@ -533,9 +533,13 @@
 .pick-video { top: -70px; }
 
 /* Winner Area */
-.winner-container > * {
-    z-index: 1;
+.winner-container {
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    transition: 500ms ease-in-out;
 }
+.winner-container > * { z-index: 1; }
 
 /* Winner Avatar */
 .winner-avatar {
@@ -573,7 +577,7 @@
 /* Team Name */
 .winner-name {
     position: absolute;
-    top: 407px;
+    top: 407.5px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 24px;
