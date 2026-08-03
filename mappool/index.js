@@ -1,7 +1,7 @@
 import { loadBeatmaps, findBeatmap } from "../_shared/core/beatmaps.js"
 import { updateChat } from "../_shared/core/chat.js"
 import { displayStars } from "../_shared/core/stars.js"
-import { setLengthDisplay } from "../_shared/core/utils.js"
+import { setLengthDisplay, delay } from "../_shared/core/utils.js"
 import { createTosuWsSocket } from "../_shared/core/websocket.js"
 
 // Pick Container
