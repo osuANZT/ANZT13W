@@ -31,6 +31,7 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 2;
 }
 
 .round-name {
@@ -46,6 +47,7 @@
     line-height: 20px;
     padding: 0 4px;
     color: black;
+    z-index: 2;
 }
 
 /* Team Ban Protect Container */
@@ -336,7 +338,10 @@
 }
 
 /* Pick Container */
-.pick-container { top: 682px; }
+.pick-container {
+    top: 682px;
+    z-index: 2;
+}
 
 /* Pick Tile */
 .pick-tile { display: none; }
@@ -526,3 +531,64 @@
     transition: 500ms ease-in-out;
 }
 .pick-video { top: -70px; }
+
+/* Winner Area */
+.winner-container {
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    transition: 500ms ease-in-out;
+}
+.winner-container > * { z-index: 1; }
+
+/* Winner Avatar */
+.winner-avatar {
+    --dimension: 88px;
+
+    top: 295px;
+    z-index: 2;
+    background: center / cover;
+    background-image: url("https://a.ppy.sh/11805037");
+    width: var(--dimension);
+    height: var(--dimension);
+    border-radius: 10px;
+}
+
+/* Team Background */
+.winner-background {
+    position: absolute;
+    width: 280px;
+    height: 26px;
+    top: 407px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.winner-red-background {
+    background-image: linear-gradient( 90deg, rgb(208 146 146) 0%, rgb(200 34 112) 100%);
+    box-shadow: 0 0 10px 4px rgb(200 34 112 / 50%);
+}
+
+.winner-blue-background {
+    background-image: linear-gradient( 90deg, rgb(1 50 233) 0%, rgb(0 219 222) 100%);
+    box-shadow: 0 0 10px 4px rgb(1 50 233 / 50%);
+}
+
+/* Team Name */
+.winner-name {
+    position: absolute;
+    top: 407.5px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    width: 275px;
+    line-height: 26px;
+    color: white;
+    font-weight: 700;
+    letter-spacing: -1px;
+    text-indent: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
