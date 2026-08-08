@@ -154,6 +154,7 @@ jobs:
                   - HTML: ${{ steps.html_lint.outcome }}"
 
             - name: Final lint check
+              if: steps.changes.outputs.changed == 'false'
               run: |
                   echo "Running final lint verification..."
 
@@ -165,3 +166,9 @@ jobs:
 
                   htmlhint "**/*.html" \
                     --config ../lint-configs/.htmlhintrc
+
+            - name: Fail if lint fixes were required
+              if: steps.changes.outputs.changed == 'true'
+              run: |
+                  echo "::error::Lint fixes were required. A separate PR has been created with the automatic fixes."
+                  exit 1
