@@ -198,8 +198,7 @@
 .now-playing-stats-wrapper {
     justify-self: center;
     display: flex;
-    column-gap: 11px;
-    row-gap: 4px;
+    gap: 4px 11px;
 }
 
 .now-playing-stats-text {
