@@ -149,14 +149,12 @@
 .now-playing-background {
     position: absolute;
     top: 2px;
-    left: 50%;
+    left: 284px;
     transform: translateX(-50%);
-    width: calc(100% - 7px);
+    width: calc(100% - 18px);
     height: calc(100% - 12px);
     border-radius: 15px;
     background: center / cover;
-
-    /* background-image: url("https://assets.ppy.sh/beatmaps/2418008/covers/cover.jpg"); */
 }
 
 .now-playing-overlay {
@@ -200,7 +198,17 @@
 .now-playing-stats-wrapper {
     justify-self: center;
     display: flex;
-    gap: 13px;
+    column-gap: 11px;
+    row-gap: 4px;
+}
+
+.now-playing-stats-text {
+    width: 16px;
+}
+
+.now-playing-stats-number {
+    text-align: left;
+    width: 27px;
 }
 
 /* Now Playing Metadata */
@@ -208,6 +216,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* Now Playing Middle */
+.now-playing-middle {
+    width: 239px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 /* Now Playing Mapper */

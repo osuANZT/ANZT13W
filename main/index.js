@@ -330,6 +330,7 @@ setInterval(() => {
         const currentPicksArray = currentPicks.split(",")
         const currentPickersArray = currentPickers.split(",")
         const currentWinnersArray = currentWinners.split(",")
+        console.log(currentWinnersArray)
         for (let i = 0; i < currentPickersArray.length; i++) {
             if (!currentPicksArray[i] || !currentPickersArray[i]) continue
             const currentPanel = currentPickersArray[i] === "red" ? historyPanelLeftEl : currentPickersArray[i] === "blue" ? historyPanelRightEl : ""
@@ -361,6 +362,7 @@ function createPanelCard(currentId, currentWinner) {
     historyPanelWin.classList.add("history-panel-win")
     if (currentWinner) {
         historyPanelWin.setAttribute("src", `static/history-pick/history-${currentWinner}-pick.png`)
+        console.log(currentWinner)
     }
 
     historyPanelCard.append(historyPanelModId, historyPanelWin)
