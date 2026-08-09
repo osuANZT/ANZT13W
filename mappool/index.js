@@ -162,7 +162,7 @@ const currentMapRedPickerEl = document.getElementById("current-map-red-picker")
 const currentMapBluePickerEl = document.getElementById("current-map-blue-picker")
 
 // Map Click Event
-function mapClickEvent(event) {
+async function mapClickEvent(event) {
     // Find map
     const currentMapId = this.dataset.id
     const currentMap = findBeatmap(currentMapId)
@@ -279,6 +279,15 @@ function mapClickEvent(event) {
             currentPicker.style.display = "block"
             otherPlayer.style.display = "none"
         }
+
+        // Go to gameplay scene
+        await delay(10000)
+        if (enableAutoAdvance) {
+            obsGetCurrentScene((currentScene) => {
+                if (currentScene.name === gameplay_scene_name) return
+                obsSetCurrentScene(gameplay_scene_name)
+            })
+        }
     }
 }
 
@@ -319,6 +328,9 @@ const winnerContainerEl = document.getElementById("winner-container")
 const winnerAvatarEl = document.getElementById("winner-avatar")
 const winnerBackgroundEl = document.getElementById("winner-background")
 const winnerNameEl = document.getElementById("winner-name")
+
+// IPC State
+let ipcState
 
 // Socket
 const socket = createTosuWsSocket()
@@ -509,6 +521,17 @@ socket.onmessage = async event => {
         previousWinnerArray = currentWinnerArray
         localStorage.setItem("currentWinnerString", currentWinnerArray.join("|"))
     }
+
+    // IPC State
+    if (ipcState !== data.tourney.ipcState) {
+        ipcState = data.tourney.ipcState
+
+        if (ipcState === 4 && currentPickTile) {
+            obsGetCurrentScene((scene) => {
+                if (scene.name !== mappool_scene_name) obsSetCurrentScene(mappool_scene_name)
+            })
+        }
+    }
 }
 
 // Next autopick
@@ -542,6 +565,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Ban Pick Management
     banPickManagementSelectActionEl.addEventListener("click", setBanPickAction)
+
+    // Scene Management
+    autoadvance_button.addEventListener("click", () => switchAutoAdvance())
 })
 
 // Setting current picker
@@ -909,3 +935,46 @@ setInterval(() => {
     document.cookie = `currentPickers=${currentPickers}; path=/`
     document.cookie = `currentWinners=${currentWinners}; path=/`
 }, 200)
+
+// OBS Information
+const sceneCollection = document.getElementById("scene-collection")
+let autoadvance_button = document.getElementById('auto-advance-button')
+let enableAutoAdvance = false
+const gameplay_scene_name = "Gameplay Scene"
+const mappool_scene_name = "Mappool Scene"
+
+function switchAutoAdvance() {
+    enableAutoAdvance = !enableAutoAdvance
+    if (enableAutoAdvance) {
+        autoadvance_button.innerText = 'AUTO ADVANCE: ON'
+        autoadvance_button.classList.add("toggle-on")
+        autoadvance_button.classList.remove("toggle-off")
+    } else {
+        autoadvance_button.innerText = 'AUTO ADVANCE: OFF'
+        autoadvance_button.classList.remove("toggle-on")
+        autoadvance_button.classList.add("toggle-off")
+    }
+}
+
+const obsGetCurrentScene = window.obsstudio?.getCurrentScene ?? (() => {})
+const obsGetScenes = window.obsstudio?.getScenes ?? (() => {})
+const obsSetCurrentScene = window.obsstudio?.setCurrentScene ?? (() => {})
+
+obsGetScenes(scenes => {
+    for (const scene of scenes) {
+        let clone = document.getElementById("sceneButtonTemplate").content.cloneNode(true)
+        let buttonNode = clone.querySelector('button')
+        buttonNode.id = `scene__${scene}`
+        buttonNode.textContent = `GO TO: ${scene}`
+        buttonNode.onclick = function() { obsSetCurrentScene(scene); }
+        sceneCollection.appendChild(clone)
+    }
+
+    obsGetCurrentScene((scene) => { document.getElementById(`scene__${scene.name}`).classList.add("active-scene") })
+})
+
+window.addEventListener('obsSceneChanged', function(event) {
+    let activeButton = document.getElementById(`scene__${event.detail.name}`)
+    for (const scene of sceneCollection.children) { scene.classList.remove("toggle-active") }
+    activeButton.classList.add("toggle-active")
+})

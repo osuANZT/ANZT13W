@@ -388,7 +388,7 @@
     position: absolute;
     top: 0;
     left: 1920px;
-    width: 500px;
+    width: 750px;
     height: var(--screen-height);
     background-color: var(--sidebar-background-colour);
     overfloW: hidden;
@@ -405,6 +405,7 @@
 
 .column-1 { left: 0; }
 .column-2 { left: var(--sidebar-column-width); }
+.column-3 { left: calc(var(--sidebar-column-width) * 2); }
 
 /* Sidebar Divider */
 .divider {
@@ -415,6 +416,7 @@
 }
 
 .divider-1 { left: 249px; }
+.divider-2 { left: 499px; }
 
 /* Sidebar Section */
 .sidebar-section {

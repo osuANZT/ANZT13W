@@ -182,6 +182,21 @@
                 <div class="sidebar-button-container"></div>
             </div>
         </div>
+        <div class="divider divider-2"></div>
+        <div class="column column-3">
+            <section class="sidebar-section">
+                <h1 class="sidebar-section-text">Scene<br>Management</h1>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button full-size-button toggle-off" id="auto-advance-button">AUTO ADVANCE: <span id="toggle-autopick-on-off">OFF</span></button>
+                </div>
+                <h2 class="sidebar-section-text">Scenes (click<br>to override)</h2>
+                <div class="sidebar-button-container" id="scene-collection">
+                    <template id="sceneButtonTemplate">
+                        <button class="full-width-button">SWITCH TO __SCENE_NAME__</button>
+                    </template>
+                </div>
+            </section>
+        </div>
     </div>
 
     <script type="module" src="index.js"></script>
