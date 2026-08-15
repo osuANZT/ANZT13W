@@ -105,6 +105,7 @@
     top: 864px;
     font-size: 20px;
     z-index: 1;
+    font-variant-numeric: tabular-nums;
 }
 .score-difference-left { right: var(--score-difference-x); }
 .score-difference-right { left: var(--score-difference-x); }
@@ -115,6 +116,7 @@
     top: 885px;
     font-size: 29px;
     z-index: 1;
+    font-variant-numeric: tabular-nums;
 }
 
 .score-left { right: 1008px; }
