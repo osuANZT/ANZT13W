@@ -160,7 +160,7 @@ socket.onmessage = async event => {
         const scoreBarMaxWidth = 960
 		const scoreBarMaxDifference = 300000
         let scoreBarDifferencePercent = Math.min(scoreDelta / (scoreBarMaxDifference * multiplier), 1)
-        let scoreBarRectangleWidth = Math.min(Math.pow(scoreBarDifferencePercent, 1.4) * scoreBarMaxWidth, scoreBarMaxWidth)
+        let scoreBarRectangleWidth = Math.min(Math.pow(scoreBarDifferencePercent, 1.2) * scoreBarMaxWidth, scoreBarMaxWidth)
 
         if (currentScoreLeft > currentScoreRight) {
             scoreBarLeftEl.style.width = `${scoreBarRectangleWidth}px`

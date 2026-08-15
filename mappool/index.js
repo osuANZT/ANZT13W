@@ -527,6 +527,7 @@ socket.onmessage = async event => {
         ipcState = data.tourney.ipcState
 
         if (ipcState === 4 && currentPickTile) {
+            await delay(10000)
             obsGetCurrentScene((scene) => {
                 if (scene.name !== mappool_scene_name) obsSetCurrentScene(mappool_scene_name)
             })
